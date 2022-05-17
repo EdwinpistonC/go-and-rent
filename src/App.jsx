@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { AppRouter } from "./routers/AppRouter";
 
 const AppLayout = styled.div`
-  width: 100vw;
-  height: fit-content;
+  margin: 0;
+  padding: 0;
 `;
 
 function App() {
