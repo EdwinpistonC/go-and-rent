@@ -30,7 +30,6 @@ export const AppRouter = ({ children }) => {
         <RouterContainer>
             <BrowserRouter>
                 <Header />
-
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
                     <Route path="/home" element={<HomePage />} />
