@@ -34,7 +34,7 @@ export const AppRouter = ({ children }) => {
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
                     <Route path="/home" element={<HomePage />} />
-                    <Route path="/admin" element={<HomePage />} >
+                    <Route path="/admin" >
                         <Route path="new-admin" element={<RegisterAdmin submit="" />} />
                     </Route>
                     <Route
