@@ -7,6 +7,7 @@ import LoginPage from "pages/guest/LoginPage";
 import HomePage from "pages/Home";
 import Header from "components/organism/Header";
 import Footer from "components/organism/Footer";
+import RegisterAdmin from "components/organism/RegisterAdmin";
 
 const RouterContainer = styled("div")`
   /* Registro Huésped */
@@ -25,26 +26,29 @@ const RouterContainer = styled("div")`
 `;
 
 export const AppRouter = ({ children }) => {
-  return (
-    <RouterContainer>
-      <BrowserRouter>
-        <Header />
+    return (
+        <RouterContainer>
+            <BrowserRouter>
+                <Header />
 
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route
-            path="*"
-            element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          />
-        </Routes>
-        {children}
-        <Footer />
-      </BrowserRouter>
-    </RouterContainer>
-  );
+                <Routes>
+                    <Route path="/" element={<LoginPage />} />
+                    <Route path="/home" element={<HomePage />} />
+                    <Route path="/admin" element={<HomePage />} >
+                        <Route path="new-admin" element={<RegisterAdmin submit="" />} />
+                    </Route>
+                    <Route
+                        path="*"
+                        element={
+                            <main style={{ padding: "1rem" }}>
+                                <p>There's nothing here!</p>
+                            </main>
+                        }
+                    />
+                </Routes>
+                {children}
+                <Footer />
+            </BrowserRouter>
+        </RouterContainer>
+    );
 };
