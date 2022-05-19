@@ -31,7 +31,7 @@ export const AppRouter = ({ children }) => {
         <Header />
 
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route
             path="*"

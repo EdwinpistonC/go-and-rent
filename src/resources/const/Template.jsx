@@ -1,14 +1,15 @@
 import { createTheme } from "@mui/material/styles";
 import px2vw from "resources/const/px2vw";
-import { purple, red, yellow, deepOrange } from "@mui/material/colors";
+import { purple, red, yellow, deepOrange, blue } from "@mui/material/colors";
 
-const customColors = {
+export const customColors = {
   gray: "#eaeaea",
+  primary: "#2699fb",
 };
 
 export const theme = createTheme({
   palette: {
-    primary: deepOrange,
+    primary: blue,
     secondary: purple,
     error: red,
     contrastThreshold: 3,
