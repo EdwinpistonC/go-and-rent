@@ -1,13 +1,8 @@
 import * as React from "react";
 import ModalBasico from "components/atom/Modal";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import { useInputFormHook } from "Hooks/Inputhooks";
 import { FormTextfield, PasswordTextfield } from "components/atom/Textfield";
+import { Button } from "components/atom/Button";
 
 import {
   LoginContainer,
@@ -17,14 +12,15 @@ import {
   Form,
   InputsContainer,
   H1,
-  CustomOutilinedInput,
+  BtnContainer,
+  Pregunta,
+  BtnRow,
 } from "./StyledComponents";
-import TextField from "components/atom/Textfield";
 
 export default function LoginModal({
   abrirModal = false,
-  onAfterOpen,
   onCloseModal,
+  posImagen = "left",
 }) {
   const [values, setValues] = React.useState({
     amount: "",
@@ -43,7 +39,18 @@ export default function LoginModal({
   console.log(emailError);
   const [contrasena, setContrasena, contrasenaError, controlContrasena] =
     useInputFormHook({});
-
+  posImagen = "row";
+  let left = 0;
+  let right = 0;
+  let direccion = "alternate";
+  if (posImagen == "left") {
+    posImagen = "row";
+    right = 4;
+    direccion = "alternate-reverse";
+  } else {
+    posImagen = "row-reverse";
+    left = 4;
+  }
   return (
     <ModalBasico
       abrirModal={abrirModal}
@@ -52,9 +59,8 @@ export default function LoginModal({
         setEmail("");
         setContrasena("");
       }}
-      onAfterOpen={onAfterOpen}
     >
-      <LoginContainer>
+      <LoginContainer posImagen={posImagen}>
         <Columna>
           <Form>
             <H1>Login</H1>
@@ -73,10 +79,19 @@ export default function LoginModal({
                 nombre="Contraseña"
               />
             </InputsContainer>
+            <BtnContainer>
+              <Button>Boton</Button>
+            </BtnContainer>
+            <Pregunta>¿Olvidaste la contraseña ?</Pregunta>
+            <BtnRow>
+              <Button>Boton</Button> <Button>Boton</Button>
+            </BtnRow>
           </Form>
         </Columna>
-        <Imagen>
-          <Titulo>Huésped</Titulo>
+        <Imagen rel="preload" direccion={direccion}>
+          <Titulo left={left} right={right}>
+            Huésped
+          </Titulo>
         </Imagen>
       </LoginContainer>
     </ModalBasico>

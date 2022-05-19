@@ -20,8 +20,8 @@ align-items: center;
 padding: 0px;
 
 position: absolute;
-width: 1177px;
-height: 589px;
+width: 982px;
+height: 444px;
 left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);

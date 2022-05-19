@@ -25,10 +25,10 @@ function useInputFormHook(errors) {
   const [error, setError] = useState("");
   const [value, setValue] = useState("");
 
-  const controlInput = (e) => {
+  const controlInput = (e = "") => {
     console.log(e);
     setError("");
-    if (e.target.value != "") {
+    if (e != "" && e.target.value != "") {
       if (errors.hasOwnProperty("numero")) {
         if (/\d/.test(e.target.value)) {
           setError(errors.numero.msg);

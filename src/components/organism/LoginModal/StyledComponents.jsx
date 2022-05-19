@@ -7,7 +7,6 @@ import OutlinedInput, {
 import { theme, customColors } from "resources/const/Template";
 
 import CiudadNoche from "resources/svgs/CiudadNoche.svg";
-import ImagenJpg from "resources/images/pikb29.jpg";
 
 const LoginContainer = styled("div")`
   /* Color - White */
@@ -16,7 +15,8 @@ const LoginContainer = styled("div")`
   /* Auto layout */
 
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(props) => props.posImagen || 0};
+
   justify-content: center;
   align-items: center;
   padding: 0px;
@@ -26,7 +26,6 @@ const LoginContainer = styled("div")`
   height: 100%;
 
   background: #ffffff;
-  border-radius: 30px;
 `;
 
 const Columna = styled("div")`
@@ -40,8 +39,8 @@ const Columna = styled("div")`
   align-items: center;
   padding: 0px;
   gap: 19px;
-  width: 588.5px;
-  height: 589px;
+  width: 491px;
+  height: 444px;
   /* Inside auto layout */
 
   flex: none;
@@ -65,11 +64,10 @@ const Imagen = styled("div")`
 
   background: url(${CiudadNoche});
 
-  border-radius: 0px 30px 0px 0px;
   background-position: center;
-  background-size: auto;
-  width: 588.5px;
-  height: 589px;
+  background-size: cover;
+  width: 492px;
+  height: 445px;
   /* Inside auto layout */
   position: relative;
 
@@ -77,9 +75,29 @@ const Imagen = styled("div")`
   order: 1;
   align-self: stretch;
   flex-grow: 1;
+
+  -webkit-animation: bg-pan-right 60s infinite both;
+  animation: bg-pan-right 60s infinite both;
+  animation-direction: ${(props) => props.direccion};
+  @-webkit-keyframes bg-pan-right {
+    0% {
+      background-position: 0 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+  @keyframes bg-pan-right {
+    0% {
+      background-position: 0 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
 `;
 
-const Titulo = styled("h4")`
+const Titulo = styled("label")`
   /* Heading - H2 */
 
   font-family: "Inter";
@@ -89,13 +107,22 @@ const Titulo = styled("h4")`
   line-height: 53px;
   /* identical to box height, or 110% */
   position: absolute;
-  bottom: 0;
-  right: 27px;
+
+  bottom: 2%;
+  right: ${(props) => props.right || 0}%;
+  left: ${(props) => props.left || 0}%;
+
   user-select: none;
   color: #ffffff;
 `;
 const Form = styled("form")`
   /* Inside auto layout */
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 19px;
 
   /* Inside auto layout */
@@ -104,6 +131,7 @@ const Form = styled("form")`
   align-self: stretch;
   flex-grow: 0;
   align-items: center;
+  justify-content: center;
 `;
 
 const H1 = styled("h1")`
@@ -142,12 +170,10 @@ const InputsContainer = styled("div")`
 
   width: 80%;
   padding-left: 10%;
-  height: 235px;
 
   /* Inside auto layout */
 
   flex: none;
-  order: 1;
   align-self: stretch;
   flex-grow: 0;
 `;
@@ -179,6 +205,56 @@ const CustomOutilinedInput = materialStyle(OutlinedInput)(`
     border-color: lime;
   }
 `);
+
+const BtnContainer = styled("div")`
+  width: 275px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+`;
+
+const Pregunta = styled("label")`
+  /* ¿Olvidaste la contraseña ? */
+
+  width: 120px;
+  height: 11px;
+
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 11px;
+  text-decoration-line: underline;
+
+  color: #000000;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 3;
+  flex-grow: 0;
+`;
+
+const BtnRow = styled("div")`
+  /* botones */
+
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 2.44px;
+
+  width: 80%;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 4;
+  flex-grow: 0;
+`;
+
 export {
   LoginContainer,
   Columna,
@@ -190,4 +266,7 @@ export {
   Input,
   Center,
   CustomOutilinedInput,
+  BtnContainer,
+  Pregunta,
+  BtnRow,
 };
