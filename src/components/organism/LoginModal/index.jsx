@@ -20,7 +20,7 @@ import {
 export default function LoginModal({
   abrirModal = false,
   onCloseModal,
-  posImagen = "left",
+  direction = "left",
 }) {
   const [values, setValues] = React.useState({
     amount: "",
@@ -39,17 +39,21 @@ export default function LoginModal({
   console.log(emailError);
   const [contrasena, setContrasena, contrasenaError, controlContrasena] =
     useInputFormHook({});
-  posImagen = "row";
   let left = 0;
   let right = 0;
   let direccion = "alternate";
-  if (posImagen == "left") {
+  let posImagen;
+
+  if (direction == "left") {
     posImagen = "row";
     right = 4;
+    left = "sds";
+
     direccion = "alternate-reverse";
   } else {
     posImagen = "row-reverse";
     left = 4;
+    right = "sds";
   }
   return (
     <ModalBasico

@@ -28,7 +28,6 @@ left: 50%;
 
 /* Color - White */
 
-background: #FFFFFF;
 border-radius: 30px;
 `;
 export { ModalSC, BoxSC };

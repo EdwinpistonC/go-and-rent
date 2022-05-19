@@ -24,8 +24,6 @@ const LoginContainer = styled("div")`
   position: absolute;
   width: 100%;
   height: 100%;
-
-  background: #ffffff;
 `;
 
 const Columna = styled("div")`
@@ -47,6 +45,7 @@ const Columna = styled("div")`
   order: 0;
   align-self: stretch;
   flex-grow: 1;
+  background: #ffffff;
 `;
 
 const Center = styled("div")`
