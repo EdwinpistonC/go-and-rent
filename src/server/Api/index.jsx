@@ -16,7 +16,9 @@ export default class Api {
 
     let usuario = JSON.parse(localStorage.getItem("usuario"));
     let token = null;
-    if (usuario.hasOwnProperty("token")) token = usuario.token;
+    if (usuario != null && usuario.hasOwnProperty("token")) {
+      token = usuario.token;
+    }
     this.api_token = token;
     this.client = null;
     this.api_url = process.env.REACT_APP_API_ENDPOINT;
