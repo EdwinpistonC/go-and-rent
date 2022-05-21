@@ -1,13 +1,8 @@
 import * as React from "react";
 import ModalBasico from "components/atom/Modal";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import { useInputFormHook } from "Hooks/Inputhooks";
 import { FormTextfield, PasswordTextfield } from "components/atom/Textfield";
+import { Button } from "components/atom/Button";
 
 import {
   LoginContainer,
@@ -17,14 +12,23 @@ import {
   Form,
   InputsContainer,
   H1,
-  CustomOutilinedInput,
+  BtnContainer,
+  Pregunta,
+  BtnRow,
 } from "./StyledComponents";
-import TextField from "components/atom/Textfield";
 
 export default function LoginModal({
   abrirModal = false,
-  onAfterOpen,
   onCloseModal,
+  direction = "left",
+  onOlvidaste,
+  onPrincipal,
+  onSecundario1,
+  onSecundario2,
+  nombreSec1 = "default 1",
+  nombreSec2 = "default 2",
+  titulo,
+  cerrarModal,
 }) {
   const [values, setValues] = React.useState({
     amount: "",
@@ -40,10 +44,26 @@ export default function LoginModal({
     },
   });
 
-  console.log(emailError);
   const [contrasena, setContrasena, contrasenaError, controlContrasena] =
     useInputFormHook({});
+  let left = 0;
+  let right = 0;
+  let direccion = "alternate";
+  let posImagen;
 
+  let velocidad = 12312;
+
+  if (direction == "left") {
+    posImagen = "row";
+    right = 4;
+    left = "sds";
+
+    direccion = "alternate-reverse";
+  } else {
+    posImagen = "row-reverse";
+    left = 4;
+    right = "sds";
+  }
   return (
     <ModalBasico
       abrirModal={abrirModal}
@@ -52,31 +72,72 @@ export default function LoginModal({
         setEmail("");
         setContrasena("");
       }}
-      onAfterOpen={onAfterOpen}
     >
-      <LoginContainer>
+      <LoginContainer posImagen={posImagen}>
         <Columna>
-          <Form>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+
+              onPrincipal(email, contrasena);
+              return false;
+            }}
+          >
             <H1>Login</H1>
             <InputsContainer>
               <FormTextfield
                 id="email"
-                onChange={setEmail}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 error={emailError}
                 onBlur={controlEmail}
                 nombre="Correo electronico"
               ></FormTextfield>
               <PasswordTextfield
                 id="contra"
-                onChange={setContrasena}
+                onChange={(e) => {
+                  setContrasena(e.target.value);
+                }}
                 onBlur={controlContrasena}
                 nombre="Contraseña"
               />
             </InputsContainer>
+            <BtnContainer>
+              <Button type="submit">Iniciar Sesion</Button>
+            </BtnContainer>
+            <Pregunta
+              onClick={(e) => {
+                onOlvidaste();
+                cerrarModal();
+              }}
+            >
+              ¿Olvidaste la contraseña?
+            </Pregunta>
+            <BtnRow>
+              <Button
+                onClick={() => {
+                  onSecundario1();
+                  cerrarModal();
+                }}
+              >
+                {nombreSec1}
+              </Button>
+              <Button
+                onClick={() => {
+                  onSecundario2();
+                  cerrarModal();
+                }}
+              >
+                {nombreSec2}
+              </Button>
+            </BtnRow>
           </Form>
         </Columna>
-        <Imagen>
-          <Titulo>Huésped</Titulo>
+        <Imagen rel="preload" direccion={direccion}>
+          <Titulo left={left} right={right}>
+            {titulo}
+          </Titulo>
         </Imagen>
       </LoginContainer>
     </ModalBasico>

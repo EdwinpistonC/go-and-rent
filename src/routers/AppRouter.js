@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 
 //React components
-import LoginPage from "pages/guest/LoginPage";
 import HomePage from "pages/Home";
 import Header from "components/organism/Header";
 import Footer from "components/organism/Footer";

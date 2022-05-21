@@ -24,9 +24,9 @@ export const CustomOutilinedInput = styled(OutlinedInput)(`
     border-color: ${customColors.primary};
   }
   &:hover .${outlinedInputClasses.notchedOutline} {
-    border-color: blue;
+    border-color:  #2699fb;
   }
   &.${outlinedInputClasses.focused} .${outlinedInputClasses.notchedOutline} {
-    border-color: lime;
+    border-color: #158ef8;
   }
 `);
