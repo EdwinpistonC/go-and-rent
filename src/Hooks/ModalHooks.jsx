@@ -3,8 +3,8 @@ import { useState } from "react";
 export const useModalHook = () => {
   const [valor, setIniciarSesion] = useState(false);
 
-  function openFromParent() {
-    setIniciarSesion(true);
+  function visible() {
+    setIniciarSesion(!valor);
   }
 
   function handleCloseModal(event, data) {
@@ -15,5 +15,5 @@ export const useModalHook = () => {
   function handleAfterOpen(event, data) {
     console.log(event, data);
   }
-  return [valor, openFromParent, handleCloseModal, handleAfterOpen];
+  return [valor, visible, handleCloseModal, handleAfterOpen];
 };

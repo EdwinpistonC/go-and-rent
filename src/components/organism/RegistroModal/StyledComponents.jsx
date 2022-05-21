@@ -8,7 +8,7 @@ import { theme, customColors } from "resources/const/Template";
 
 import CiudadNoche from "resources/svgs/CiudadNoche.svg";
 
-const LoginContainer = styled("div")`
+const RegistroContainer = styled("div")`
   /* Color - White */
   /* foto=derecha */
 
@@ -75,9 +75,8 @@ const Imagen = styled("div")`
   align-self: stretch;
   flex-grow: 1;
 
-  -webkit-animation: bg-pan-right ${(props) => props.velocidad + "s"} infinite
-    both;
-  animation: bg-pan-right ${(props) => props.velocidad + "s"} infinite both;
+  -webkit-animation: bg-pan-right 60s infinite both;
+  animation: bg-pan-right 60s infinite both;
   animation-direction: ${(props) => props.direccion};
   @-webkit-keyframes bg-pan-right {
     0% {
@@ -207,10 +206,11 @@ const CustomOutilinedInput = materialStyle(OutlinedInput)(`
 `);
 
 const BtnContainer = styled("div")`
-  width: 275px;
   height: 45px;
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-around;
 `;
 
 const Pregunta = styled("a")`
@@ -246,7 +246,7 @@ const BtnRow = styled("div")`
   padding: 0px;
   gap: 2.44px;
 
-  width: 80%;
+  width: 180px;
 
   /* Inside auto layout */
 
@@ -256,7 +256,7 @@ const BtnRow = styled("div")`
 `;
 
 export {
-  LoginContainer,
+  RegistroContainer,
   Columna,
   Imagen,
   Titulo,

@@ -69,7 +69,7 @@ const PasswordTextfield = ({
     event.preventDefault();
   };
   return (
-    <FormControl fullWidth variant="outlined">
+    <FormControl fullWidth variant="outlined" color="primary">
       <InputLabel htmlFor="outlined-adornment-password">{nombre}</InputLabel>
       <CustomOutilinedInput
         id={id}
@@ -77,7 +77,7 @@ const PasswordTextfield = ({
         label={nombre}
         type={values.showPassword ? "text" : "password"}
         error={error !== ""}
-        helperText={error === "" ? "" : error}
+        // helperText={error === "" ? "" : error}
         onBlur={onBlur}
         onChange={onChange}
         endAdornment={

@@ -21,6 +21,14 @@ export default function LoginModal({
   abrirModal = false,
   onCloseModal,
   direction = "left",
+  onOlvidaste,
+  onPrincipal,
+  onSecundario1,
+  onSecundario2,
+  nombreSec1 = "default 1",
+  nombreSec2 = "default 2",
+  titulo,
+  cerrarModal,
 }) {
   const [values, setValues] = React.useState({
     amount: "",
@@ -34,15 +42,20 @@ export default function LoginModal({
     email: {
       msg: "El formato de email es incorrecto",
     },
+    numero: {
+      value: "true",
+      msg: "El campo no puede tener numeros",
+    },
   });
 
-  console.log(emailError);
   const [contrasena, setContrasena, contrasenaError, controlContrasena] =
     useInputFormHook({});
   let left = 0;
   let right = 0;
   let direccion = "alternate";
   let posImagen;
+
+  let velocidad = 2;
 
   if (direction == "left") {
     posImagen = "row";
@@ -66,35 +79,68 @@ export default function LoginModal({
     >
       <LoginContainer posImagen={posImagen}>
         <Columna>
-          <Form>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+
+              onPrincipal(email, contrasena);
+              return false;
+            }}
+          >
             <H1>Login</H1>
             <InputsContainer>
               <FormTextfield
                 id="email"
-                onChange={setEmail}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 error={emailError}
                 onBlur={controlEmail}
                 nombre="Correo electronico"
               ></FormTextfield>
               <PasswordTextfield
                 id="contra"
-                onChange={setContrasena}
+                onChange={(e) => {
+                  setContrasena(e.target.value);
+                }}
                 onBlur={controlContrasena}
                 nombre="Contraseña"
               />
             </InputsContainer>
             <BtnContainer>
-              <Button>Boton</Button>
+              <Button type="submit">Iniciar Sesion</Button>
             </BtnContainer>
-            <Pregunta>¿Olvidaste la contraseña ?</Pregunta>
+            <Pregunta
+              onClick={(e) => {
+                onOlvidaste();
+                cerrarModal();
+              }}
+            >
+              ¿Olvidaste la contraseña?
+            </Pregunta>
             <BtnRow>
-              <Button>Boton</Button> <Button>Boton</Button>
+              <Button
+                onClick={() => {
+                  onSecundario1();
+                  cerrarModal();
+                }}
+              >
+                {nombreSec1}
+              </Button>
+              <Button
+                onClick={() => {
+                  onSecundario2();
+                  cerrarModal();
+                }}
+              >
+                {nombreSec2}
+              </Button>
             </BtnRow>
           </Form>
         </Columna>
-        <Imagen rel="preload" direccion={direccion}>
+        <Imagen rel="preload" direccion={direccion} velocidad={velocidad}>
           <Titulo left={left} right={right}>
-            Huésped
+            {titulo}
           </Titulo>
         </Imagen>
       </LoginContainer>

@@ -24,9 +24,7 @@ email: Formato incorrecto de email
 function useInputFormHook(errors) {
   const [error, setError] = useState("");
   const [value, setValue] = useState("");
-
   const controlInput = (e = "") => {
-    console.log(e);
     setError("");
     if (e != "" && e.target.value != "") {
       if (errors.hasOwnProperty("numero")) {
@@ -60,9 +58,6 @@ function useInputPassHook(errors) {
   const [value, setValue] = useState("");
 
   const setInput = (e) => {
-    console.log(e.target.value);
-    console.log(/\d/.test(e.target.value));
-
     if (errors.hasOwnProperty("numero")) {
       if (/\d/.test(e.target.value)) {
         setError(errors.numero.msg);
