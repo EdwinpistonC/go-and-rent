@@ -42,10 +42,6 @@ export default function LoginModal({
     email: {
       msg: "El formato de email es incorrecto",
     },
-    numero: {
-      value: "true",
-      msg: "El campo no puede tener numeros",
-    },
   });
 
   const [contrasena, setContrasena, contrasenaError, controlContrasena] =
@@ -55,7 +51,7 @@ export default function LoginModal({
   let direccion = "alternate";
   let posImagen;
 
-  let velocidad = 2;
+  let velocidad = 12312;
 
   if (direction == "left") {
     posImagen = "row";
@@ -138,7 +134,7 @@ export default function LoginModal({
             </BtnRow>
           </Form>
         </Columna>
-        <Imagen rel="preload" direccion={direccion} velocidad={velocidad}>
+        <Imagen rel="preload" direccion={direccion}>
           <Titulo left={left} right={right}>
             {titulo}
           </Titulo>

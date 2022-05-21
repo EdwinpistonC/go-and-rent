@@ -9,7 +9,7 @@ export default class Api {
   init = () => {
     //this.api_token = getCookie("ACCESS_TOKEN");
     let headers = {
-      Accept: "application/json",
+      "Content-Type": "application/json",
     };
     if (this.api_token) {
       headers.Authorization = `Bearer ${this.api_token}`;
@@ -21,17 +21,15 @@ export default class Api {
     });
     return this.client;
   };
-  getUserList = (params) => {
-    return this.init().get("auth/login", {
-      params: params,
-    });
-  };
+
   login = (data) => {
     return this.init().post("auth/login", data);
   };
+
   loginAnfitrion = (data) => {
-    return this.init().post("/users", data);
+    return this.init().post("users", data);
   };
+
   addNewUser = (data) => {
     return this.init().post("/users", data);
   };

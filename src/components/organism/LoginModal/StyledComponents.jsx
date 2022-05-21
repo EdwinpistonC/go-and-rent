@@ -75,9 +75,8 @@ const Imagen = styled("div")`
   align-self: stretch;
   flex-grow: 1;
 
-  -webkit-animation: bg-pan-right ${(props) => props.velocidad + "s"} infinite
-    both;
-  animation: bg-pan-right ${(props) => props.velocidad + "s"} infinite both;
+  -webkit-animation: bg-pan-right 60s infinite both;
+  animation: bg-pan-right 60s infinite both;
   animation-direction: ${(props) => props.direccion};
   @-webkit-keyframes bg-pan-right {
     0% {
