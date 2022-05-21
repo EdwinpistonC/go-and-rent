@@ -6,39 +6,43 @@ import HeaderMenu from "components/molecule/HeaderMenu";
 import { useNavigate } from "react-router-dom";
 
 import { HeaderContainer } from "./StyledComponents";
-import LoginModal from "components/organism/LoginModal";
 import { useModalHook } from "Hooks/ModalHooks";
-import { RegistroAlternativoModal } from "../RegistroModal";
+import LoginModal, { RegistroModal, CambioCModal } from "../FormModal";
 import Api from "server/Api";
+import { useLocalStorage } from "Hooks/LocalStoreHook";
 
 export default function Header() {
   const navegar = useNavigate();
   const backend = new Api();
+
+  const [usuario, setUsuario] = useLocalStorage("usuario", "");
 
   const [iniciarSesionH, abrirInicioH, cerrarInicioH, despuesInicioH] =
     useModalHook();
 
   const [registrarH, abrirRegistroH, cerrarRegistroH, despuesRegistroH] =
     useModalHook();
+  const [cambiarContra, abrirCambiarCH, cerrarCambiarCH, despuesCambiarCH] =
+    useModalHook();
 
-  const iniciarSesion = (usuario, contrasena) => {
-    backend
-      .login({
-        email: usuario,
-        password: contrasena,
-      })
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
-    navegar.call("rsdfgjousrdgfjonk");
-
-    return false;
+  const iniciarSesion = async function (usuario, contrasena) {
+    return backend.login({
+      email: usuario,
+      password: contrasena,
+    });
   };
 
   return (
     <HeaderContainer>
       <Logo />
       <Busqueda></Busqueda>
-      <HeaderMenu onIniciar={abrirInicioH} onCrear={() => alert("click 2")}>
+      <HeaderMenu
+        rol={usuario.rol}
+        onIniciar={abrirInicioH}
+        onCrear={() => alert("click 2")}
+        onCerrar={() => setUsuario("")}
+        onPerfil
+      >
         {/* Huésped */}
         <LoginModal
           abrirModal={iniciarSesionH}
@@ -47,15 +51,13 @@ export default function Header() {
           onAfterOpen={despuesInicioH}
           direction="lefsdsdt"
           onPrincipal={iniciarSesion}
-          onOlvidaste={() => {
-            navegar(`/dashboard`);
-          }}
+          onOlvidaste={abrirCambiarCH}
           onSecundario2={abrirRegistroH}
           nombreSec1="Anfitrion"
           nombreSec2="Registrarse"
           titulo="Huésped"
         ></LoginModal>
-        <RegistroAlternativoModal
+        <RegistroModal
           abrirModal={registrarH}
           cerrarModal={abrirRegistroH}
           onCloseModal={cerrarRegistroH}
@@ -64,7 +66,18 @@ export default function Header() {
           backTo={abrirInicioH}
           onPrincipal={() => {}}
           titulo="Huésped"
-        ></RegistroAlternativoModal>
+        ></RegistroModal>
+        {/* Cambio de contraseña */}
+        <CambioCModal
+          abrirModal={cambiarContra}
+          cerrarModal={abrirCambiarCH}
+          onCloseModal={cerrarCambiarCH}
+          onAfterOpen={despuesCambiarCH}
+          backTo={iniciarSesionH}
+          onPrincipal={() => {}}
+          titulo="Recuperar contraseña"
+          tituloLateral=""
+        ></CambioCModal>
       </HeaderMenu>
     </HeaderContainer>
   );

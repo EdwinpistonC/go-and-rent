@@ -9,11 +9,11 @@ const MenuContainer = styled("div")`
 
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   padding: 0px 19px;
   gap: 69px;
 
-  width: 341px;
+  width: 30%;
 
   /* Inside auto layout */
 

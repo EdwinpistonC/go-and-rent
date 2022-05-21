@@ -25,7 +25,8 @@ export default function RegistroModal({
   onCloseModal,
   direction = "left",
   onPrincipal,
-  titulo,
+  titulo = "default",
+  tituloLateral = "default",
   cerrarModal,
   backTo,
   children,
@@ -83,7 +84,7 @@ export default function RegistroModal({
       <RegistroContainer posImagen={posImagen}>
         <Columna>
           <Form action="/" method="POST" onSubmit={onPrincipal}>
-            <H1>Login</H1>
+            <H1>{titulo}</H1>
             {React.Children.map(arrayChildren, (child, index) => {
               return child;
             })}
@@ -96,7 +97,7 @@ export default function RegistroModal({
         </Columna>
         <Imagen rel="preload" direccion={direccion}>
           <Titulo left={left} right={right}>
-            {titulo}
+            {tituloLateral}
           </Titulo>
         </Imagen>
       </RegistroContainer>
