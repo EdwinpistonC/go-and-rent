@@ -25,28 +25,28 @@ const RouterContainer = styled("div")`
 `;
 
 export const AppRouter = ({ children }) => {
-    return (
-        <RouterContainer>
-            <BrowserRouter>
-                <Header />
-                <Routes>
-                    <Route path="/" element={<LoginPage />} />
-                    <Route path="/home" element={<HomePage />} />
-                    <Route path="/admin" >
-                        <Route path="new-admin" element={<RegisterAdmin submit="" />} />
-                    </Route>
-                    <Route
-                        path="*"
-                        element={
-                            <main style={{ padding: "1rem" }}>
-                                <p>There's nothing here!</p>
-                            </main>
-                        }
-                    />
-                </Routes>
-                {children}
-                <Footer />
-            </BrowserRouter>
-        </RouterContainer>
-    );
+  return (
+    <RouterContainer>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/admin">
+            <Route path="new-admin" element={<RegisterAdmin submit="" />} />
+          </Route>
+          <Route
+            path="*"
+            element={
+              <main style={{ padding: "1rem" }}>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          />
+        </Routes>
+        {children}
+        <Footer />
+      </BrowserRouter>
+    </RouterContainer>
+  );
 };
