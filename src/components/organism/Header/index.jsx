@@ -56,6 +56,7 @@ export default function Header() {
           nombreSec1="Anfitrion"
           nombreSec2="Registrarse"
           titulo="Huésped"
+          setUsuario={setUsuario}
         ></LoginModal>
         <RegistroModal
           abrirModal={registrarH}

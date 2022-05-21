@@ -38,18 +38,9 @@ export default function LoginModal({
   nombreSec2 = "default 2",
   titulo,
   cerrarModal,
+  setUsuario,
 }) {
   const navegar = useNavigate();
-
-  const [, setUsuario] = useLocalStorage("usuario", "");
-
-  const [values, setValues] = React.useState({
-    amount: "",
-    password: "",
-    weight: "",
-    weightRange: "",
-    showPassword: false,
-  });
 
   const [email, setEmail, emailError, controlEmail] = useInputFormHook({
     email: {
@@ -66,8 +57,6 @@ export default function LoginModal({
   let right = 0;
   let direccion = "alternate";
   let posImagen;
-
-  let velocidad = 12312;
 
   if (direction == "left") {
     posImagen = "row";
@@ -101,6 +90,7 @@ export default function LoginModal({
                   setApiError("");
 
                   setUsuario(response.data);
+                  cerrarModal();
 
                   navegar("/");
                 })
