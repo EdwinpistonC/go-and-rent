@@ -1,13 +1,15 @@
-import {mount, shallow} from "enzyme";
-import Login from "../Login";
-import TextField from "components/atom/Textfield";
+import {mount, render, shallow} from "enzyme";
 import LoginModal from "./index";
+import {BrowserRouter} from "react-router-dom";
+import ModalBasico from "../../atom/Modal";
+import {screen} from '@testing-library/react';
 
 const FAKE_CORRECT_VALUES = {
     email: "huesped@gmail.com"
 }
 
 const updateInput = (wrapperShallow, input, newValue) => {
+    // eslint-disable-next-line testing-library/no-debugging-utils
     console.log(input.debug());
     input.simulate('change', {
          currentTarget: {value: newValue}
@@ -18,16 +20,29 @@ const updateInput = (wrapperShallow, input, newValue) => {
 let wrapperShallow;
 
 describe("Login Test", () => {
-    it("Renderiza Formulario", () => {
-        wrapperShallow = shallow(<LoginModal/>);
-        console.log(wrapperShallow.debug())
+    it("Renderiza modal", () => {
+        wrapperShallow = shallow(
+            <ModalBasico />
+                );
     });
-    it("Render input email", () => {
-        expect(
-            wrapperShallow.containsMatchingElement(<TextField label="Email" />)
-        ).toEqual(true);
+    it("Render input email", async () => {
+        //https://bobbyhadz.com/blog/react-testing-library-find-by-classname
+        const openMock = jest.fn();
+        const closeMock = jest.fn();
+        let view = render(
+            <ModalBasico
+                abrirModal={openMock}
+                onCloseModal={closeMock}
+            />
+        );
+        const backDrop = await screen.findAllByText(/MuiBackdrop-root/i);
+        console.log(backDrop);
+        //fireEvent.click(container.children())
+        /*expect(
+            wrapperShallow.containsMatchingElement(<ModalBasico />)
+        ).toEqual(true);*/
     })
-    it("Render input password", () => {
+    /*it("Render input password", () => {
         expect(
             wrapperShallow.containsMatchingElement(<TextField label="Contraseña" />)
         ).toEqual(true);
@@ -36,7 +51,7 @@ describe("Login Test", () => {
         expect(
             wrapperShallow.containsMatchingElement(<TextField label="No existe" />)
         ).toEqual(false);
-    })
+    })*/
     /*it("Click input email", () => {
         let mntWrapper = mount(<TextField label="Email" />);
         console.log(mntWrapper.find('input').debug());
