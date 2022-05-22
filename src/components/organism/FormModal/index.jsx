@@ -76,7 +76,7 @@ export default function LoginModal({
             onSubmit={(e) => {
               e.preventDefault();
               onPrincipal(email, contrasena)
-                .then((response) => {
+                .then((response, status) => {
                   console.log(response);
 
                   setApiError("");
