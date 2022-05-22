@@ -41,7 +41,22 @@ export default function HeaderMenu({
       </MenuContainer>
     );
   } else if (rol == "ROLE_ADMIN") {
-    return <Box style={{ flex: "none", order: 2, flexGrow: 1 }} />;
+    return (
+      <Box
+        style={{
+          flex: "none",
+          order: 2,
+          flexGrow: 1,
+          justifyContent: "right",
+          display: "flex",
+          marginRight: "5%",
+        }}
+      >
+        <Item component="button" underline="hover" onClick={onCerrar}>
+          Cerrar Sesión
+        </Item>
+      </Box>
+    );
   } else if (rol == "ROLE_HOST") {
     return (
       <MenuContainer>
