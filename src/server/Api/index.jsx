@@ -41,4 +41,7 @@ export default class Api {
   login = (data) => {
     return this.init().post("auth/login", data);
   };
+  adminCreate = (data) => {
+    return this.init().post("admin/signup", data);
+  };
 }
