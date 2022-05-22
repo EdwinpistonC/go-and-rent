@@ -1,6 +1,7 @@
 import {mount, shallow} from "enzyme";
-import Login from "./index";
+import Login from "../Login";
 import TextField from "components/atom/Textfield";
+import LoginModal from "./index";
 
 const FAKE_CORRECT_VALUES = {
     email: "huesped@gmail.com"
@@ -18,7 +19,8 @@ let wrapperShallow;
 
 describe("Login Test", () => {
     it("Renderiza Formulario", () => {
-        wrapperShallow = shallow(<Login/>);
+        wrapperShallow = shallow(<LoginModal/>);
+        console.log(wrapperShallow.debug())
     });
     it("Render input email", () => {
         expect(
@@ -35,7 +37,7 @@ describe("Login Test", () => {
             wrapperShallow.containsMatchingElement(<TextField label="No existe" />)
         ).toEqual(false);
     })
-    it("Click input email", () => {
+    /*it("Click input email", () => {
         let mntWrapper = mount(<TextField label="Email" />);
         console.log(mntWrapper.find('input').debug());
         let input = mntWrapper.find('input');
@@ -50,5 +52,5 @@ describe("Login Test", () => {
         //console.log(mntWrapper.find('input').props());
         //expect(input.props().value).toBe('Tyler')
 
-    })
+    })*/
 });
