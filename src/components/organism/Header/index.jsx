@@ -53,8 +53,6 @@ export default function Header() {
           onPrincipal={iniciarSesion}
           onOlvidaste={abrirCambiarCH}
           onSecundario2={abrirRegistroH}
-          nombreSec1="Anfitrion"
-          nombreSec2="Registrarse"
           titulo="Huésped"
           setUsuario={setUsuario}
         ></LoginModal>

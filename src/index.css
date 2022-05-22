@@ -10,10 +10,9 @@ body {
   padding: 0;
   /* Background */
   min-width: 100%;
-  position: fixed;
+  overflow: scroll;
   background: #dee7fa;
 }
-
 ::-webkit-scrollbar {
   display: none;
 }
