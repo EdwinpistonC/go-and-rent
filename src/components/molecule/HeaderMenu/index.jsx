@@ -2,8 +2,9 @@ import React from "react";
 
 import { MenuContainer, Item } from "./StyledComponents";
 
-import { Alert, Messages } from "components/atom/Icon";
+import { Alert, Messages, Bookings } from "components/atom/Icon";
 
+import { Box } from "@mui/system";
 export default function HeaderMenu({
   children,
   onCrear,
@@ -29,6 +30,8 @@ export default function HeaderMenu({
         {children}
         <Alert />
         <Messages />
+        <Bookings />
+
         <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil
         </Item>
@@ -37,16 +40,21 @@ export default function HeaderMenu({
         </Item>
       </MenuContainer>
     );
-  } else if (rol == "admin") {
+  } else if (rol == "ROLE_ADMIN") {
+    return <Box style={{ flex: "none", order: 2, flexGrow: 1 }} />;
+  } else if (rol == "ROLE_HOST") {
     return (
       <MenuContainer>
-        {children}
-        <Item component="button" underline="hover" onClick={onIniciar}>
+        <Alert />
+        <Messages />
+        <Bookings />
+        <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil
         </Item>
-        <Item component="button" underline="hover" onClick={onCrear}>
-          Hazte una cuenta
+        <Item component="button" underline="hover" onClick={onCerrar}>
+          Cerrar Sesión
         </Item>
+        {children}
       </MenuContainer>
     );
   }

@@ -1,5 +1,7 @@
 import React from "react";
 
+import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
+
 const Alert = () => {
   return (
     <svg
@@ -33,4 +35,7 @@ const Messages = () => {
   );
 };
 
-export { Messages, Alert };
+const Bookings = () => {
+  return <HolidayVillageIcon></HolidayVillageIcon>;
+};
+export { Messages, Alert, Bookings };

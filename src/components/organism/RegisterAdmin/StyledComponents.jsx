@@ -35,4 +35,39 @@ const H1 = styled("h1")`
   order: 0;
   flex-grow: 0;
 `;
-export { RegisterAdmin, ItemForm, BtnContainer, H1 };
+
+const ErrorLabel = styled("label")`
+  width: 70%;
+  background: #ff7a7a;
+  border-radius: 8px;
+  font-weight: 900;
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #000000;
+  padding: 7px;
+`;
+const EmptyLabel = styled("label")`
+  width: 70%;
+  border-radius: 8px;
+  font-weight: 900;
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 17px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #000000;
+  padding: 7px;
+`;
+
+export { RegisterAdmin, ItemForm, BtnContainer, H1, EmptyLabel, ErrorLabel };
