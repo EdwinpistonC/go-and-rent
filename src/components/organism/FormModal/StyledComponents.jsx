@@ -17,7 +17,7 @@ const FormContainer = styled("div")`
   /* Auto layout */
 
   display: flex;
-  flex-direction: ${(props) => props.posImagen || 0};
+  flex-direction: row-reverse;
 
   justify-content: center;
   align-items: center;

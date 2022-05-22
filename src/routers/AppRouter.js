@@ -19,8 +19,11 @@ const RouterContainer = styled("div")`
   align-items: center;
   padding: 0px;
   gap: 58px;
-
   /* Background */
+  height: auto;
+
+  position: relative;
+  min-height: 100vh;
 
   background: #dee7fa;
 `;
@@ -46,7 +49,7 @@ export const AppRouter = ({ children }) => {
           />
         </Routes>
         {children}
-        /*<Footer />*/
+        <Footer />
       </BrowserRouter>
     </RouterContainer>
   );

@@ -11,12 +11,10 @@ const FooterContainer = styled("div")`
   align-items: flex-start;
   padding: 10px;
   gap: 31px;
-
-  position: absolute;
+  position: relative;
+  background: #ffffff;
   bottom: 0;
   width: 100%;
-  background: #6cf;
-  background: #ffffff;
 `;
 const Creditos = styled("div")`
   display: flex;

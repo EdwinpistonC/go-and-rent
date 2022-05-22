@@ -29,14 +29,10 @@ import {
 export default function LoginModal({
   abrirModal = false,
   onCloseModal,
-  direction = "left",
   onOlvidaste,
   onPrincipal,
   onSecundario1,
   onSecundario2,
-  nombreSec1 = "default 1",
-  nombreSec2 = "default 2",
-  titulo,
   cerrarModal,
   setUsuario,
 }) {
@@ -53,22 +49,6 @@ export default function LoginModal({
 
   const [apiError, setApiError] = React.useState("");
 
-  let left = 0;
-  let right = 0;
-  let direccion = "alternate";
-  let posImagen;
-
-  if (direction == "left") {
-    posImagen = "row";
-    right = 4;
-    left = "sds";
-
-    direccion = "alternate-reverse";
-  } else {
-    posImagen = "row-reverse";
-    left = 4;
-    right = "sds";
-  }
   return (
     <ModalBasico
       abrirModal={abrirModal}
@@ -78,7 +58,7 @@ export default function LoginModal({
         setContrasena("");
       }}
     >
-      <FormContainer posImagen={posImagen}>
+      <FormContainer>
         <Columna>
           <Form
             onSubmit={(e) => {
@@ -125,13 +105,11 @@ export default function LoginModal({
                 nombre="Contraseña"
               />
             </InputsContainer>
-
             {apiError != "" ? (
               <ErrorLabel>{apiError}</ErrorLabel>
             ) : (
               <EmptyLabel />
             )}
-
             <BtnContainer>
               <Button type="submit" width={70}>
                 Iniciar Sesion
@@ -152,7 +130,7 @@ export default function LoginModal({
                   cerrarModal();
                 }}
               >
-                {nombreSec1}
+                Anfitrion
               </Button>
               <Button
                 onClick={() => {
@@ -160,16 +138,12 @@ export default function LoginModal({
                   cerrarModal();
                 }}
               >
-                {nombreSec2}
+                Registrarse
               </Button>
             </BtnRow>
           </Form>
         </Columna>
-        <Imagen rel="preload" direccion={direccion}>
-          <Titulo left={left} right={right}>
-            {titulo}
-          </Titulo>
-        </Imagen>
+        <Imagen rel="preload" />
       </FormContainer>
     </ModalBasico>
   );
