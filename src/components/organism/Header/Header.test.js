@@ -7,12 +7,6 @@ import HeaderMenu from "../../molecule/HeaderMenu";
 
 let wrapperShallow;
 
-const ROLES = {
-    guest: 'ROLE_GUEST',
-    admin: 'admin',
-    empty: ''
-}
-
 describe("Header Test", () => {
     it("Renderiza header", () => {
         wrapperShallow = shallow(
