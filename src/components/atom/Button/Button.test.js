@@ -1,6 +1,7 @@
 import {shallow} from "enzyme";
-import {queryHelpers, render, screen} from '@testing-library/react'
 import {Button} from "./index";
+import userEvent from "@testing-library/user-event";
+import {render, screen} from "@testing-library/react";
 
 /*
 https://testing-library.com/docs/queries/about/#example
@@ -11,9 +12,29 @@ https://dev.to/duxtech/workspace-recomendado-para-testing-en-react-17-jest-enzym
 https://www.toptal.com/react/tdd-react-unit-testing-enzyme-jest
 https://syntaxfix.com/question/1282/simulate-a-button-click-in-jest
  */
+
+const BtnSettings = {
+    text: "Text",
+    click: jest.fn(),
+    width: 50
+}
+
 describe("The components are rendered", () => {
     it("renders Button component without crashing", () => {
-        shallow(<Button/>);
+        const wrapper = shallow(<Button/>);
+    });
+    it("renders Button component and click it", async () => {
+        render(<Button onClick={BtnSettings.click}/>);
+        await userEvent.click(screen.getByText('Default'))
+        expect(BtnSettings.click).toHaveBeenCalledTimes(1)
+    });
+    it("renders Button component and check the text", async () => {
+        const wrapper = shallow(<Button children={BtnSettings.text}/>);
+        expect(wrapper.text()).toEqual(BtnSettings.text)
+    });
+    it("renders Button component and check the width", async () => {
+        const wrapper = shallow(<Button width={BtnSettings.width}/>);
+        expect(wrapper.props().width).toBe(BtnSettings.width);
     });
 });
 
@@ -21,15 +42,5 @@ describe("The components are rendered", () => {
 //     test("it should render button with other name", async () => {
 //         render(<SearchButton name="Here it is" />)
 //         const input = screen.getByText('Here it is');
-//     });
-// });
-
-/**
- * Creates a snapshot with the button and customcolor on green
- */
-// describe("SearchButton theme green", () => {
-//     test("it should render button with other theme", async () => {
-//         const jsxHeader = render(<SearchButton customcolor="green" />)
-//         expect(jsxHeader).toMatchSnapshot();
 //     });
 // });
