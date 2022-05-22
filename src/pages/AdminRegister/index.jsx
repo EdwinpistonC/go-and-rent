@@ -15,11 +15,37 @@ const Container = styled("div")`
   margin: auto;
 `;
 
-const registerAdmin = async function (usuario, contrasena) {
+const registerAdmin = async function (
+  alias,
+  nombre,
+  apellido,
+  password,
+  email,
+  telefono,
+  avatar,
+  fechaNacimiento
+) {
   const backend = new Api();
+  const objeto = {
+    alias: alias,
+    email: email,
+    password: password,
+    name: nombre,
+    lastName: apellido,
+    phone: telefono,
+    birthday: fechaNacimiento,
+    picture: avatar,
+  };
+  console.log(objeto);
   return backend.adminCreate({
-    email: usuario,
-    password: contrasena,
+    alias: alias,
+    email: email,
+    password: password,
+    name: nombre,
+    lastName: apellido,
+    phone: telefono,
+    birthday: fechaNacimiento,
+    picture: avatar,
   });
 };
 
