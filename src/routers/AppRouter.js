@@ -7,6 +7,7 @@ import HomePage from "pages/Home";
 import Header from "components/organism/Header";
 import Footer from "components/organism/Footer";
 import RegisterAdmin from "components/organism/RegisterAdmin";
+import AdminRegister from "../pages/AdminRegister";
 
 const RouterContainer = styled("div")`
   /* Registro Huésped */
@@ -33,7 +34,7 @@ export const AppRouter = ({ children }) => {
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/admin">
-            <Route path="new-admin" element={<RegisterAdmin submit="" />} />
+            <Route path="new-admin" element={<AdminRegister />} />
           </Route>
           <Route
             path="*"
@@ -45,7 +46,7 @@ export const AppRouter = ({ children }) => {
           />
         </Routes>
         {children}
-        <Footer />
+        /*<Footer />*/
       </BrowserRouter>
     </RouterContainer>
   );
