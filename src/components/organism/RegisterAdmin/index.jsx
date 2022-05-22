@@ -2,22 +2,25 @@ import React from "react";
 import Textfield, {
   FormTextfield,
   PasswordTextfield,
+  DatePicker,
 } from "components/atom/Textfield";
 import { Form } from "../FormModal/StyledComponents";
 import { useInputFormHook } from "../../../Hooks/Inputhooks";
 import { Button } from "../../atom/Button";
 import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
-import { BtnContainer, H1 } from "./StyledComponents";
+import { BtnContainer, H1, EmptyLabel, ErrorLabel } from "./StyledComponents";
+import { useNavigate } from "react-router-dom";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import Avatar from "@mui/material/Avatar";
+import { green, pink, red } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+import { formatDate } from "components/util/functions";
 
 export default function RegisterAdmin({ submit }) {
-  const [password, setContrasena, passwordError, controlContrasena] =
-    useInputFormHook({
-      password: {
-        msg: "El formato de email es incorrecto",
-      },
-      tamMin: 6,
-    });
+  const [contrasena, setContrasena, contrasenaError, controlContrasena] =
+    useInputFormHook({});
+
   const [nombre, setNombre, nombreError, controlNombre] = useInputFormHook({
     nombre: {
       msg: "El nombre es muy corto",
@@ -48,6 +51,9 @@ export default function RegisterAdmin({ submit }) {
     controlFechaNacimiento,
   ] = useInputFormHook({});
 
+  const [apiError, setApiError] = React.useState("");
+  const navegar = useNavigate();
+
   const [avatar, setAvatar, avatarError, controlAvatar] = useInputFormHook({});
 
   return (
@@ -66,8 +72,38 @@ export default function RegisterAdmin({ submit }) {
         borderRadius: "3px",
       }}
     >
-      <Form onSubmit={submit}>
-        <H1>Login</H1>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          alert("hola");
+          submit(
+            alias,
+            nombre,
+            apellido,
+            contrasena,
+            email,
+            telefono,
+            avatar,
+            formatDate(fechaNacimiento)
+          )
+            .then((response) => {
+              console.log("succsess");
+              console.log(response);
+
+              setApiError("");
+            })
+            .catch((err) => {
+              console.log("error");
+              console.log(err);
+
+              if (err.response.status == 401) {
+                setApiError("Datos incorrectos");
+              }
+            });
+          return false;
+        }}
+      >
+        <H1>Registrar administrador</H1>
 
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
@@ -95,8 +131,10 @@ export default function RegisterAdmin({ submit }) {
 
           <Grid item xs={6}>
             <PasswordTextfield
-              id="password"
-              onChange={setContrasena}
+              id="contra"
+              onChange={(e) => {
+                setContrasena(e.target.value);
+              }}
               onBlur={controlContrasena}
               nombre="Contraseña"
             />
@@ -139,28 +177,53 @@ export default function RegisterAdmin({ submit }) {
           </Grid>
 
           <Grid item xs={6}>
-            <FormTextfield
-              id="fechaNacimiento"
-              onChange={(e) => {
-                setFechaNacimiento(e.target.value);
+            <DatePicker
+              label="Fecha de nacimiento"
+              fecha={fechaNacimiento}
+              onChange={(newValue) => {
+                setFechaNacimiento(newValue);
+                console.log(newValue);
               }}
-              error={fechaNacimientoError}
-              onBlur={controlFechaNacimiento}
-              nombre="Fecha de Nacimiento"
-            />
+            ></DatePicker>
           </Grid>
 
           <Grid item xs={6}>
-            <FormTextfield
-              id="avatar"
-              onChange={(e) => {
-                setAvatar(e.target.value);
-              }}
-              error={avatarError}
-              onBlur={controlAvatar}
-              nombre="Avatar"
-            />
+            <IconButton onClick={() => setAvatar(1)}>
+              <Avatar
+                sx={{ bgcolor: green[500] }}
+                style={{
+                  border: avatar == 1 ? "2px solid black" : "",
+                }}
+              >
+                <AssignmentIcon />
+              </Avatar>
+            </IconButton>
+            <IconButton onClick={() => setAvatar(2)}>
+              <Avatar
+                sx={{ bgcolor: pink[600] }}
+                style={{
+                  border: avatar == 2 ? "2px solid black" : "",
+                }}
+              >
+                <AssignmentIcon />
+              </Avatar>
+            </IconButton>
+            <IconButton onClick={() => setAvatar(3)}>
+              <Avatar
+                sx={{ bgcolor: red[700] }}
+                style={{
+                  border: avatar == 3 ? "2px solid black" : "",
+                }}
+              >
+                <AssignmentIcon />
+              </Avatar>
+            </IconButton>
           </Grid>
+          {apiError != "" ? (
+            <ErrorLabel>{apiError}</ErrorLabel>
+          ) : (
+            <EmptyLabel />
+          )}
           <BtnContainer>
             <Button size="ultrasmall" type="submit">
               Crear Admin

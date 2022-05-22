@@ -9,6 +9,7 @@ import { theme, customColors } from "resources/const/Template";
 import CiudadNoche from "resources/svgs/CiudadNoche.svg";
 
 import Switch from "@mui/material/Switch";
+import { SsidChart } from "@mui/icons-material";
 
 const FormContainer = styled("div")`
   /* Color - White */
@@ -247,6 +248,13 @@ const CustomSwitch = materialStyle(Switch)(({ theme }) => ({
     boxSizing: "border-box",
   },
 }));
+const Subtitulo = styled("label")`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 26px;
+`;
 
 const FilaRegistro = styled("div")`
   /* rows */
@@ -279,6 +287,7 @@ const Pregunta = styled("a")`
 
   width: 120px;
   height: 11px;
+  margin-top: 8px;
   cursor: pointer;
   font-family: "Arial";
   font-style: normal;
@@ -292,7 +301,6 @@ const Pregunta = styled("a")`
   /* Inside auto layout */
 
   flex: none;
-  order: 3;
   flex-grow: 0;
 `;
 
@@ -389,4 +397,5 @@ export {
   FilaRegistro,
   ErrorLabel,
   EmptyLabel,
+  Subtitulo,
 };

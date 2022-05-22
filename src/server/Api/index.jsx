@@ -16,7 +16,12 @@ export default class Api {
 
     let usuario = JSON.parse(localStorage.getItem("usuario"));
     let token = null;
-    if (usuario != null && usuario.hasOwnProperty("token")) {
+    console.log(usuario);
+    if (
+      usuario != null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("token")
+    ) {
       token = usuario.token;
     }
     this.api_token = token;
@@ -43,5 +48,8 @@ export default class Api {
   };
   adminCreate = (data) => {
     return this.init().post("admin/signup", data);
+  };
+  hostCreate = (data) => {
+    return this.init().post("auth/signup/guest", data);
   };
 }

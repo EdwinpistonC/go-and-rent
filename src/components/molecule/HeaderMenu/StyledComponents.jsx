@@ -10,10 +10,11 @@ const MenuContainer = styled("div")`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0px 19px;
-  gap: 69px;
+  gap: 25px;
 
-  width: 30%;
+  margin-right: 3%;
+
+  width: fit-content;
 
   /* Inside auto layout */
 
@@ -23,7 +24,7 @@ const MenuContainer = styled("div")`
 `;
 
 const Item = materialStyle(Link)`
-  width: 133px;
+  width: fit-content;
   left: 19px;
 
   /* Text - Normal */
