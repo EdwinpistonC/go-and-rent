@@ -33,12 +33,12 @@ function useInputFormHook(errors) {
         }
       }
       if (errors.hasOwnProperty("tamMax")) {
-        if (e.target.value.length > errors.ramMax.value) {
+        if (e.target.value.length > errors.tamMax.value) {
           setError(errors.tamMax.msg);
         }
       }
       if (errors.hasOwnProperty("tamMin")) {
-        if (e.target.value.length < errors.ramMax.value) {
+        if (e.target.value.length < errors.tamMin.value) {
           setError(errors.tamMin.msg);
         }
       }
@@ -46,6 +46,10 @@ function useInputFormHook(errors) {
         if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(e.target.value)) {
           setError(errors.email.msg);
         }
+      }
+      if (errors.hasOwnProperty("alias")) {
+        if(e.target.value.length == 0)
+          setError(errors.alias.msg);
       }
     }
   };
