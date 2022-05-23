@@ -23,7 +23,6 @@ const registerAdmin = async function (
     birthday: fechaNacimiento,
     picture: avatar,
   };
-  console.log(objeto);
   return backend.adminCreate({
     alias: alias,
     email: email,

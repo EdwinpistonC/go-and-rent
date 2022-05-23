@@ -25,7 +25,6 @@ export default function GaleryImage() {
   const [image, setImage] = useState("");
   const upload = (e) => {
     // Convert the FileList into an array and iterate
-    console.log(e);
     Array.from(e.target.files).forEach((file) => {
       // Define a new file reader
 
@@ -87,8 +86,6 @@ const ItemPreviewWithCrop = withRequestPreSendUpdate((props) => {
     }
   }, [url, requestData, updateRequest, crop]);
 
-  console.log(props);
-  console.log(url);
   return (
     <>
       <Crop src={url} crop={crop} onChange={setCrop} onComplete={setCrop} />
@@ -121,7 +118,7 @@ const Uploader = () => {
   const previewMethodsRef = useRef();
   const [updatePreview, setUpdatePreview] = useState(false);
 
-  const changeUpload = () => console.log("hola");
+  const changeUpload = () => {};
 
   return (
     <Uploady

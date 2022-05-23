@@ -7,6 +7,7 @@ import {
   Servicios,
 } from "components/molecule/Caracteristicas";
 import Api from "server/Api";
+import ImageEditor from "components/molecule/ImageEditor";
 
 function GetCaracteristicas() {
   const backend = new Api();
@@ -19,7 +20,6 @@ export default function NewReserve({ submit }) {
 
   if (caracteristicas.length == 0 || servicios.length == 0) {
     GetCaracteristicas().then((resultado) => {
-      console.log(resultado);
       setCaracteristicas(resultado.data.caracteristicas);
       setServicios(resultado.data.servicios);
     });
@@ -58,6 +58,7 @@ export default function NewReserve({ submit }) {
         />
         <Servicios lista={servicios} />
         <Caracteristicas lista={caracteristicas} />
+        <ImageEditor></ImageEditor>
       </form>
     </Box>
   );
