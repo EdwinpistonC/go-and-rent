@@ -39,7 +39,6 @@ const registerH = async function (
     birthday: fechaNacimiento,
     picture: avatar,
   };
-  console.log(objeto);
   return backend.hostCreate({
     alias: alias,
     email: email,

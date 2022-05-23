@@ -16,7 +16,6 @@ export default class Api {
 
     let usuario = JSON.parse(localStorage.getItem("usuario"));
     let token = null;
-    console.log(usuario);
     if (
       usuario != null &&
       typeof usuario === "object" &&

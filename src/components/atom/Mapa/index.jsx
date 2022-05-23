@@ -8,7 +8,6 @@ export default function Mapa() {
     currentLocation: { lat: 52.52437, lng: 13.41053 },
     zoom: 13,
   });
-  console.log(state);
   return (
     <MapContainer
       style={{ width: "1300px", height: "1100px" }}

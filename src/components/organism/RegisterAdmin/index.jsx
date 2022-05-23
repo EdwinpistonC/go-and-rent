@@ -87,15 +87,9 @@ export default function RegisterAdmin({ submit }) {
             formatDate(fechaNacimiento)
           )
             .then((response) => {
-              console.log("succsess");
-              console.log(response);
-
               setApiError("");
             })
             .catch((err) => {
-              console.log("error");
-              console.log(err);
-
               if (err.response.status == 401) {
                 setApiError("Datos incorrectos");
               }
@@ -182,7 +176,6 @@ export default function RegisterAdmin({ submit }) {
               fecha={fechaNacimiento}
               onChange={(newValue) => {
                 setFechaNacimiento(newValue);
-                console.log(newValue);
               }}
             ></DatePicker>
           </Grid>
