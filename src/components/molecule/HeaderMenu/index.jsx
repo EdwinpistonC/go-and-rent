@@ -31,7 +31,6 @@ export default function HeaderMenu({
         <Alert />
         <Messages />
         <Bookings />
-
         <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil
         </Item>
@@ -77,7 +76,7 @@ export default function HeaderMenu({
     <MenuContainer>
       {children}
       <Item component="button" underline="hover" onClick={onIniciar}>
-        Iniciar Sesión {rol}
+        Iniciar Sesión
       </Item>
       <Item component="button" underline="hover" onClick={onCrear}>
         Hazte una cuenta
