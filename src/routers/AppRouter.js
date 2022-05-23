@@ -8,6 +8,7 @@ import Header from "components/organism/Header";
 import Footer from "components/organism/Footer";
 import RegisterAdmin from "components/organism/RegisterAdmin";
 import AdminRegister from "../pages/AdminRegister";
+import CreateReserve from "pages/CreateReserve";
 
 const RouterContainer = styled("div")`
   /* Registro Huésped */
@@ -46,8 +47,13 @@ export const AppRouter = ({ children }) => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/anfitrion">
+              <Route path="newreserve" element={<CreateReserve />} />
+              <Route path="nuevareserva" element={<CreateReserve />} />
+            </Route>
             <Route path="/admin">
               <Route path="new-admin" element={<AdminRegister />} />
+              <Route path="nuevo-admin" element={<AdminRegister />} />
             </Route>
             <Route
               path="*"
