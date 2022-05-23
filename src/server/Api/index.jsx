@@ -52,4 +52,7 @@ export default class Api {
   hostCreate = (data) => {
     return this.init().post("auth/signup/guest", data);
   };
+  features = () => {
+    return this.init().get("data/features");
+  };
 }

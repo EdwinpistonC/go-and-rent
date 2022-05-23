@@ -92,7 +92,6 @@ export default function LoginModal({
                       "Tu contraseña es incorrecta o la cuenta ingresada no existe"
                     );
                   }
-                  console.log();
                 });
               return false;
             }}
