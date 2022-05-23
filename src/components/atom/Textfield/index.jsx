@@ -132,9 +132,6 @@ const DatePicker = ({ label = "Outlined", fecha, onChange }) => {
         label={label}
         value={fecha}
         onChange={(e) => {
-          console.log(e);
-          console.log(e);
-
           onChange(e);
         }}
         renderInput={(params) => <TextField {...params} />}

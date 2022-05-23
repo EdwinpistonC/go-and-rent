@@ -77,8 +77,6 @@ export default function LoginModal({
               e.preventDefault();
               onPrincipal(email, contrasena)
                 .then((response, status) => {
-                  console.log(response);
-
                   setApiError("");
 
                   setUsuario(response.data);
@@ -255,16 +253,10 @@ export function RegistroHModal({
                 formatDate(fechaNacimiento)
               )
                 .then((response) => {
-                  console.log("succsess");
-                  console.log(response);
-
                   setApiError("");
                   cerrarModal();
                 })
                 .catch((err) => {
-                  console.log("error");
-                  console.log(err);
-
                   if (err.response.status == 401) {
                     setApiError("Datos incorrectos");
                   }
@@ -356,7 +348,6 @@ export function RegistroHModal({
                     fecha={fechaNacimiento}
                     onChange={(newValue) => {
                       setFechaNacimiento(newValue);
-                      console.log(newValue);
                     }}
                   ></DatePicker>
                 </Grid>
@@ -587,7 +578,6 @@ export function RegistroAModal({
                     fecha={fechaNacimiento}
                     onChange={(newValue) => {
                       setFechaNacimiento(newValue);
-                      console.log(newValue);
                     }}
                   ></DatePicker>
                 </Grid>

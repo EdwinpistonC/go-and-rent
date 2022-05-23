@@ -8,12 +8,9 @@ export const useModalHook = () => {
   }
 
   function handleCloseModal(event, data) {
-    console.log(event, data);
     setIniciarSesion(false);
   }
 
-  function handleAfterOpen(event, data) {
-    console.log(event, data);
-  }
+  function handleAfterOpen(event, data) {}
   return [valor, visible, handleCloseModal, handleAfterOpen];
 };

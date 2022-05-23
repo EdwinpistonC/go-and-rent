@@ -23,7 +23,6 @@ export default function HeaderMenu({
     alert("default");
   },
 }) {
-  console.log(rol == "ROLE_GUEST");
   if (rol == "ROLE_GUEST") {
     return (
       <MenuContainer>
