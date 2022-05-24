@@ -9,11 +9,11 @@ import { Link } from 'react-router-dom';
 
 const rutaImages = require.context("resources/images/",true);
 
-function CardCategorias({Lugar,Imagen,Ruta}) {
+function CardCategorias({Lugar,Imagen,EnlaceLink}) {
   //const navegar = useNavigate();
   //navegar.call(Ruta)
     return (
-      <Link  to={'/give_your_path'}>
+      <Link style={{textDecoration:"none", }} to={EnlaceLink}>
         <Card sx={{ maxWidth: 345 }} >
           <CardMedia
             component="img"
@@ -23,14 +23,13 @@ function CardCategorias({Lugar,Imagen,Ruta}) {
             
           />
           <CardContent >
-            <Typography gutterBottom variant="h5" component="div" >
+            <Typography 
+            
+            gutterBottom variant="h5" component="div" >
             {Lugar}
             </Typography>
           </CardContent>
-          {/* <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
-          </CardActions> */}
+
         </Card>
       </Link>
 
