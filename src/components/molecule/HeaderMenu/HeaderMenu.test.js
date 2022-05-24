@@ -149,12 +149,32 @@ describe("Header Test", () => {
         }
     });
     it("Admin: Renderiza Items de admin", () => {
-        wrapperShallow = getMenuWrapper(ROLES.admin);;
+        wrapperShallow = getMenuWrapper(ROLES.admin);
         console.log("Este test no valida los componentes hijos diferentes a Items")
         // for(let item of ItemsList.admin){
         //     expect(wrapperShallow.containsMatchingElement(item)).toBe(true);
         // }
         ItemsText.admin.forEach(function(text, index){
+            let item = wrapperShallow.find(Item).at(index);
+            expect(item.text()).toEqual(text);
+        });
+    });
+    it("Admin: No Renderiza Items de invitado", () => {
+        wrapperShallow = getMenuWrapper(ROLES.admin);
+        ItemsText.none.forEach(function(text, index){
+            let item = wrapperShallow.find(Item).at(index);
+            try{
+                expect(item.text()).not.toEqual(text);
+            }
+            catch(e){
+                //Enters here because non user has more items than admin
+                expect.assertions(1);
+            }
+        });
+    });
+    it("Invitado: Renderiza Items de Invitado", () => {
+        wrapperShallow = getMenuWrapper(ROLES.empty);
+        ItemsText.none.forEach(function(text, index){
             let item = wrapperShallow.find(Item).at(index);
             expect(item.text()).toEqual(text);
         });
