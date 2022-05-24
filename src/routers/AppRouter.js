@@ -7,6 +7,8 @@ import HomePage from "pages/Home";
 import Header from "components/organism/Header";
 import Footer from "components/organism/Footer";
 import RegisterAdmin from "components/organism/RegisterAdmin";
+import AdminRegister from "../pages/AdminRegister";
+import CreateReserve from "pages/CreateReserve";
 
 const RouterContainer = styled("div")`
   /* Registro Huésped */
@@ -18,35 +20,56 @@ const RouterContainer = styled("div")`
   align-items: center;
   padding: 0px;
   gap: 58px;
-
   /* Background */
+  height: auto;
+
+  position: relative;
+  min-height: 100vh;
 
   background: #dee7fa;
 `;
-
+const Container = styled("div")`
+  width: 100%;
+  height: 100%;
+  display: block;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* margin: 0 auto -100px; */
+  margin: auto;
+`;
 export const AppRouter = ({ children }) => {
-    return (
-        <RouterContainer>
-            <BrowserRouter>
-                <Header />
-                <Routes>
-                    {/* <Route path="/" element={<LoginPage />} /> */}
-                    <Route path="/home" element={<HomePage />} />
-                    <Route path="/admin" >
-                        <Route path="new-admin" element={<RegisterAdmin submit="" />} />
-                    </Route>
-                    <Route
-                        path="*"
-                        element={
-                            <main style={{ padding: "1rem" }}>
-                                <p>There's nothing here!</p>
-                            </main>
-                        }
-                    />
-                </Routes>
-                {children}
-                <Footer />
-            </BrowserRouter>
-        </RouterContainer>
-    );
+
+  return (
+    <RouterContainer>
+      <BrowserRouter>
+        <Header />
+        <Container>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/anfitrion">
+              <Route path="newreserve" element={<CreateReserve />} />
+              <Route path="nuevareserva" element={<CreateReserve />} />
+            </Route>
+            <Route path="/admin">
+              <Route path="new-admin" element={<AdminRegister />} />
+              <Route path="nuevo-admin" element={<AdminRegister />} />
+            </Route>
+            <Route
+              path="*"
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>There's nothing here!</p>
+                </main>
+              }
+            />
+          </Routes>
+          {children}
+        </Container>
+        <Footer />
+      </BrowserRouter>
+    </RouterContainer>
+  );
+
 };

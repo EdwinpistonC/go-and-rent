@@ -9,11 +9,12 @@ const MenuContainer = styled("div")`
 
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  padding: 0px 19px;
-  gap: 69px;
+  align-items: center;
+  gap: 25px;
 
-  width: 341px;
+  margin-right: 3%;
+
+  width: fit-content;
 
   /* Inside auto layout */
 
@@ -23,7 +24,7 @@ const MenuContainer = styled("div")`
 `;
 
 const Item = materialStyle(Link)`
-  width: 133px;
+  width: fit-content;
   left: 19px;
 
   /* Text - Normal */

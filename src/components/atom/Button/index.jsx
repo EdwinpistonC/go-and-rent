@@ -9,10 +9,17 @@ const Button = ({
   variant = "contained",
   children = "Default",
   onClick,
+  width,
   ...props
 }) => {
   return (
-    <ButtonBase onClick={onClick} theme={theme} variant={variant} {...props}>
+    <ButtonBase
+      width={width}
+      onClick={onClick}
+      theme={theme}
+      variant={variant}
+      {...props}
+    >
       {children}
     </ButtonBase>
   );

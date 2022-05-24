@@ -1,6 +1,20 @@
 import px2vw from "resources/const/px2vw";
 import styled from "styled-components";
 
+/*
+usar para que el contenido quede bien con el footer
+*/
+export const Container = styled("div")`
+  width: 100%;
+  height: 100%;
+  display: block;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* margin: 0 auto -100px; */
+  margin: auto;
+`;
+
 export const Page = styled.div`
   & {
     display: flex;

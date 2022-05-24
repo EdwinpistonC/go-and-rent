@@ -7,6 +7,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { TextfieldBase, CustomOutilinedInput } from "./style";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker as MaterialDatePicker } from "@mui/x-date-pickers/DatePicker";
+
 const TextField = ({
   theme,
   label = "Outlined",
@@ -120,4 +124,21 @@ const IconTextField = ({
   );
 };
 
-export { IconTextField, FormTextfield, PasswordTextfield };
+const DatePicker = ({ label = "Outlined", fecha, onChange }) => {
+  return (
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <MaterialDatePicker
+        inputFormat="dd/MM/yyyy"
+        label={label}
+        value={fecha}
+        onChange={(e) => {
+          onChange(e);
+        }}
+        renderInput={(params) => <TextField {...params} />}
+        style={{ width: "100%" }}
+      />
+    </LocalizationProvider>
+  );
+};
+
+export { IconTextField, FormTextfield, PasswordTextfield, DatePicker };

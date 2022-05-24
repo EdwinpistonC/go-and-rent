@@ -8,14 +8,17 @@ import { theme, customColors } from "resources/const/Template";
 
 import CiudadNoche from "resources/svgs/CiudadNoche.svg";
 
-const LoginContainer = styled("div")`
+import Switch from "@mui/material/Switch";
+import { SsidChart } from "@mui/icons-material";
+
+const FormContainer = styled("div")`
   /* Color - White */
   /* foto=derecha */
 
   /* Auto layout */
 
   display: flex;
-  flex-direction: ${(props) => props.posImagen || 0};
+  flex-direction: row-reverse;
 
   justify-content: center;
   align-items: center;
@@ -38,7 +41,7 @@ const Columna = styled("div")`
   padding: 0px;
   gap: 19px;
   width: 491px;
-  height: 444px;
+  height: 100%;
   /* Inside auto layout */
 
   flex: none;
@@ -122,15 +125,14 @@ const Form = styled("form")`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 19px;
-
+  height: 100%;
   /* Inside auto layout */
   flex: none;
   order: 1;
   align-self: stretch;
   flex-grow: 0;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 `;
 
 const H1 = styled("h1")`
@@ -205,11 +207,79 @@ const CustomOutilinedInput = materialStyle(OutlinedInput)(`
   }
 `);
 
+const CustomSwitch = materialStyle(Switch)(({ theme }) => ({
+  width: 28,
+  height: 16,
+  padding: 0,
+  display: "flex",
+  "&:active": {
+    "& .MuiSwitch-thumb": {
+      width: 15,
+    },
+    "& .MuiSwitch-switchBase.Mui-checked": {
+      transform: "translateX(9px)",
+    },
+  },
+  "& .MuiSwitch-switchBase": {
+    padding: 2,
+    "&.Mui-checked": {
+      transform: "translateX(12px)",
+      color: "#fff",
+      "& + .MuiSwitch-track": {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === "dark" ? "#177ddc" : "#1890ff",
+      },
+    },
+  },
+  "& .MuiSwitch-thumb": {
+    boxShadow: "0 2px 4px 0 rgb(0 35 11 / 20%)",
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    transition: 200,
+  },
+  "& .MuiSwitch-track": {
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(255,255,255,.35)"
+        : "rgba(0,0,0,.25)",
+    boxSizing: "border-box",
+  },
+}));
+const Subtitulo = styled("label")`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 26px;
+`;
+
+const FilaRegistro = styled("div")`
+  /* rows */
+
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 12px;
+
+  width: 483px;
+
+  /* Inside auto layout */
+
+  flex: none;
+`;
+
 const BtnContainer = styled("div")`
-  width: 275px;
   height: 45px;
+  width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-around;
 `;
 
 const Pregunta = styled("a")`
@@ -217,6 +287,7 @@ const Pregunta = styled("a")`
 
   width: 120px;
   height: 11px;
+  margin-top: 8px;
   cursor: pointer;
   font-family: "Arial";
   font-style: normal;
@@ -230,7 +301,6 @@ const Pregunta = styled("a")`
   /* Inside auto layout */
 
   flex: none;
-  order: 3;
   flex-grow: 0;
 `;
 
@@ -254,9 +324,64 @@ const BtnRow = styled("div")`
   flex-grow: 0;
 `;
 
+const ColumnaSecundaria = styled("div")`
+  /* Frame 15 */
+
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+
+  width: 235.5px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+`;
+
+const ErrorLabel = styled("label")`
+  width: 70%;
+  background: #ff7a7a;
+  border-radius: 8px;
+  font-weight: 900;
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #000000;
+  padding: 7px;
+`;
+const EmptyLabel = styled("label")`
+  width: 70%;
+  border-radius: 8px;
+  font-weight: 900;
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 17px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #000000;
+  padding: 7px;
+`;
+
 export {
-  LoginContainer,
+  FormContainer,
   Columna,
+  ColumnaSecundaria,
   Imagen,
   Titulo,
   Form,
@@ -267,5 +392,10 @@ export {
   CustomOutilinedInput,
   BtnContainer,
   Pregunta,
+  CustomSwitch,
   BtnRow,
+  FilaRegistro,
+  ErrorLabel,
+  EmptyLabel,
+  Subtitulo,
 };
