@@ -179,6 +179,36 @@ describe("Header Test", () => {
             expect(item.text()).toEqual(text);
         });
     });
+    it("Invitado: no ve items de admin", () => {
+        wrapperShallow = getMenuWrapper(ROLES.empty)
+        ItemsText.admin.forEach(function(text, index){
+            let item = wrapperShallow.find(Item).at(index);
+            expect(item.text()).not.toEqual(text);
+        });
+        for(let item of ItemsList.admin){
+            expect(wrapperShallow.containsMatchingElement(item)).not.toBe(true);
+        }
+    });
+    it("Invitado: no ve items de anfitrion", () => {
+        wrapperShallow = getMenuWrapper(ROLES.empty)
+        ItemsText.host.forEach(function(text, index){
+            let item = wrapperShallow.find(Item).at(index);
+            expect(item.text()).not.toEqual(text);
+        });
+        for(let item of ItemsList.host){
+            expect(wrapperShallow.containsMatchingElement(item)).not.toBe(true);
+        }
+    });
+    it("Invitado: no ve items de huesped", () => {
+        wrapperShallow = getMenuWrapper(ROLES.empty)
+        ItemsText.guest.forEach(function(text, index){
+            let item = wrapperShallow.find(Item).at(index);
+            expect(item.text()).not.toEqual(text);
+        });
+        for(let item of ItemsList.guest){
+            expect(wrapperShallow.containsMatchingElement(item)).not.toBe(true);
+        }
+    });
     /*it("Renderiza header menu item Cerrar Sesión", () => {
         wrapperShallow = mount(
             <HeaderMenu
