@@ -39,6 +39,7 @@ const Container = styled("div")`
   margin: auto;
 `;
 export const AppRouter = ({ children }) => {
+
   return (
     <RouterContainer>
       <BrowserRouter>
@@ -70,4 +71,5 @@ export const AppRouter = ({ children }) => {
       </BrowserRouter>
     </RouterContainer>
   );
+
 };
