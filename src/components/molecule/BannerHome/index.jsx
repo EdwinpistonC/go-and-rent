@@ -17,9 +17,10 @@ export default function BannerHome({tituloBanner,imagenBanner}){
           style={{
             borderRadius:"15px",
             margin:"10px",
-            maxWidth:"1228px",
+            width:"100%",
+            //maxWidth:"1228px",
             minHeight:"500px",
-            maxHeight:"719px",
+            //maxHeight:"719px",
             backgroundImage: `url('${rutaImages("./"+imagenBanner)}')`,
             textAlign:"center", 
             backgroundPosition: "center",
