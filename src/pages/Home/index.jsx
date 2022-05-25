@@ -12,7 +12,9 @@ text-aligne:center;
 `;
 
 export default function HomePage() {
-  return <Container>
+  return <Container style={{
+    padding:"10px"
+  }}>
     <BannerHome
     tituloBanner="Hospedaje en las habitaciones más confortantes"
     imagenBanner="bannerHome.jpg"

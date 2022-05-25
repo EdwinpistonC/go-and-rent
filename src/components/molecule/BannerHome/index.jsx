@@ -16,7 +16,7 @@ export default function BannerHome({tituloBanner,imagenBanner}){
         <div 
           style={{
             borderRadius:"15px",
-            margin:"10px",
+            margin:"10px 0px",
             width:"100%",
             //maxWidth:"1228px",
             minHeight:"500px",

@@ -9,7 +9,7 @@ export function BoxDescripcion({Titulo,Texto,Imagen}){
         <ColumnaGrid 
         container
         style={{
-            margin:"15px",
+            margin:"15px 0px",
             backgroundColor:"#fff",
             borderRadius:"15px"
         }}
