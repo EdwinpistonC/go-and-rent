@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-
+import CloseIcon from "@mui/icons-material/Close";
 import { ModalSC, BoxSC, BoxSmall } from "./StyledComponents";
 
 export default function ModalBasico({
@@ -22,7 +22,20 @@ export default function ModalBasico({
       aria-describedby="modal-modal-description"
       {...props}
     >
-      <BoxSC>{children}</BoxSC>
+      <BoxSC>
+        <CloseIcon
+          sx={{
+            position: "absolute",
+            right: 0,
+            top: 0,
+            zIndex: 200,
+            float: "right",
+            cursor: "pointer",
+          }}
+          onClick={onCloseModal}
+        />
+        {children}
+      </BoxSC>
     </ModalSC>
   );
 }

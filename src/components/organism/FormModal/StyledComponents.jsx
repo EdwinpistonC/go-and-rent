@@ -132,7 +132,8 @@ const Form = styled("form")`
   align-self: stretch;
   flex-grow: 0;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 2%;
 `;
 
 const H1 = styled("h1")`
