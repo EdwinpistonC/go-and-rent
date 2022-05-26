@@ -1,5 +1,4 @@
 import * as React from "react";
-import ModalBasico from "components/atom/Modal";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -37,6 +36,7 @@ const FormTextfield = ({
   onBlur = () => {},
   nombre = "por defecto",
   id = "",
+  ...props
 }) => {
   return (
     <TextField
@@ -49,6 +49,7 @@ const FormTextfield = ({
       helperText={error === "" ? "" : error}
       onBlur={onBlur}
       onChange={onChange}
+      {...props}
     ></TextField>
   );
 };
