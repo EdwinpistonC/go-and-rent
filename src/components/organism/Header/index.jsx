@@ -72,6 +72,26 @@ export default function Header() {
 
   return (
     <HeaderContainer>
+      {/* Cerrar sesion */}
+      <ModalSmall abrirModal={alertaCerrarSesion} onCloseModal={handleClose}>
+        <Stack spacing={2} direction="column">
+          <label>¿Desea cerrar sesión?</label>
+          <Stack spacing={2} direction="row">
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleClose();
+                setUsuario("");
+              }}
+            >
+              Si
+            </Button>
+            <Button variant="contained" onClick={handleClose}>
+              No
+            </Button>
+          </Stack>
+        </Stack>
+      </ModalSmall>
       <Logo />
       <Busqueda></Busqueda>
       <HeaderMenu
@@ -81,26 +101,6 @@ export default function Header() {
         onCerrar={handleOpen}
         onPerfil={() => {}}
       >
-        {/* Cerrar sesion */}
-        <ModalSmall abrirModal={alertaCerrarSesion} onCloseModal={handleClose}>
-          <Stack spacing={2} direction="column">
-            <label>¿Desea cerrar sesión?</label>
-            <Stack spacing={2} direction="row">
-              <Button
-                variant="contained"
-                onClick={() => {
-                  handleClose();
-                  setUsuario("");
-                }}
-              >
-                Si
-              </Button>
-              <Button variant="contained" onClick={handleClose}>
-                No
-              </Button>
-            </Stack>
-          </Stack>
-        </ModalSmall>
         {/* Huésped */}
         <LoginModal
           abrirModal={iniciarSesionH}
