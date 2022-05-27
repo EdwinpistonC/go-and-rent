@@ -51,6 +51,15 @@ export default class Api {
   guestCreate = (data) => {
     return this.init().post("auth/signup/guest", data);
   };
+  recoverPassword = (email) => {
+    return this.init().get("auth/recover-password/" + email);
+  };
+  validateCode = (email, code) => {
+    return this.init().get("auth/validate-code/" + email + "/" + code);
+  };
+  changePassword = (email, data) => {
+    return this.init().post("auth/recover/change-password/" + email, data);
+  };
   hostCreate = (data) => {
     return this.init({ "Content-Type": "multipart/form-data" }).post(
       "auth/signup/host",
