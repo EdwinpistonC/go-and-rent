@@ -7,11 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { HeaderContainer } from "./StyledComponents";
 import { useModalHook } from "Hooks/ModalHooks";
-import LoginModal, {
-  RegistroHModal,
-  RegistroAModal,
-  CambioCModal,
-} from "../FormModal";
+import LoginModal, { RegistroHModal, CambioCModal } from "../FormModal";
 import Api from "server/Api";
 import { useLocalStorage } from "Hooks/LocalStoreHook";
 import Button from "@mui/material/Button";
@@ -29,17 +25,8 @@ const registerH = async function (
   fechaNacimiento
 ) {
   const backend = new Api();
-  const objeto = {
-    alias: alias,
-    email: email,
-    password: password,
-    name: nombre,
-    lastName: apellido,
-    phone: telefono,
-    birthday: fechaNacimiento,
-    picture: avatar,
-  };
-  return backend.hostCreate({
+
+  return backend.guestCreate({
     alias: alias,
     email: email,
     password: password,
@@ -68,10 +55,13 @@ export default function Header() {
 
   const [registrarH, abrirRegistroH, cerrarRegistroH, despuesRegistroH] =
     useModalHook();
-  const [registrarA, abrirRegistroA, cerrarRegistroA, despuesRegistroA] =
-    useModalHook();
+
   const [cambiarContra, abrirCambiarCH, cerrarCambiarCH, despuesCambiarCH] =
     useModalHook();
+
+  const abrirRegistroA = () => {
+    navegar("registrar-anfitrion");
+  };
 
   const iniciarSesion = async function (usuario, contrasena) {
     return backend.login({
@@ -82,6 +72,26 @@ export default function Header() {
 
   return (
     <HeaderContainer>
+      {/* Cerrar sesion */}
+      <ModalSmall abrirModal={alertaCerrarSesion} onCloseModal={handleClose}>
+        <Stack spacing={2} direction="column">
+          <label>¿Desea cerrar sesión?</label>
+          <Stack spacing={2} direction="row">
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleClose();
+                setUsuario("");
+              }}
+            >
+              Si
+            </Button>
+            <Button variant="contained" onClick={handleClose}>
+              No
+            </Button>
+          </Stack>
+        </Stack>
+      </ModalSmall>
       <Logo />
       <Busqueda></Busqueda>
       <HeaderMenu
@@ -89,28 +99,8 @@ export default function Header() {
         onIniciar={abrirInicioH}
         onCrear={abrirRegistroH}
         onCerrar={handleOpen}
-        onPerfil
+        onPerfil={() => {}}
       >
-        {/* Cerrar sesion */}
-        <ModalSmall abrirModal={alertaCerrarSesion} onCloseModal={handleClose}>
-          <Stack spacing={2} direction="column">
-            <label>¿Desea cerrar sesión?</label>
-            <Stack spacing={2} direction="row">
-              <Button
-                variant="contained"
-                onClick={() => {
-                  handleClose();
-                  setUsuario("");
-                }}
-              >
-                Si
-              </Button>
-              <Button variant="contained" onClick={handleClose}>
-                No
-              </Button>
-            </Stack>
-          </Stack>
-        </ModalSmall>
         {/* Huésped */}
         <LoginModal
           abrirModal={iniciarSesionH}
@@ -120,19 +110,12 @@ export default function Header() {
           direction="lefsdsdt"
           onPrincipal={iniciarSesion}
           onOlvidaste={abrirCambiarCH}
+          onSecundario1={abrirRegistroA}
           onSecundario2={abrirRegistroH}
           titulo="Huésped"
           setUsuario={setUsuario}
         ></LoginModal>
-        <RegistroAModal
-          abrirModal={registrarA}
-          cerrarModal={abrirRegistroA}
-          onCloseModal={cerrarRegistroA}
-          onAfterOpen={despuesRegistroA}
-          direction="right"
-          backTo={abrirInicioH}
-          onPrincipal={() => {}}
-        ></RegistroAModal>
+
         <RegistroHModal
           abrirModal={registrarH}
           cerrarModal={abrirRegistroH}

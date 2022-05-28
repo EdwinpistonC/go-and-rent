@@ -48,8 +48,7 @@ function useInputFormHook(errors) {
         }
       }
       if (errors.hasOwnProperty("alias")) {
-        if(e.target.value.length == 0)
-          setError(errors.alias.msg);
+        if (e.target.value.length == 0) setError(errors.alias.msg);
       }
     }
   };
@@ -92,4 +91,25 @@ function useInputPassHook(errors) {
   return [value, setValue, error, setInput];
 }
 
-export { useInputFormHook, useInputPassHook };
+function useInputsForm(initialState) {
+  const [fields, setValues] = useState(initialState);
+
+  return [
+    fields,
+    function (event) {
+      setValues({
+        ...fields,
+        [event.target.id]: event.target.value,
+      });
+    },
+    function (field, value) {
+      setValues((obj) => {
+        return {
+          ...obj,
+          [field]: value,
+        };
+      });
+    },
+  ];
+}
+export { useInputFormHook, useInputPassHook, useInputsForm };

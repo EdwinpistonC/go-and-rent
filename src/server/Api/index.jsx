@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useLocalStorage } from "Hooks/LocalStoreHook";
 
 /*
 
@@ -27,11 +26,11 @@ export default class Api {
     this.client = null;
     this.api_url = process.env.REACT_APP_API_ENDPOINT;
   }
-  init = () => {
+  init = (header = {}) => {
     //this.api_token = getCookie("ACCESS_TOKEN");
 
-    let headers = {};
-    if (this.api_token && this.api_token != "") {
+    let headers = header;
+    if (this.api_token && this.api_token !== "") {
       headers.Authorization = `Bearer ${this.api_token}`;
     }
     this.client = axios.create({
@@ -48,10 +47,42 @@ export default class Api {
   adminCreate = (data) => {
     return this.init().post("admin/signup", data);
   };
-  hostCreate = (data) => {
+
+  guestCreate = (data) => {
     return this.init().post("auth/signup/guest", data);
+  };
+  recoverPassword = (email) => {
+    return this.init().get("auth/recover-password/" + email);
+  };
+  validateCode = (email, code) => {
+    return this.init().get("auth/validate-code/" + email + "/" + code);
+  };
+  changePassword = (email, data) => {
+    return this.init().post("auth/recover/change-password/" + email, data);
+  };
+  hostCreate = (data) => {
+    return this.init({ "Content-Type": "multipart/form-data" }).post(
+      "auth/signup/host",
+      data
+    );
   };
   features = () => {
     return this.init().get("data/features");
+  };
+  reserveCreate = (data) => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario != null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+
+    return this.init({ "Content-Type": "multipart/form-data" }).post(
+      "hosts/accommodation/add/" + alias,
+      data
+    );
   };
 }

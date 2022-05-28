@@ -8,7 +8,8 @@ import Header from "components/organism/Header";
 import Footer from "components/organism/Footer";
 import RegisterAdmin from "components/organism/RegisterAdmin";
 import AdminRegister from "../pages/AdminRegister";
-import CreateReserve from "pages/CreateReserve";
+import CreateHousing from "pages/CreateHousing";
+import HostHousing from "pages/HostRegister";
 
 const RouterContainer = styled("div")`
   /* Registro Huésped */
@@ -30,12 +31,10 @@ const RouterContainer = styled("div")`
 `;
 const Container = styled("div")`
   width: 100%;
-  height: 100%;
   display: block;
   min-height: 100%;
-  height: auto !important;
   height: 100%;
-  /* margin: 0 auto -100px; */
+  top: 0;
   margin: auto;
 `;
 export const AppRouter = ({ children }) => {
@@ -48,9 +47,11 @@ export const AppRouter = ({ children }) => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
+            <Route path="/registrar-anfitrion" element={<HostHousing />} />
+
             <Route path="/anfitrion">
-              <Route path="newreserve" element={<CreateReserve />} />
-              <Route path="nuevareserva" element={<CreateReserve />} />
+              <Route path="new-housing" element={<CreateHousing />} />
+              <Route path="nuevo-alojamiento" element={<CreateHousing />} />
             </Route>
             <Route path="/admin">
               <Route path="new-admin" element={<AdminRegister />} />

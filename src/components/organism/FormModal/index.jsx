@@ -18,7 +18,6 @@ import { green, pink, red } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import { formatDate } from "components/util/functions";
 import { Divider } from "@mui/material";
-
 import {
   FormContainer,
   Columna,
@@ -119,11 +118,6 @@ export default function LoginModal({
             ) : (
               <EmptyLabel />
             )}
-            <BtnContainer>
-              <Button type="submit" width={70}>
-                Iniciar Sesion
-              </Button>
-            </BtnContainer>
             <Pregunta
               onClick={(e) => {
                 onOlvidaste();
@@ -132,7 +126,15 @@ export default function LoginModal({
             >
               ¿Olvidaste la contraseña?
             </Pregunta>
+            <BtnContainer>
+              <Button type="submit" width={70}>
+                Iniciar Sesion
+              </Button>
+            </BtnContainer>
             <Divider />
+            <Divider />
+
+            <Typography>Registrarse como</Typography>
             <BtnRow>
               <Button
                 onClick={() => {
@@ -237,178 +239,170 @@ export function RegistroHModal({
         setContrasena("");
       }}
     >
-      <FormContainer posImagen={posImagen}>
-        <Columna>
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-              onPrincipal(
-                alias,
-                nombre,
-                apellido,
-                contrasena,
-                email,
-                telefono,
-                avatar,
-                formatDate(fechaNacimiento)
-              )
-                .then((response) => {
-                  setApiError("");
-                  cerrarModal();
-                })
-                .catch((err) => {
-                  if (err.response.status == 401) {
-                    setApiError("Datos incorrectos");
-                  }
-                });
-              return false;
-            }}
-          >
-            <H1>Registro</H1>
-            <Box sx={{ marginInline: "5%" }}>
-              <Grid
-                container
-                rowSpacing={1}
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                columns={12}
-              >
-                <Grid item xs={6}>
-                  <FormTextfield
-                    id="alias"
-                    onChange={(e) => {
-                      setAlias(e.target.value);
-                    }}
-                    error={aliasError}
-                    onBlur={controlAlias}
-                    nombre="Alias"
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormTextfield
-                    id="email"
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                    error={emailError}
-                    onBlur={controlEmail}
-                    nombre="Correo electrónico"
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <PasswordTextfield
-                    id="contra"
-                    onChange={(e) => {
-                      setContrasena(e.target.value);
-                    }}
-                    onBlur={controlContrasena}
-                    nombre="Contraseña"
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <FormTextfield
-                    id="nombre"
-                    onChange={(e) => {
-                      setNombre(e.target.value);
-                    }}
-                    error={nombreError}
-                    onBlur={controlNombre}
-                    nombre="Nombre"
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <FormTextfield
-                    id="apellido"
-                    onChange={(e) => {
-                      setApellido(e.target.value);
-                    }}
-                    error={apellidoError}
-                    onBlur={controlApellido}
-                    nombre="Apellido"
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <FormTextfield
-                    id="telefono"
-                    onChange={(e) => {
-                      setTelefono(e.target.value);
-                    }}
-                    error={telefonoError}
-                    onBlur={controlTelefono}
-                    nombre="Teléfono/Celular"
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <DatePicker
-                    label="Fecha de nacimiento"
-                    fecha={fechaNacimiento}
-                    onChange={(newValue) => {
-                      setFechaNacimiento(newValue);
-                    }}
-                  ></DatePicker>
-                </Grid>
-
-                <Grid item xs={6}>
-                  <IconButton onClick={() => setAvatar(1)}>
-                    <Avatar
-                      sx={{ bgcolor: green[500] }}
-                      style={{
-                        border: avatar == 1 ? "2px solid black" : "",
-                      }}
-                    >
-                      <AssignmentIcon />
-                    </Avatar>
-                  </IconButton>
-                  <IconButton onClick={() => setAvatar(2)}>
-                    <Avatar
-                      sx={{ bgcolor: pink[600] }}
-                      style={{
-                        border: avatar == 2 ? "2px solid black" : "",
-                      }}
-                    >
-                      <AssignmentIcon />
-                    </Avatar>
-                  </IconButton>
-                  <IconButton onClick={() => setAvatar(3)}>
-                    <Avatar
-                      sx={{ bgcolor: red[700] }}
-                      style={{
-                        border: avatar == 3 ? "2px solid black" : "",
-                      }}
-                    >
-                      <AssignmentIcon />
-                    </Avatar>
-                  </IconButton>
-                </Grid>
-                {apiError != "" ? (
-                  <ErrorLabel>{apiError}</ErrorLabel>
-                ) : (
-                  <EmptyLabel />
-                )}
-                <BtnContainer>
-                  <Button onClick={back} width={40}>
-                    Iniciar Sesión
-                  </Button>
-
-                  <Button type="submit" width={40}>
-                    Registrar
-                  </Button>
-                </BtnContainer>
+      <Columna>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onPrincipal(
+              alias,
+              nombre,
+              apellido,
+              contrasena,
+              email,
+              telefono,
+              avatar,
+              formatDate(fechaNacimiento)
+            )
+              .then((response) => {
+                setApiError("");
+                cerrarModal();
+              })
+              .catch((err) => {
+                if (err.response.status == 401) {
+                  setApiError("Datos incorrectos");
+                }
+              });
+            return false;
+          }}
+        >
+          <H1>Registro</H1>
+          <Box sx={{ marginInline: "5%" }}>
+            <Grid
+              container
+              rowSpacing={1}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              columns={12}
+            >
+              <Grid item xs={6}>
+                <FormTextfield
+                  id="alias"
+                  onChange={(e) => {
+                    setAlias(e.target.value);
+                  }}
+                  error={aliasError}
+                  onBlur={controlAlias}
+                  nombre="Alias"
+                />
               </Grid>
-            </Box>
-          </Form>
-        </Columna>
+              <Grid item xs={6}>
+                <FormTextfield
+                  id="email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  error={emailError}
+                  onBlur={controlEmail}
+                  nombre="Correo electrónico"
+                />
+              </Grid>
 
-        <Imagen rel="preload" direccion={direccion}>
-          <Titulo left={left} right={right}>
-            Huésped
-          </Titulo>
-        </Imagen>
-      </FormContainer>
+              <Grid item xs={6}>
+                <PasswordTextfield
+                  id="contra"
+                  onChange={(e) => {
+                    setContrasena(e.target.value);
+                  }}
+                  onBlur={controlContrasena}
+                  nombre="Contraseña"
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <FormTextfield
+                  id="nombre"
+                  onChange={(e) => {
+                    setNombre(e.target.value);
+                  }}
+                  error={nombreError}
+                  onBlur={controlNombre}
+                  nombre="Nombre"
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <FormTextfield
+                  id="apellido"
+                  onChange={(e) => {
+                    setApellido(e.target.value);
+                  }}
+                  error={apellidoError}
+                  onBlur={controlApellido}
+                  nombre="Apellido"
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <FormTextfield
+                  id="telefono"
+                  onChange={(e) => {
+                    setTelefono(e.target.value);
+                  }}
+                  error={telefonoError}
+                  onBlur={controlTelefono}
+                  nombre="Teléfono/Celular"
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <DatePicker
+                  label="Fecha de nacimiento"
+                  fecha={fechaNacimiento}
+                  onChange={(newValue) => {
+                    setFechaNacimiento(newValue);
+                  }}
+                ></DatePicker>
+              </Grid>
+
+              <Grid item xs={6}>
+                <IconButton onClick={() => setAvatar(1)}>
+                  <Avatar
+                    sx={{ bgcolor: green[500] }}
+                    style={{
+                      border: avatar == 1 ? "2px solid black" : "",
+                    }}
+                  >
+                    <AssignmentIcon />
+                  </Avatar>
+                </IconButton>
+                <IconButton onClick={() => setAvatar(2)}>
+                  <Avatar
+                    sx={{ bgcolor: pink[600] }}
+                    style={{
+                      border: avatar == 2 ? "2px solid black" : "",
+                    }}
+                  >
+                    <AssignmentIcon />
+                  </Avatar>
+                </IconButton>
+                <IconButton onClick={() => setAvatar(3)}>
+                  <Avatar
+                    sx={{ bgcolor: red[700] }}
+                    style={{
+                      border: avatar == 3 ? "2px solid black" : "",
+                    }}
+                  >
+                    <AssignmentIcon />
+                  </Avatar>
+                </IconButton>
+              </Grid>
+              {apiError != "" ? (
+                <ErrorLabel>{apiError}</ErrorLabel>
+              ) : (
+                <EmptyLabel />
+              )}
+              <BtnContainer>
+                <Button onClick={back} width={40}>
+                  Iniciar Sesión
+                </Button>
+
+                <Button type="submit" width={40}>
+                  Registrar
+                </Button>
+              </BtnContainer>
+            </Grid>
+          </Box>
+        </Form>
+      </Columna>
     </ModalBasico>
   );
 }

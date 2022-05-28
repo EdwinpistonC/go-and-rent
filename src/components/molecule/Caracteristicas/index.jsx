@@ -1,23 +1,34 @@
 import React from "react";
 
 import { Box } from "@mui/system";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import CommentIcon from "@mui/icons-material/Comment";
 import { Grid } from "@mui/material";
 import TextField from "components/atom/Textfield";
 
-export function Servicios({ lista }) {
-  const [checked, setChecked] = React.useState([0]);
+export function Servicios({ lista, setValores }) {
+  const [checked, setChecked] = React.useState([]);
+  console.log(lista);
 
-  const handleToggle = (value) => () => {
+  const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
+    setValores((existingItems) => {
+      var current = existingItems[value];
+
+      if (!("valor" in existingItems[value])) {
+        existingItems[value].valor = true;
+      } else {
+        existingItems[value].valor = !existingItems[value].valor;
+      }
+      return [
+        ...existingItems.slice(0, value),
+        current,
+        ...existingItems.slice(value + 1),
+      ];
+    });
 
     if (currentIndex === -1) {
       newChecked.push(value);
@@ -29,23 +40,22 @@ export function Servicios({ lista }) {
   };
   return (
     <Box>
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+      <Grid container spacing={3}>
         {lista.map((caracteristica, i) => {
           const labelId = `checkbox-list-label-${i}`;
 
           return (
-            <ListItem
-              key={i}
-              secondaryAction={
-                <IconButton edge="end" aria-label="comments">
-                  <CommentIcon />
-                </IconButton>
-              }
-              disablePadding
-            >
-              <ListItemButton role={undefined} onClick={handleToggle(i)} dense>
+            <Grid item xs key={"grid" + i}>
+              <ListItemButton
+                role={undefined}
+                onClick={() => {
+                  handleToggle(i);
+                }}
+                dense
+              >
                 <ListItemIcon>
                   <Checkbox
+                    key={i}
                     edge="start"
                     checked={checked.indexOf(i) !== -1}
                     tabIndex={-1}
@@ -55,21 +65,37 @@ export function Servicios({ lista }) {
                 </ListItemIcon>
                 <ListItemText id={labelId} primary={caracteristica.name} />
               </ListItemButton>
-            </ListItem>
+            </Grid>
           );
         })}
-      </List>
+      </Grid>
     </Box>
   );
 }
-export function Caracteristicas({ lista }) {
+export function Caracteristicas({ lista, setValores }) {
   return (
     <Box>
       <Grid container spacing={3}>
         {lista.map((caracteristica, i) => {
           return (
-            <Grid item xs>
-              <TextField id={i} label={caracteristica.name} type="number" />
+            <Grid item xs key={"grid" + i}>
+              <TextField
+                key={i}
+                label={caracteristica.name}
+                type="number"
+                defaultValue={0}
+                onChange={(e) => {
+                  setValores((existingItems) => {
+                    var current = existingItems[i];
+                    existingItems[i].cantidad = e.target.value;
+                    return [
+                      ...existingItems.slice(0, i),
+                      current,
+                      ...existingItems.slice(i + 1),
+                    ];
+                  });
+                }}
+              />
             </Grid>
           );
         })}
