@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 //React components
 import HomePage from "pages/Home";
+import TestPage from "pages/Test";
 import Header from "components/organism/Header";
 import Footer from "components/organism/Footer";
 import RegisterAdmin from "components/organism/RegisterAdmin";
@@ -45,6 +46,7 @@ export const AppRouter = ({ children }) => {
         <Container>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/test" element={<TestPage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/registrar-anfitrion" element={<HostHousing />} />
 
