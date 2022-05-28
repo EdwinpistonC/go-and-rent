@@ -132,9 +132,8 @@ export default function Header() {
           cerrarModal={abrirCambiarCH}
           onCloseModal={cerrarCambiarCH}
           onAfterOpen={despuesCambiarCH}
-          backTo={iniciarSesionH}
+          backTo={abrirInicioH}
           onPrincipal={() => {}}
-          titulo="Recuperar contraseña"
           tituloLateral=""
         ></CambioCModal>
       </HeaderMenu>
