@@ -33,6 +33,8 @@ export default function Profile() {
 
   if (!fields.carga) {
     const api = new Api();
+    changeField("carga", true);
+
     api.profile().then((response) => {
       const data = response.data;
       console.log(data);
@@ -47,7 +49,6 @@ export default function Profile() {
       changeField("phone", data.phone);
       changeField("picture", data.picture);
       changeField("qualification", data.qualification);
-      changeField("carga", true);
     });
   }
 
@@ -110,8 +111,6 @@ export default function Profile() {
           item
           sx={{ width: "80%" }}
           display="flex"
-          spacing={30}
-          content
           justifyContent="space-evenly"
           direction="row"
         >
@@ -126,8 +125,6 @@ export default function Profile() {
           item
           sx={{ width: "100%" }}
           display="flex"
-          spacing={30}
-          content
           justifyContent="space-evenly"
           direction="row"
         >
