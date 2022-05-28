@@ -85,4 +85,9 @@ export default class Api {
       data
     );
   };
+
+  listadoUsuarios = () => {
+    return this.init().get("admin/users");
+  };
+
 }
