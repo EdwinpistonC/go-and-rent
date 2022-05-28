@@ -1,56 +1,84 @@
-import React from 'react';
+import React from "react";
 
 //Style
 import { LoginBase, LayoutTextField, LayoutOptions } from "./style";
 
 //react component
 import { Button } from "components/atom/Button";
-import { ForkLeft } from '@mui/icons-material';
+import { ForkLeft } from "@mui/icons-material";
+import { borderRadius } from "@mui/system";
+import { Grid, Typography } from "@mui/material";
 
-const rutaImages = require.context("resources/images/",true);
+const rutaImages = require.context("resources/images/", true);
 
-
-export default function BannerHome({tituloBanner,imagenBanner}){
-
-    return(
-        <div 
-          style={{
-            borderRadius:"15px",
-            margin:"10px 0px",
-            width:"100%",
-            //maxWidth:"1228px",
-            minHeight:"500px",
-            //maxHeight:"719px",
-            backgroundImage: `url('${rutaImages("./"+imagenBanner)}')`,
-            textAlign:"center", 
-            backgroundPosition: "center",
-            backgroundAttachment: "cover",
-            backgroundSize: "cover",
-            position: "relative",
-          }}>
-            <h2
+export default function BannerHome({ tituloBanner, imagenBanner }) {
+  return (
+    <div
+      style={{
+        display: "block",
+        borderRadius: "15px",
+        margin: "auto",
+        width: "100%",
+        //maxWidth:"1228px",
+        minHeight: "600px",
+        //maxHeight:"719px",
+        backgroundImage: `url('${rutaImages("./" + imagenBanner)}')`,
+        textAlign: "center",
+        backgroundPosition: "bottom",
+        backgroundAttachment: "cover",
+        backgroundSize: "cover",
+        height: "100%",
+        display: "flex",
+        justifyContent: "flex-end",
+        alignContent: "flex-end",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Grid
+        container
+        direction="column"
+        justifyContent="flex-end"
+        alignItems="center"
+        spacing={2}
+      >
+        <Grid item display="flex" justifyContent="center" width={"100%"}>
+          <Typography
+            variant="h4"
             style={{
-                
-                position: "absolute",
-                bottom: "90px",
-                color:"#fff",
-                textAlign:"center",
-                left:"30vw"
-                
-              }}
-            >{tituloBanner}</h2>
-            <Button
+              color: "#fff",
+              textAlign: "center",
+              fontSize: "4px",
+              fontFamily: "Inter",
+              fontStyle: "normal",
+              fontWeight: 600,
+              fontSize: "48px",
+              width: "70%",
+            }}
+          >
+            {tituloBanner}
+          </Typography>
+        </Grid>
+        <Grid
+          item
+          display="flex"
+          justifyContent="center"
+          width={"100%"}
+          marginBottom={"3%"}
+        >
+          <Button
             style={{
-                
-                width:"150px",
-                height:"50px",
-                position: "absolute",
-                bottom: "50px",
-                left:"45vw"
-                
-              }}
-            >Exploarar</Button>
-        </div>
-    );
+              width: "150px",
+              height: "50px",
+              borderRadius: "100px",
+              fontFamily: "Inter",
+              fontStyle: "normal",
+            }}
+          >
+            Exploarar
+          </Button>
+        </Grid>
+      </Grid>
+    </div>
+  );
 }
-

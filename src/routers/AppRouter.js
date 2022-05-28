@@ -20,7 +20,7 @@ const RouterContainer = styled("div")`
   flex-direction: column;
   align-items: center;
   padding: 0px;
-  gap: 58px;
+  gap: 10px;
   /* Background */
   height: auto;
 
@@ -38,7 +38,6 @@ const Container = styled("div")`
   margin: auto;
 `;
 export const AppRouter = ({ children }) => {
-
   return (
     <RouterContainer>
       <BrowserRouter>
@@ -72,5 +71,4 @@ export const AppRouter = ({ children }) => {
       </BrowserRouter>
     </RouterContainer>
   );
-
 };
