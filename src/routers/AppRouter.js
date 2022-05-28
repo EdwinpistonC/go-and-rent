@@ -10,6 +10,10 @@ import RegisterAdmin from "components/organism/RegisterAdmin";
 import AdminRegister from "../pages/AdminRegister";
 import CreateHousing from "pages/CreateHousing";
 import HostHousing from "pages/HostRegister";
+import Profile from "pages/Profile";
+import ChangePassword from "pages/ChangePassword";
+import { useLocalStorage } from "Hooks/LocalStoreHook";
+import SideBarMenu from "components/organism/SideBarMenu";
 
 const RouterContainer = styled("div")`
   /* Registro Huésped */
@@ -38,15 +42,23 @@ const Container = styled("div")`
   margin: auto;
 `;
 export const AppRouter = ({ children }) => {
+  const [usuario, setUsuario] = useLocalStorage("usuario", "");
+
   return (
     <RouterContainer>
       <BrowserRouter>
-        <Header />
+        {usuario.rol === "ROLE_ADMIN" && <SideBarMenu></SideBarMenu>}
+        {usuario.rol !== "ROLE_ADMIN" && <Header />}
+
         <Container>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/registrar-anfitrion" element={<HostHousing />} />
+            <Route path="/perfil" element={<Profile />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/cambiar-contrasena" element={<ChangePassword />} />
 
             <Route path="/anfitrion">
               <Route path="new-housing" element={<CreateHousing />} />
@@ -56,6 +68,7 @@ export const AppRouter = ({ children }) => {
               <Route path="new-admin" element={<AdminRegister />} />
               <Route path="nuevo-admin" element={<AdminRegister />} />
             </Route>
+
             <Route
               path="*"
               element={
@@ -67,7 +80,7 @@ export const AppRouter = ({ children }) => {
           </Routes>
           {children}
         </Container>
-        <Footer />
+        {usuario.rol !== "ROLE_ADMIN" && <Footer />}
       </BrowserRouter>
     </RouterContainer>
   );

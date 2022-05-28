@@ -60,9 +60,33 @@ export default class Api {
   changePassword = (email, data) => {
     return this.init().post("auth/recover/change-password/" + email, data);
   };
+  changePasswordProfile = (email, data) => {
+    //TODO falta en el back
+    //return this.init().post("auth/recover/change-password/" + email, data);
+  };
+  editUserProfile = (data) => {
+    return this.init().post("user/update-profile", data);
+  };
+
   hostCreate = (data) => {
     return this.init({ "Content-Type": "multipart/form-data" }).post(
       "auth/signup/host",
+      data
+    );
+  };
+  profile = (data) => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    let alias = null;
+    if (
+      usuario != null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    return this.init({ "Content-Type": "multipart/form-data" }).get(
+      "user/profile/" + alias,
       data
     );
   };
