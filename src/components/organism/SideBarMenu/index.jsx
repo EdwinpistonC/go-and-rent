@@ -19,6 +19,7 @@ const drawerWidth = 240;
 export default function SideBarMenu() {
   const navegar = useNavigate();
   const [alertaCerrarSesion, setAlerta] = React.useState(false);
+
   const handleOpen = () => setAlerta(true);
   const handleClose = () => setAlerta(false);
   const [usuario, setUsuario] = useLocalStorage("usuario", "");
@@ -45,7 +46,8 @@ export default function SideBarMenu() {
               variant="contained"
               onClick={() => {
                 handleClose();
-                setUsuario("");
+                localStorage.removeItem("usuario");
+                navegar("/");
               }}
             >
               Si
@@ -81,11 +83,7 @@ export default function SideBarMenu() {
             <ListItemText primary={"Perfil"} />
           </ListItemButton>
         </ListItem>
-        <ListItem
-          key={"Cerrar Sesión"}
-          disablePadding
-          onClick={() => navegar("/perfil")}
-        >
+        <ListItem key={"Cerrar Sesión"} disablePadding onClick={handleOpen}>
           <ListItemButton>
             <ListItemIcon>
               <InboxIcon />
