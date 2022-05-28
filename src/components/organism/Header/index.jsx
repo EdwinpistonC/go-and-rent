@@ -13,6 +13,7 @@ import { useLocalStorage } from "Hooks/LocalStoreHook";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { ModalSmall } from "components/atom/Modal";
+import SideBarMenu from "../SideBarMenu";
 
 const registerH = async function (
   alias,
@@ -73,6 +74,7 @@ export default function Header() {
   return (
     <HeaderContainer>
       {/* Cerrar sesion */}
+      {usuario.rol === "ROLE_ADMIN" && <SideBarMenu></SideBarMenu>}
       <ModalSmall abrirModal={alertaCerrarSesion} onCloseModal={handleClose}>
         <Stack spacing={2} direction="column">
           <label>¿Desea cerrar sesión?</label>
@@ -99,7 +101,7 @@ export default function Header() {
         onIniciar={abrirInicioH}
         onCrear={abrirRegistroH}
         onCerrar={handleOpen}
-        onPerfil={() => {}}
+        onPerfil={() => navegar("/perfil")}
       >
         {/* Huésped */}
         <LoginModal
