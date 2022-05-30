@@ -2,6 +2,9 @@
 // https://github.com/gregnb/mui-datatables/#custom-components 
 
 
+// here I set the them
+
+
 function definirOpciones(){
     const opciones =  {
         download:false, // boton para generar csv
@@ -27,15 +30,8 @@ function definirOpciones(){
     return opciones;
 }
 
-// export  const getMuiTheme = () => createMuiTheme({
-//     overrides: {
-//         MuiTableHead: {
-//             root: {
-//                 backgroundColor: "#c1e1ec"
-//             }
-//         }
-//     }
-// });
+
+
 
 
 export  {definirOpciones}

@@ -4,6 +4,7 @@ import Api from "server/Api";
 import   {  ListaUsuarios } from "components/molecule/ListaUsuarios";
 import Mapa from "components/atom/Mapa";
 
+
 const Container = styled("div")``;
 const backend = new Api();
 backend.listadoUsuarios()
@@ -18,5 +19,6 @@ console.log(backend.listadoUsuarios())
 export default function TestPage() {
   return <Container>
       <ListaUsuarios/>
+
   </Container>;
 }

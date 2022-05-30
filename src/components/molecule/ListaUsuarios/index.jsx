@@ -1,18 +1,22 @@
 // npm install mui-datatables --save
 // https://github.com/gregnb/mui-datatable
 // https://www.youtube.com/watch?v=fJRyC-xLIQc referencia
-import MUIDataTable from "mui-datatables";
-
+// npm install @material-ui/core --save
 
 
 import {useState,useEffect} from "react";
 import axios from "axios";
 import { set } from "date-fns";
 
-import {definirOpciones,getMuiTheme} from "./configuracionMUIDatatable"
+import {MUIDataTableStyled} from "./style"
+
+import {definirOpciones} from "./configuracionMUIDatatable"
+
+
 
 const ListaUsuarios = () => {
     // 1 - configuramos los hooks
+    
 
     const[usuarios,setUsuarios]= useState([]);
 
@@ -49,15 +53,13 @@ const ListaUsuarios = () => {
     
 
     // 4 - mostramos datos
-    return(
-  
-            <MUIDataTable 
+    return(                                      
+            <MUIDataTableStyled 
                 title={"Lista Usuarios"}
                 data={usuarios}
                 columns={columns}
                 options={definirOpciones()}
-            />
-
+            />       
   );
 
 
