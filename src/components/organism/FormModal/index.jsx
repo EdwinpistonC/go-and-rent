@@ -137,6 +137,7 @@ export default function LoginModal({
             <Typography>Registrarse como</Typography>
             <BtnRow>
               <Button
+                  id="registro-anfitrion"
                 onClick={() => {
                   onSecundario1();
                   cerrarModal();
