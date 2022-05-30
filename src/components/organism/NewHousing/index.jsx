@@ -14,6 +14,8 @@ import { FormTextfield } from "components/atom/Textfield";
 import { useInputsForm } from "Hooks/Inputhooks";
 import { Typography } from "@mui/material";
 
+import DemoImage from "./demo-image.jpg";
+
 function GetCaracteristicas() {
   const backend = new Api();
   return backend.features();
