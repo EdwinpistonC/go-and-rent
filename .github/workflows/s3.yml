@@ -15,31 +15,31 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains multiple jobs
-  build_test:
+  Subida_a_S3:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    #strategy:
-      #matrix:
-        #node-version: [14.x]
+    strategy:
+      matrix:
+        node-version: [14.x]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      #- uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      #- name: setup node
-        #uses: actions/setup-node@master
-        #with:
-          #node-version: ${{ matrix.node-version }}
+      - name: setup node
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
 
       # install application dependencies
-      #- name: Install dependencies
-        #run: |
-          #npm install
+      - name: Instala dependencias
+        run: |
+          npm install
       # build and test the apps
-      #- name: build
-        #run: |
-          #npm run build
+      - name: buildeo
+        run: |
+          npm run build
           #npm test
 
       #- name: Install dependencies
@@ -48,7 +48,7 @@ jobs:
       #- name: Build
         #run: yarn build
 
-      - name: Deploy
+      - name: Subir a S3
         uses: reggionick/s3-deploy@v3
         with:
           folder: build
