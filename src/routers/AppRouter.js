@@ -60,9 +60,6 @@ export const AppRouter = ({ children }) => {
   console.log(busqueda);
   HeaderView();
 
-  if (location.pathname != "/busqueda" && busqueda.label != "") {
-    setBusqueda({ label: "" });
-  }
   React.useEffect(() => {
     if (busqueda.label != "") {
       navegar("/busqueda");
