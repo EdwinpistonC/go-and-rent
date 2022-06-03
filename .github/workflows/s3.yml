@@ -18,28 +18,28 @@ jobs:
   Subida_a_S3:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    #strategy:
-      #matrix:
-        #node-version: [14.x]
+    strategy:
+      matrix:
+        node-version: [16.x]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      #- uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      #- name: setup node
-        #uses: actions/setup-node@master
-        #with:
-          #node-version: ${{ matrix.node-version }}
+      - name: setup node
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
 
       # install application dependencies
-      #- name: Instala dependencias
-        #run: |
-          #npm install
+      - name: Instala dependencias
+        run: |
+          npm install
       # build and test the apps
-      #- name: buildeo
-        #run: |
-          #npm run build
+      - name: buildeo
+        run: |
+          npm run build
           #npm test
 
       #- name: Install dependencies
@@ -48,23 +48,14 @@ jobs:
       #- name: Build
         #run: yarn build
 
-      #- name: Subir a S3
-        #uses: reggionick/s3-deploy@v3
-        #with:
-          #folder: build
-          #bucket: produccion-proyectofinal
-          #bucket-region: us-east-1
+      - name: Subir a S3
+        ses: reggionick/s3-deploy@v3
+        with:
+          folder: build
+          bucket: produccion-proyectofinal
+          bucket-region: us-east-1
           #dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
           #invalidation: /
           #delete-removed: true
           #no-cache: true
           #private: true
-
-      - name: Subida a S3 
-        uses: hkusu/s3-upload-action@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: 'us-east-1'
-          aws-bucket: 'produccion-proyectofinal'
-          file-path: './build/*'
