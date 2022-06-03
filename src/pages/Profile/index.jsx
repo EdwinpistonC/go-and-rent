@@ -129,12 +129,10 @@ export default function Profile() {
           direction="row"
         >
           <Grid item sx>
-            <Button onClick={() => navegar("/editar-perfil")}>
-              Editar Datos
-            </Button>
+            <Button onClick={() => navegar("editar")}>Editar Datos</Button>
           </Grid>
           <Grid item sx>
-            <Button onClick={() => navegar("/cambiar-contrasena")}>
+            <Button onClick={() => navegar("cambiar-contrasena")}>
               Cambiar Contraseña
             </Button>
           </Grid>

@@ -89,7 +89,7 @@ export default function ImageEditor({ itemData, setItemData }) {
             style={{
               width: "100%",
             }}
-            initialAspectRatio={1}
+            initialAspectRatio={1/3}
             src={image}
             viewMode={1}
             minCropBoxHeight={10}
