@@ -49,7 +49,7 @@ jobs:
         #run: yarn build
 
       - name: Subir a S3
-        ses: reggionick/s3-deploy@v3
+        uses: reggionick/s3-deploy@v3
         with:
           folder: build
           bucket: produccion-proyectofinal
