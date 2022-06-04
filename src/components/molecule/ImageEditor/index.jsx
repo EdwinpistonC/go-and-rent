@@ -7,12 +7,13 @@ import ImageListItem from "@mui/material/ImageListItem";
 import { Button } from "components/atom/Button";
 import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
+import DemoImage from "./demo.jpg";
 
 const defaultSrc =
   "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
 
 export default function ImageEditor({ itemData, setItemData }) {
-  const [image, setImage] = useState(defaultSrc);
+  const [image, setImage] = useState(DemoImage);
   const [, setCropData] = useState("#");
   const [cropper, setCropper] = useState();
   const fileInput = React.useRef();
@@ -86,9 +87,9 @@ export default function ImageEditor({ itemData, setItemData }) {
           <Cropper
             zoomTo={0.1}
             style={{
-              width: "40%",
+              width: "100%",
             }}
-            initialAspectRatio={1}
+            initialAspectRatio={1/3}
             src={image}
             viewMode={1}
             minCropBoxHeight={10}

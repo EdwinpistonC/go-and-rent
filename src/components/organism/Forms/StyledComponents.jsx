@@ -10,7 +10,9 @@ const ErrorLabel = styled("label")`
   font-size: 12px;
   line-height: 14px;
   /* identical to box height */
+
   text-align: center;
+
   color: #000000;
   display: flex;
   align-items: center;
@@ -26,7 +28,9 @@ const EmptyLabel = styled("label")`
   font-size: 12px;
   line-height: 14px;
   /* identical to box height */
+
   text-align: center;
+
   width: 80%;
   height: 15%;
   color: #000000;

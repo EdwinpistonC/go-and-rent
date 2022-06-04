@@ -7,9 +7,7 @@ import {
   DatePicker,
 } from "components/atom/Textfield";
 import { Button } from "components/atom/Button";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { useLocalStorage } from "Hooks/LocalStoreHook";
 import { useNavigate } from "react-router-dom";
 import { Grid, Box } from "@mui/material";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -18,10 +16,11 @@ import { green, pink, red } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
 import { formatDate } from "components/util/functions";
 import { Divider } from "@mui/material";
+import { useInputsForm } from "Hooks/Inputhooks";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import {
   FormContainer,
   Columna,
-  Subtitulo,
   Imagen,
   Titulo,
   Form,
@@ -29,13 +28,12 @@ import {
   H1,
   BtnContainer,
   Pregunta,
-  ColumnaSecundaria,
   BtnRow,
-  FilaRegistro,
-  CustomSwitch,
   ErrorLabel,
   EmptyLabel,
 } from "./StyledComponents";
+
+import { FormRequestCode, FormSendCode, FormChangePassword } from "../Forms";
 
 export default function LoginModal({
   abrirModal = false,
@@ -54,7 +52,6 @@ export default function LoginModal({
       msg: "El formato de email es incorrecto",
     },
   });
-
   const [contrasena, setContrasena, contrasenaError, controlContrasena] =
     useInputFormHook({});
 
@@ -391,13 +388,14 @@ export function RegistroHModal({
                 <EmptyLabel />
               )}
               <BtnContainer>
-                <Button onClick={back} width={40}>
-                  Iniciar Sesión
-                </Button>
-
-                <Button type="submit" width={40}>
-                  Registrar
-                </Button>
+                <Grid container justifyContent="space-between" spacing={2}>
+                  <Grid item xs>
+                    <Button onClick={back}>Volver</Button>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <Button type="submit">Registrar</Button>
+                  </Grid>
+                </Grid>
               </BtnContainer>
             </Grid>
           </Box>
@@ -639,83 +637,86 @@ export function RegistroAModal({
 export function CambioCModal({
   abrirModal = false,
   onCloseModal,
-  direction = "left",
-  onPrincipal,
-  titulo = "default",
-  tituloLateral = "default",
   cerrarModal,
   backTo,
   children,
 }) {
-  const arrayChildren = React.Children.toArray(children);
-
-  const [values, setValues] = React.useState({
-    amount: "",
-    password: "",
-    weight: "",
-    weightRange: "",
-    showPassword: false,
+  const [fields, handleFieldChange, changeField] = useInputsForm({
+    step: 0,
+    email: "",
+    codigo: "",
   });
-
-  const [email, setEmail, emailError, controlEmail] = useInputFormHook({
-    email: {
-      msg: "El formato de email es incorrecto",
-    },
-  });
-  const [contrasena, setContrasena, contrasenaError, controlContrasena] =
-    useInputFormHook({});
-
   const back = () => {
     backTo(true);
-
+    changeField("step", 0);
+    changeField("email", "");
+    changeField("codigo", "");
     cerrarModal(false);
   };
+  const stepName = [
+    "Recuperar Contraseña",
+    "Ingrese el codigo recibido al correo",
+    "Cambie la contraseña",
+  ];
 
-  //CSS
-  let left = 0;
-  let right = 0;
   let direccion = "alternate";
   let posImagen;
 
-  if (direction == "left") {
-    posImagen = "row";
-    right = 4;
-    left = "sds";
+  posImagen = "row";
 
-    direccion = "alternate-reverse";
-  } else {
-    posImagen = "row-reverse";
-    left = 4;
-    right = "sds";
-  }
+  direccion = "alternate-reverse";
+  console.log(fields);
+
   return (
-    <ModalBasico
-      abrirModal={abrirModal}
-      onCloseModal={() => {
-        onCloseModal();
-        setEmail("");
-        setContrasena("");
-      }}
-    >
+    <ModalBasico abrirModal={abrirModal} onCloseModal={back}>
       <FormContainer posImagen={posImagen}>
         <Columna>
-          <Form action="/" method="POST" onSubmit={onPrincipal}>
-            <H1>{titulo}</H1>
-            {React.Children.map(arrayChildren, (child, index) => {
-              return child;
-            })}
-            <BtnContainer>
-              <Button onClick={back}>Volver</Button>
-
-              <Button type="submit">Iniciar Sesion</Button>
-            </BtnContainer>
-          </Form>
+          <H1>{stepName[fields.step]}</H1>
+          {(() => {
+            switch (fields.step) {
+              case 0:
+                return (
+                  <FormRequestCode onBack={back} setFields={changeField} />
+                );
+              case 1:
+                return (
+                  <FormSendCode
+                    onBack={back}
+                    setFields={changeField}
+                    email={fields.email}
+                  />
+                );
+              case 2:
+                return (
+                  <FormChangePassword
+                    onBack={back}
+                    setFields={changeField}
+                    email={fields.email}
+                    codigo={fields.codigo}
+                  ></FormChangePassword>
+                );
+              case 3:
+                return (
+                  <Grid
+                    display="flex"
+                    alignItems="center"
+                    container
+                    direction="column"
+                    justifyContent="center"
+                    sx={{ width: "100%", height: "100%" }}
+                  >
+                    <Grid item>
+                      <VpnKeyIcon size="large"></VpnKeyIcon>
+                    </Grid>
+                    <Grid item>
+                      <Typography>Contraseña modificada</Typography>
+                    </Grid>
+                  </Grid>
+                );
+            }
+          })()}
         </Columna>
-        <Imagen rel="preload" direccion={direccion}>
-          <Titulo left={left} right={right}>
-            {tituloLateral}
-          </Titulo>
-        </Imagen>
+        <Imagen rel="preload" direccion={direccion} />
       </FormContainer>
     </ModalBasico>
   );
