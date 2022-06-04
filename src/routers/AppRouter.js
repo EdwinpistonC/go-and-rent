@@ -19,6 +19,7 @@ import HomePage from "pages/Home";
 import ChangePassword from "pages/ChangePassword";
 import { RouterContainer, Container } from "./StyledComponents";
 import DetalleAlojamiento from "pages/DetalleAlojamiento";
+import TestPage from "pages/Test";
 
 function HeaderView() {
   const location = useLocation();
@@ -38,6 +39,7 @@ export const AppRouter = ({ children }) => {
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/registrar-anfitrion" element={<HostHousing />} />
+          <Route path="/test" element={<TestPage />} />
 
           <Route path="/perfil" element={<Profile />}></Route>
           <Route path="/detalles/:id" element={<DetalleAlojamiento />} />

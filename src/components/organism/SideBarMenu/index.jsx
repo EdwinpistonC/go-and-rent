@@ -137,11 +137,9 @@ export function SideBarFilter({ filtrar }) {
     apiCargada: false,
   });
   const pasarFiltro = () => {
-    console.log(busqueda);
-    console.log(busqueda.place);
-
+    console.log(state.busqueda);
     filtrar(
-      busqueda.place,
+      state.busqueda,
       fields.fechas.startDate,
       fields.fechas.endDate,
       fields.servicios,

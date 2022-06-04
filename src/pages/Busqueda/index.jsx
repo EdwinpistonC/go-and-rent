@@ -58,7 +58,7 @@ export default function Busqueda() {
       alignItems="stretch"
       spacing={2}
     >
-      <Grid item xl={10} lg={4} md={6} xs={12}>
+      <Grid item>
         <Container
           maxWidth="xs"
           disableGutters

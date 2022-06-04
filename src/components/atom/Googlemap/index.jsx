@@ -3,7 +3,7 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { BusquedaContainer } from "./StyledComponents";
 import { useLocalStorage, DefaultBusqueda } from "Hooks/LocalStoreHook";
 import { useGlobalState } from "Hooks/GlobalHook";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function GoogleMap() {
   /*
@@ -12,8 +12,11 @@ export default function GoogleMap() {
     DefaultBusqueda
   );
   let mapVal = busqueda.place;*/
+  const navegar = useNavigate();
+
   const [state, dispatch] = useGlobalState();
   const location = useLocation();
+
   const valor = state.busqueda;
   return (
     <BusquedaContainer>
@@ -36,7 +39,7 @@ export default function GoogleMap() {
           onChange: (e) => {
             dispatch({ busqueda: e });
             if (location.pathname != "/busqueda") {
-              alert("entra");
+              navegar("/busqueda");
             }
             //setBusqueda("place", e);
           },
