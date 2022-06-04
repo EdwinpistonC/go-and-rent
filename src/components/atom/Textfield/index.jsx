@@ -10,25 +10,25 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker as MaterialDatePicker } from "@mui/x-date-pickers/DatePicker";
 
-const TextField = ({
-  theme,
-  label = "Outlined",
-  children = "Default",
-  onClick,
-  ...props
-}) => {
-  return (
-    <TextfieldBase
-      {...props}
-      onClick={onClick}
-      theme={theme}
-      label={label}
-      variant="outlined"
-    >
-      {children}
-    </TextfieldBase>
-  );
-};
+export const TextField = React.forwardRef(
+  (
+    { theme, label = "Outlined", children = "Default", onClick, ...props },
+    ref
+  ) => {
+    return (
+      <TextfieldBase
+        onClick={onClick}
+        theme={theme}
+        label={label}
+        variant="outlined"
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </TextfieldBase>
+    );
+  }
+);
 
 const FormTextfield = ({
   error = "",
@@ -53,6 +53,7 @@ const FormTextfield = ({
     ></TextField>
   );
 };
+
 const PasswordTextfield = ({
   id = "",
   nombre = "defecto",
