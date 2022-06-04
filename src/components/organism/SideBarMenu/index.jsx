@@ -23,7 +23,7 @@ import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import * as locales from "react-date-range/dist/locale";
 import { useInputsForm } from "Hooks/Inputhooks";
-
+import { useGlobalState } from "Hooks/GlobalHook";
 function GetCaracteristicas() {
   const backend = new Api();
   return backend.features();
@@ -115,6 +115,14 @@ export function SideBarFilter({ filtrar }) {
     "busqueda",
     DefaultBusqueda
   );
+  const [state, dispatch] = useGlobalState();
+
+  React.useEffect(() => {
+    pasarFiltro();
+
+    return () => {};
+  }, [state]);
+
   const [fields, handleFieldChange, changeField] = useInputsForm({
     fechas: [
       {

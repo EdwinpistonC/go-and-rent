@@ -1,3 +1,4 @@
+import { ConstructionOutlined } from "@mui/icons-material";
 import axios from "axios";
 import { parseParams } from "components/util/functions";
 
@@ -76,6 +77,17 @@ export default class Api {
       data
     );
   };
+
+  details = async (id) => {
+    try {
+      const response = await this.init().get("data/accommodation/info/" + id);
+      console.log(response);
+      return response.data;
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
   filter = async (params) => {
     /* return await this.init({ "Content-Type": "multipart/form-data" }).get(
       "/data/accommodation/search" + alias,
