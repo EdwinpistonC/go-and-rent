@@ -1,11 +1,9 @@
 import React from "react";
 import { AtomoLogo, Imagen, Nombre } from "./StyledComponents";
-import { useNavigate } from "react-router-dom";
 
 export default function Logo() {
-  const navegar = useNavigate();
   return (
-    <AtomoLogo onClick={() => navegar("/")}>
+    <AtomoLogo>
       <Imagen
         width="55"
         height="64"

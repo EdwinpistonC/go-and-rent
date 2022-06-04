@@ -1,14 +1,10 @@
 import React from "react";
 import { BusquedaContainer, Input } from "./StyledComponents";
 
-export default function Busqueda({ setInput, input }) {
+export default function Busqueda() {
   return (
     <BusquedaContainer>
-      <Input
-        fullWidth
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      ></Input>
+      <Input fullWidth ></Input>
     </BusquedaContainer>
   );
 }
