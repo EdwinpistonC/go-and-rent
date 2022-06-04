@@ -6,7 +6,6 @@ import { useLocation } from "react-router-dom";
 export default function Busqueda() {
   const [state, dispatch] = useGlobalState();
   const location = useLocation();
-  alert("texto");
   return (
     <BusquedaContainer>
       <Input

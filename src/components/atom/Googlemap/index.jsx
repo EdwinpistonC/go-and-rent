@@ -15,7 +15,6 @@ export default function GoogleMap() {
   const [state, dispatch] = useGlobalState();
   const location = useLocation();
   const valor = state.busqueda;
-  alert("texto");
   return (
     <BusquedaContainer>
       <GooglePlacesAutocomplete
