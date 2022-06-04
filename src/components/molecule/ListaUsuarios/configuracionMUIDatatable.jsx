@@ -54,7 +54,11 @@ function definirOpciones(){
         setRowProps: (row, dataIndex, rowIndex) => {
             let estado = row[row.length -3 ];
             let rol = row[row.length -2 ] ;
+<<<<<<< HEAD
             row[row.length -1 ] = botoneraEstados(estado);
+=======
+            row[row.length -1 ] = botoneraEstados(estado,row[0]);
+>>>>>>> parent of 98ff499 (Merge pull request #22 from EdwinpistonC/revert-21-G390-Listado-usuarios)
             row[row.length -2 ] = roles[rol];
             row[row.length -3 ] = iconoEstados(estado);
             row[1] = emails(row[1]);

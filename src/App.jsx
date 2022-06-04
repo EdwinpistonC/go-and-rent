@@ -3,8 +3,10 @@ import styled from "styled-components";
 
 //react component
 import { AppRouter } from "./routers/AppRouter";
+
 import { BrowserRouter } from "react-router-dom";
 import { GlobalStateProvider } from "Hooks/GlobalHook";
+
 
 const AppLayout = styled.div`
   margin: 0;
@@ -14,6 +16,7 @@ const AppLayout = styled.div`
 
 function App() {
   return (
+
     <GlobalStateProvider>
       <AppLayout>
         <BrowserRouter>
@@ -21,6 +24,7 @@ function App() {
         </BrowserRouter>
       </AppLayout>
     </GlobalStateProvider>
+
   );
 }
 

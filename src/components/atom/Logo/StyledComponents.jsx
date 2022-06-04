@@ -14,7 +14,6 @@ const AtomoLogo = styled("div")`
   order: 0;
   flex-grow: 0;
   transform: scale(0.7);
-  cursor: pointer;
 `;
 
 const Imagen = styled("svg")`
@@ -48,7 +47,7 @@ const Nombre = styled("h4")`
   /* Color - Primary */
 
   color: #0064bb;
-  user-select: none;
+
   /* Inside auto layout */
 
   flex: none;

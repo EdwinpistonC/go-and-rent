@@ -42,9 +42,8 @@ export default function ModalBasico({
 export function ModalSmall({
   abrirModal = false,
   onCloseModal,
+  props,
   children,
-  style,
-  ...props
 }) {
   function onModalClose(event) {
     let data = { name: "example", type: "closed from child" };
@@ -59,7 +58,7 @@ export function ModalSmall({
       aria-describedby="modal-modal-description"
       {...props}
     >
-      <BoxSmall style={style}>{children}</BoxSmall>
+      <BoxSmall>{children}</BoxSmall>
     </ModalSC>
   );
 }

@@ -78,6 +78,7 @@ const ListaUsuarios = ({datos}) => {
             label:"Alias",
         },
         {   name:"email",
+<<<<<<< HEAD
             label:"Correo Electronico",
             options: {
                 setCellProps: value => {
@@ -103,6 +104,9 @@ const ListaUsuarios = ({datos}) => {
                     }
                 }
             }
+=======
+            label:"Correo electrónico",
+>>>>>>> parent of 98ff499 (Merge pull request #22 from EdwinpistonC/revert-21-G390-Listado-usuarios)
         },
         
         {   name:"name",
@@ -124,7 +128,11 @@ const ListaUsuarios = ({datos}) => {
             label:"Rol",
         },
         {
+<<<<<<< HEAD
             name: "Action"
+=======
+            name: "Acciones"
+>>>>>>> parent of 98ff499 (Merge pull request #22 from EdwinpistonC/revert-21-G390-Listado-usuarios)
         }
         
     ]
