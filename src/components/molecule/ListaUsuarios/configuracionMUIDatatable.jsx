@@ -4,48 +4,34 @@
 
 // here I set the them
 
-import {Button} from "components/atom/Button"
+import botoneraEstados from "components/molecule/BotoneraEstados"
+import {iconoEstados} from "components/atom/Icon"
 
 
 function definirOpciones(){
     //const action = <button onClick={alert("hola")}> boton</button>;
+    const roles = {
+        "ROLE_GUEST":"HUÉSPED",
+        "ROLE_ADMIN":"ADMINISTRADOR",
+        "ROLE_HOST":"ANFITRIÓN"
+    };
 
-    const botones = (estado)=>{
-        return(
-            <div >
-                
-                <Button
-                    // onClick={() => {
-                    // onSecundario2();
-                    // cerrarModal();
-                    // }}v
-                    width={"30px"}
-                >
-                Eliminar
-                </Button>
-                <Button
-                    // onClick={() => {
-                    // onSecundario2();
-                    // cerrarModal();
-                    // }}
-                    width={"30px"}
-                >
-                Bloquear
-                </Button>
-                <Button
-                    // onClick={() => {
-                    // onSecundario2();
-                    // cerrarModal();
-                    // }}
-                    width={"30px"}
-                >
-                {estado}
-                </Button>
-            </div>
-        );
-    }
+    const emails = (email)=>{
+            return(
+                <div style={{
+                    width:'10em',
+                    overflow: 'hidden', 
+                    whiteSpace: 'nowrap', 
+                    textOverflow: 'ellipsis'
+                }} >
+                    {email}
+                </div>
+            );
+        }
+    
     const opciones =  {
         //customAction: action,
+        selectableRows:"none",
         download:false, // boton para generar csv
         print:false,    // boton para generar pdf
         //display:false,
@@ -66,8 +52,12 @@ function definirOpciones(){
             }
         },
         setRowProps: (row, dataIndex, rowIndex) => {
-
-            row[row.length -1 ] = botones(row[row.length -2 ]);
+            let estado = row[row.length -3 ];
+            let rol = row[row.length -2 ] ;
+            row[row.length -1 ] = botoneraEstados(estado);
+            row[row.length -2 ] = roles[rol];
+            row[row.length -3 ] = iconoEstados(estado);
+            row[1] = emails(row[1]);
 
 
         },

@@ -51,15 +51,15 @@ const ListaUsuarios = ({datos}) => {
     }
 
     useEffect(()=>{
-        //setUsuarios(datos) 
-        getData()
+        setUsuarios(datos) 
+        //getData()
     },[])
 
 
 
     // 3 definimos columnas
     const columns =[
-        {   name:"id",
+        /*{   name:"id",
             label:"ID",
         },
         {
@@ -72,13 +72,37 @@ const ListaUsuarios = ({datos}) => {
         },
         {
         name: "Action"
-        },
-        /*
+        },*/
+
         {   name:"alias",
             label:"Alias",
         },
         {   name:"email",
             label:"Correo Electronico",
+            options: {
+                setCellProps: value => {
+                    return {
+                        style: {
+                            color:'red',
+                            width: '230px !important',
+                            // overflow: 'hidden',
+                            // whiteSpace: 'nowrap',
+                            // textOverflow: 'ellipsis'
+                        },
+                    };
+                },
+                setCellHeaderProps: value => {
+                    return{
+                        style: {
+                            color:'red',
+                            width: '230px !important',
+                            // overflow: 'hidden',
+                            // whiteSpace: 'nowrap',
+                            // textOverflow: 'ellipsis'
+                        },
+                    }
+                }
+            }
         },
         
         {   name:"name",
@@ -98,7 +122,10 @@ const ListaUsuarios = ({datos}) => {
         },
         {   name:"role",
             label:"Rol",
-        }*/
+        },
+        {
+            name: "Action"
+        }
         
     ]
     
