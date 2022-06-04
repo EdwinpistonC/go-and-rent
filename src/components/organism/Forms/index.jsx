@@ -58,7 +58,7 @@ export function FormRequestCode({ onBack, children, setFields }) {
               label="Email"
               {...register("email", {
                 validate: {
-                  requerido: (v) => v != "" || "Email es requerido",
+                  requerido: (v) => v !== "" || "Email es requerido",
                   email: (v) =>
                     String(v)
                       .toLowerCase()
@@ -72,7 +72,7 @@ export function FormRequestCode({ onBack, children, setFields }) {
             />
           </Grid>
           <Grid item sx={{ mt: 2, my: 2 }}>
-            {backendError != "" ? (
+            {backendError !== "" ? (
               <ErrorLabel>{backendError}</ErrorLabel>
             ) : (
               <EmptyLabel />
@@ -152,7 +152,7 @@ export function FormSendCode({ onBack, children, email, setFields }) {
               label="Codigo"
               {...register("codigo", {
                 validate: {
-                  requerido: (v) => v != "" || "Se requiere el codigo",
+                  requerido: (v) => v !== "" || "Se requiere el codigo",
                 },
               })}
               error={errors.codigo ? true : false}
@@ -161,7 +161,7 @@ export function FormSendCode({ onBack, children, email, setFields }) {
           </Grid>
           <Grid item sx={{ mt: 2, my: 2 }}>
             {children}
-            {backendError != "" ? (
+            {backendError !== "" ? (
               <ErrorLabel>{backendError}</ErrorLabel>
             ) : (
               <EmptyLabel />
@@ -249,7 +249,7 @@ export function FormChangePassword({
               label="Contraseña"
               {...register("contrasena1", {
                 validate: {
-                  requerido: (v) => v != "" || "Ingrese la contraseña",
+                  requerido: (v) => v !== "" || "Ingrese la contraseña",
                 },
               })}
               error={errors.contrasena1 ? true : false}
@@ -264,7 +264,7 @@ export function FormChangePassword({
               label="Repita Contraseña"
               {...register("contrasena2", {
                 validate: {
-                  requerido: (v) => v != "" || "Repita la contraseña",
+                  requerido: (v) => v !== "" || "Repita la contraseña",
                   iguales: (v) =>
                     v === watch("contrasena1") ||
                     "Las contraseñas no coinciden",
@@ -276,7 +276,7 @@ export function FormChangePassword({
           </Grid>
           <Grid item sx={{ mt: 2, my: 2 }}>
             {children}
-            {backendError != "" ? (
+            {backendError !== "" ? (
               <ErrorLabel>{backendError}</ErrorLabel>
             ) : (
               <EmptyLabel />
@@ -360,7 +360,7 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
               label="Contraseña Anterior"
               {...register("contrasenavieja", {
                 validate: {
-                  requerido: (v) => v != "" || "Ingrese su contraseña actual",
+                  requerido: (v) => v !== "" || "Ingrese su contraseña actual",
                 },
               })}
               error={errors.contrasenavieja ? true : false}
@@ -376,7 +376,7 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
               label="Contraseña"
               {...register("contrasena1", {
                 validate: {
-                  requerido: (v) => v != "" || "Ingrese la contraseña nueva ",
+                  requerido: (v) => v !== "" || "Ingrese la contraseña nueva ",
                 },
               })}
               error={errors.contrasena1 ? true : false}
@@ -391,7 +391,7 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
               label="Repita Contraseña"
               {...register("contrasena2", {
                 validate: {
-                  requerido: (v) => v != "" || "Repita la contraseña",
+                  requerido: (v) => v !== "" || "Repita la contraseña",
                   iguales: (v) =>
                     v === watch("contrasena1") ||
                     "Las contraseñas no coinciden",
@@ -403,7 +403,7 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
           </Grid>
           <Grid item sx={{ mt: 2, my: 2 }}>
             {children}
-            {backendError != "" ? (
+            {backendError !== "" ? (
               <ErrorLabel>{backendError}</ErrorLabel>
             ) : (
               <EmptyLabel />
@@ -535,7 +535,7 @@ export function FormEditUser({ onBack, children, setFields }) {
               label="Nombre"
               {...register("name", {
                 validate: {
-                  requerido: (v) => v != "" || "Ingrese el nombre",
+                  requerido: (v) => v !== "" || "Ingrese el nombre",
                 },
               })}
               error={errors.name ? true : false}
@@ -550,7 +550,7 @@ export function FormEditUser({ onBack, children, setFields }) {
               label="Apellido"
               {...register("lastName", {
                 validate: {
-                  requerido: (v) => v != "" || "Ingrese el apellido",
+                  requerido: (v) => v !== "" || "Ingrese el apellido",
                 },
               })}
               error={errors.lastName ? true : false}
@@ -574,7 +574,7 @@ export function FormEditUser({ onBack, children, setFields }) {
               label="Telefono"
               {...register("phone", {
                 validate: {
-                  requerido: (v) => v != "" || "Ingrese el telefono",
+                  requerido: (v) => v !== "" || "Ingrese el telefono",
                 },
               })}
               error={errors.phone ? true : false}
@@ -589,7 +589,7 @@ export function FormEditUser({ onBack, children, setFields }) {
               label="Alias"
               {...register("alias", {
                 validate: {
-                  requerido: (v) => v != "" || "Ingrese el alias",
+                  requerido: (v) => v !== "" || "Ingrese el alias",
                 },
               })}
               error={errors.alias ? true : false}
@@ -620,7 +620,7 @@ export function FormEditUser({ onBack, children, setFields }) {
         </Grid>
         <Grid item sx={{ mt: 2, my: 2 }}>
           {children}
-          {backendError != "" ? (
+          {backendError !== "" ? (
             <ErrorLabel>{backendError}</ErrorLabel>
           ) : (
             <EmptyLabel />

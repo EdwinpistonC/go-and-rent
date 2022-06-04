@@ -1,7 +1,6 @@
 import React from "react";
 
 import Logo from "components/atom/Logo";
-import Busqueda from "components/atom/Busqueda";
 import HeaderMenu from "components/molecule/HeaderMenu";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +12,7 @@ import { useLocalStorage } from "Hooks/LocalStoreHook";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { ModalSmall } from "components/atom/Modal";
-import SideBarMenu, { SideBarFilter } from "../SideBarMenu";
+import SideBarMenu from "../SideBarMenu";
 
 import GoogleMap from "components/atom/Googlemap";
 
@@ -44,6 +43,7 @@ const registerH = async function (
 export default function Header({ busqueda, setBusqueda }) {
   const navegar = useNavigate();
   const backend = new Api();
+
   /* 
   Cerrar sesion
   */
@@ -97,7 +97,7 @@ export default function Header({ busqueda, setBusqueda }) {
         </Stack>
       </ModalSmall>
       <Logo />
-      <GoogleMap setInput={setBusqueda} input={busqueda}></GoogleMap>
+      <GoogleMap></GoogleMap>
       {/* <Busqueda setInput={setBusqueda} input={busqueda}></Busqueda> */}
       <HeaderMenu
         rol={usuario.rol}

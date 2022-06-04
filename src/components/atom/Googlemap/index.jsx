@@ -1,9 +1,15 @@
 import React from "react";
-import Autocomplete from "react-google-autocomplete";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { BusquedaContainer } from "./StyledComponents";
+import { useLocalStorage, DefaultBusqueda } from "Hooks/LocalStoreHook";
 
-export default function GoogleMap({ setInput, input }) {
+export default function GoogleMap() {
+  const [busqueda, , setBusqueda] = useLocalStorage(
+    "busqueda",
+    DefaultBusqueda
+  );
+  let mapVal = busqueda.place;
+
   return (
     <BusquedaContainer>
       <GooglePlacesAutocomplete
@@ -13,6 +19,7 @@ export default function GoogleMap({ setInput, input }) {
         getOptionValue={({ value }) => console.log(value)}
         apiKey={process.env.REACT_APP_API_GOOGLEMAP}
         apiOptions={{ language: "es", region: "es" }}
+        types={"geocode"}
         autocompletionRequest={{
           bounds: [
             { lat: 50, lng: 50 },
@@ -20,8 +27,10 @@ export default function GoogleMap({ setInput, input }) {
           ],
         }}
         selectProps={{
-          input,
-          onChange: setInput,
+          mapVal,
+          onChange: (e) => {
+            setBusqueda("place", e);
+          },
         }}
       />
     </BusquedaContainer>

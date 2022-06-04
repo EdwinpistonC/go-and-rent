@@ -19,6 +19,17 @@ export const TextfieldBase = styled(TextField)`
   }
 `;
 
+export const TextfieldSm = styled(TextField)`
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border-color: #2699fb;
+    }
+    &.Mui-focused fieldset {
+      border-color: #158ef8;
+    }
+  }
+`;
+
 export const CustomOutilinedInput = styled(OutlinedInput)(`
   & .${outlinedInputClasses.notchedOutline} {
     border-color: ${customColors.primary};
