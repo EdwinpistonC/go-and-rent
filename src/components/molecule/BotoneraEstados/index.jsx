@@ -3,8 +3,8 @@ import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 
-export default function botoneraEstados(estado){
-    const botonAceptar =(estado)=>{
+export default function botoneraEstados(estado,alias){
+    const botonAceptar =(estado,alias)=>{
         if(estado == 'ESPERANDO'){
             return(
 
@@ -26,7 +26,7 @@ export default function botoneraEstados(estado){
         return (<></>);
     };
 
-    const botonBloquear =(estado)=>{
+    const botonBloquear =(estado,alias)=>{
         if(estado == 'ACEPTADO'){
             return(
                 <Button
@@ -45,7 +45,7 @@ export default function botoneraEstados(estado){
         return (<></>);
     };
 
-    const botonDesloquear =(estado)=>{
+    const botonDesloquear =(estado,alias)=>{
         if(estado == 'BLOQUEADO'){
             return(
                 <Button
@@ -63,7 +63,7 @@ export default function botoneraEstados(estado){
         }
         return (<></>);
     };
-    const botonEliminar =(estado)=>{
+    const botonEliminar =(estado,alias)=>{
         if(estado == 'ACEPTADO'){
             return(
                 <Button
@@ -81,7 +81,7 @@ export default function botoneraEstados(estado){
         }
         return (<></>);
     };
-    const botonRechazar =(estado)=>{
+    const botonRechazar =(estado,alias)=>{
         if(estado == 'ESPERANDO'){
             return(
                 <Button
@@ -102,11 +102,11 @@ export default function botoneraEstados(estado){
     };
     return(
         <div>
-            {botonAceptar(estado)}
-            {botonBloquear(estado)}
-            {botonDesloquear(estado)}
-            {botonEliminar(estado)}
-            {botonRechazar(estado)}
+            {botonAceptar(estado,alias)}
+            {botonBloquear(estado,alias)}
+            {botonDesloquear(estado,alias)}
+            {botonEliminar(estado,alias)}
+            {botonRechazar(estado,alias)}
         </div>
     );
 

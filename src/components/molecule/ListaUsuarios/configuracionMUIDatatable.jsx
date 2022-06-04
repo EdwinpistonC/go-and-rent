@@ -54,7 +54,7 @@ function definirOpciones(){
         setRowProps: (row, dataIndex, rowIndex) => {
             let estado = row[row.length -3 ];
             let rol = row[row.length -2 ] ;
-            row[row.length -1 ] = botoneraEstados(estado);
+            row[row.length -1 ] = botoneraEstados(estado,row[0]);
             row[row.length -2 ] = roles[rol];
             row[row.length -3 ] = iconoEstados(estado);
             row[1] = emails(row[1]);

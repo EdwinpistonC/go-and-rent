@@ -78,31 +78,7 @@ const ListaUsuarios = ({datos}) => {
             label:"Alias",
         },
         {   name:"email",
-            label:"Correo Electronico",
-            options: {
-                setCellProps: value => {
-                    return {
-                        style: {
-                            color:'red',
-                            width: '230px !important',
-                            // overflow: 'hidden',
-                            // whiteSpace: 'nowrap',
-                            // textOverflow: 'ellipsis'
-                        },
-                    };
-                },
-                setCellHeaderProps: value => {
-                    return{
-                        style: {
-                            color:'red',
-                            width: '230px !important',
-                            // overflow: 'hidden',
-                            // whiteSpace: 'nowrap',
-                            // textOverflow: 'ellipsis'
-                        },
-                    }
-                }
-            }
+            label:"Correo electrónico",
         },
         
         {   name:"name",
@@ -124,7 +100,7 @@ const ListaUsuarios = ({datos}) => {
             label:"Rol",
         },
         {
-            name: "Action"
+            name: "Acciones"
         }
         
     ]
