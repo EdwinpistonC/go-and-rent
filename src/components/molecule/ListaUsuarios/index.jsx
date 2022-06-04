@@ -14,7 +14,7 @@ import {definirOpciones} from "./configuracionMUIDatatable"
 
 
 
-const ListaUsuarios = () => {
+const ListaUsuarios = ({datos}) => {
     // 1 - configuramos los hooks
     
 
@@ -33,7 +33,8 @@ const ListaUsuarios = () => {
     }
 
     useEffect(()=>{
-        getData()
+        //setUsuarios(datos) 
+         //getData()
     },[])
 
     // 3 definimos columnas
