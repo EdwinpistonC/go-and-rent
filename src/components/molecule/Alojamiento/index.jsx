@@ -10,7 +10,12 @@ import Image from "resources/images/puntadeleste.jpg";
 export default function Alojamiento({ data }) {
   return (
     <Card sx={{ maxWidth: "100%" }}>
-      <CardMedia component="img" height="140" src={Image} alt="green iguana" />
+      <CardMedia
+        component="img"
+        height="140"
+        src={"https://prueba-roles.s3.amazonaws.com/" + data.photo}
+        alt="green iguana"
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {data.name}
