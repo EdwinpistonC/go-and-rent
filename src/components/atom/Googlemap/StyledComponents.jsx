@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 
 const BusquedaContainer = styled("div")`
   flex: none;
-
   order: 1;
   flex-grow: 1;
 `;

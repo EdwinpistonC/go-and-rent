@@ -25,6 +25,7 @@ export default class Api {
     let headers = header;
     if (this.api_token && this.api_token !== "") {
       headers.Authorization = `Bearer ${this.api_token}`;
+      console.log( headers.Authorization);
     }
     this.client = axios.create({
       baseURL: this.api_url,
@@ -53,20 +54,13 @@ export default class Api {
   changePassword = (email, data) => {
     return this.init().post("auth/recover/change-password/" + email, data);
   };
-  changePasswordProfile = (email, data) => {
-    //TODO falta en el back
-    //return this.init().post("auth/recover/change-password/" + email, data);
-  };
-  editUserProfile = (data) => {
-    return this.init().post("user/update-profile", data);
-  };
-
   hostCreate = (data) => {
     return this.init({ "Content-Type": "multipart/form-data" }).post(
       "auth/signup/host",
       data
     );
   };
+  
   profile = (data) => {
     let usuario = JSON.parse(localStorage.getItem("usuario"));
 
@@ -131,4 +125,9 @@ export default class Api {
       data
     );
   };
+
+  listadoUsuarios = () => {
+    return this.init().get("admin/users");
+  };
+
 }

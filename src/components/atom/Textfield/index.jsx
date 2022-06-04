@@ -10,6 +10,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker as MaterialDatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TextfieldBase, CustomOutilinedInput, TextfieldSm } from "./style";
 
+
 export const TextField = React.forwardRef(
   (
     { theme, label = "Outlined", children = "Default", onClick, ...props },
@@ -48,6 +49,7 @@ const TextFieldSmall = React.forwardRef(
     );
   }
 );
+
 const FormTextfield = ({
   error = "",
   onChange = () => {},
@@ -71,7 +73,6 @@ const FormTextfield = ({
     ></TextField>
   );
 };
-
 const PasswordTextfield = ({
   id = "",
   nombre = "defecto",

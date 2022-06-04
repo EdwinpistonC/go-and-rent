@@ -4,6 +4,7 @@ import { useGlobalState } from "Hooks/GlobalHook";
 import { useLocation } from "react-router-dom";
 
 export default function Busqueda() {
+
   const [state, dispatch] = useGlobalState();
   const location = useLocation();
   return (
@@ -20,6 +21,7 @@ export default function Busqueda() {
           }
         }} //setInput(e.target.value)}
       ></Input>
+
     </BusquedaContainer>
   );
 }
