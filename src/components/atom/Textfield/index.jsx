@@ -5,50 +5,30 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+import { TextfieldBase, CustomOutilinedInput } from "./style";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker as MaterialDatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TextfieldBase, CustomOutilinedInput, TextfieldSm } from "./style";
 
-
-export const TextField = React.forwardRef(
-  (
-    { theme, label = "Outlined", children = "Default", onClick, ...props },
-    ref
-  ) => {
-    return (
-      <TextfieldBase
-        onClick={onClick}
-        theme={theme}
-        label={label}
-        variant="outlined"
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </TextfieldBase>
-    );
-  }
-);
-const TextFieldSmall = React.forwardRef(
-  (
-    { theme, label = "Outlined", children = "Default", onClick, ...props },
-    ref
-  ) => {
-    return (
-      <TextfieldSm
-        onClick={onClick}
-        theme={theme}
-        label={label}
-        variant="outlined"
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </TextfieldSm>
-    );
-  }
-);
+const TextField = ({
+  theme,
+  label = "Outlined",
+  children = "Default",
+  onClick,
+  ...props
+}) => {
+  return (
+    <TextfieldBase
+      {...props}
+      onClick={onClick}
+      theme={theme}
+      label={label}
+      variant="outlined"
+    >
+      {children}
+    </TextfieldBase>
+  );
+};
 
 const FormTextfield = ({
   error = "",
@@ -162,10 +142,4 @@ const DatePicker = ({ label = "Outlined", fecha, onChange }) => {
   );
 };
 
-export {
-  IconTextField,
-  FormTextfield,
-  PasswordTextfield,
-  DatePicker,
-  TextFieldSmall,
-};
+export { IconTextField, FormTextfield, PasswordTextfield, DatePicker };

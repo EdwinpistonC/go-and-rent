@@ -23,7 +23,7 @@ export const Page = styled.div`
     margin: auto;
     height: 100vh;
     ${({ backgroundImg }) =>
-      backgroundImg !== "" &&
+      backgroundImg != "" &&
       `
     background-image: url(${backgroundImg});
     background-size: cover;

@@ -212,7 +212,7 @@ export default function RegisterAdmin({ submit }) {
               </Avatar>
             </IconButton>
           </Grid>
-          {apiError !== "" ? (
+          {apiError != "" ? (
             <ErrorLabel>{apiError}</ErrorLabel>
           ) : (
             <EmptyLabel />

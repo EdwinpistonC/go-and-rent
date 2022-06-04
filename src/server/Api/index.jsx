@@ -1,5 +1,13 @@
 import axios from "axios";
-import { parseParams } from "components/util/functions";
+
+/*
+
+const [token, setToken] = useLocalStorage("token", "");
+const [alias, setAlias] = useLocalStorage("alias", "");
+const [nombre, setNombre] = useLocalStorage("nombre", "");
+const [rol, setRol] = useLocalStorage("rol", "");
+
+*/
 
 export default class Api {
   constructor() {
@@ -8,7 +16,7 @@ export default class Api {
     let usuario = JSON.parse(localStorage.getItem("usuario"));
     let token = null;
     if (
-      usuario !== null &&
+      usuario != null &&
       typeof usuario === "object" &&
       usuario.hasOwnProperty("token")
     ) {
@@ -59,41 +67,6 @@ export default class Api {
       data
     );
   };
-  
-  profile = (data) => {
-    let usuario = JSON.parse(localStorage.getItem("usuario"));
-
-    let alias = null;
-    if (
-      usuario !== null &&
-      typeof usuario === "object" &&
-      usuario.hasOwnProperty("alias")
-    ) {
-      alias = usuario.alias;
-    }
-    return this.init({ "Content-Type": "multipart/form-data" }).get(
-      "user/profile/" + alias,
-      data
-    );
-  };
-  filter = async (params) => {
-    /* return await this.init({ "Content-Type": "multipart/form-data" }).get(
-      "/data/accommodation/search" + alias,
-      data
-    );
-
-    */
-    try {
-      const response = await axios.get(
-        process.env.REACT_APP_API_ENDPOINT + "data/accommodation/search",
-        { params, paramsSerializer: (params) => parseParams(params) }
-      );
-      return response.data.accommodations;
-    } catch (e) {
-      console.log(e.response);
-    }
-  };
-
   features = () => {
     return this.init().get("data/features");
   };
@@ -101,7 +74,7 @@ export default class Api {
     let usuario = JSON.parse(localStorage.getItem("usuario"));
     let alias = null;
     if (
-      usuario !== null &&
+      usuario != null &&
       typeof usuario === "object" &&
       usuario.hasOwnProperty("alias")
     ) {

@@ -113,7 +113,7 @@ export default function LoginModal({
                 nombre="Contraseña"
               />
             </InputsContainer>
-            {apiError !== "" ? (
+            {apiError != "" ? (
               <ErrorLabel>{apiError}</ErrorLabel>
             ) : (
               <EmptyLabel />
@@ -385,7 +385,7 @@ export function RegistroHModal({
                   </Avatar>
                 </IconButton>
               </Grid>
-              {apiError !== "" ? (
+              {apiError != "" ? (
                 <ErrorLabel>{apiError}</ErrorLabel>
               ) : (
                 <EmptyLabel />
@@ -608,7 +608,7 @@ export function RegistroAModal({
                     </Avatar>
                   </IconButton>
                 </Grid>
-                {apiError !== "" ? (
+                {apiError != "" ? (
                   <ErrorLabel>{apiError}</ErrorLabel>
                 ) : (
                   <EmptyLabel />

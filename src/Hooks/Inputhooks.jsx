@@ -26,7 +26,7 @@ function useInputFormHook(errors) {
   const [value, setValue] = useState("");
   const controlInput = (e = "") => {
     setError("");
-    if (e !== "" && e.target.value !== "") {
+    if (e != "" && e.target.value != "") {
       if (errors.hasOwnProperty("numero")) {
         if (/\d/.test(e.target.value)) {
           setError(errors.numero.msg);
