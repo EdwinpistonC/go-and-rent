@@ -32,6 +32,7 @@ export default class Api {
     let headers = header;
     if (this.api_token && this.api_token !== "") {
       headers.Authorization = `Bearer ${this.api_token}`;
+      console.log( headers.Authorization);
     }
     this.client = axios.create({
       baseURL: this.api_url,

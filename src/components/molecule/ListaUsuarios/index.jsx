@@ -11,13 +11,31 @@ import { set } from "date-fns";
 import {MUIDataTableStyled} from "./style"
 
 import {definirOpciones} from "./configuracionMUIDatatable"
+import { tooltip } from "leaflet";
 
-
+import {button,
+    Link
+  } from "react-router-dom";
 
 const ListaUsuarios = ({datos}) => {
     // 1 - configuramos los hooks
     
-
+    // {
+    //     usuarios: [
+    //       {
+    //       "alias": "",
+    //       "email": "",
+    //       "password": "",
+    //       "name": "",
+    //       "lastName": "",
+    //       "phone": "",
+    //       "creationDate": "",
+    //       "status": "",
+    //       "role": "",
+    //       "rating": ""
+    //       }, {...}
+    //     ]
+    //   }
     const[usuarios,setUsuarios]= useState([]);
 
     // 2 funcion para mostrar datos con axios
@@ -34,8 +52,10 @@ const ListaUsuarios = ({datos}) => {
 
     useEffect(()=>{
         //setUsuarios(datos) 
-         //getData()
+        getData()
     },[])
+
+
 
     // 3 definimos columnas
     const columns =[
@@ -48,13 +68,44 @@ const ListaUsuarios = ({datos}) => {
         },
         {
             name:"username",
-            label:"Usuario"
-        }
+            label:"Usuario",
+        },
+        {
+        name: "Action"
+        },
+        /*
+        {   name:"alias",
+            label:"Alias",
+        },
+        {   name:"email",
+            label:"Correo Electronico",
+        },
+        
+        {   name:"name",
+            label:"Nombre",
+        },
+        {   name:"lastName",
+            label:"Apellido",
+        },
+        {   name:"phone",
+            label:"Teléfono",
+        },
+        {   name:"creationDate",
+            label:"Fecha de alta",
+        },
+        {   name:"status",
+            label:"Estado",
+        },
+        {   name:"role",
+            label:"Rol",
+        }*/
+        
     ]
     
 
     // 4 - mostramos datos
-    return(                                      
+    return(  
+                                            
             <MUIDataTableStyled 
                 title={"Lista Usuarios"}
                 data={usuarios}
