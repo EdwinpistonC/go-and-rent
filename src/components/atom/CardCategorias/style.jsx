@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { styled as materialStyle } from "@mui/system";
 import TextField from "@mui/material/TextField";
 
-const BusquedaContainer = styled("div")`
+const BusquedaContainer = styled("a")`
   flex: none;
 
   order: 1;

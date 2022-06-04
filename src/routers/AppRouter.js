@@ -16,7 +16,6 @@ import CreateHousing from "pages/CreateHousing";
 import HostHousing from "pages/HostRegister";
 import Profile from "pages/Profile";
 import HomePage from "pages/Home";
-import TestPage from "pages/Test";
 import ChangePassword from "pages/ChangePassword";
 import { RouterContainer, Container } from "./StyledComponents";
 import DetalleAlojamiento from "pages/DetalleAlojamiento";
@@ -38,7 +37,6 @@ export const AppRouter = ({ children }) => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/test" element={<TestPage />} />
           <Route path="/registrar-anfitrion" element={<HostHousing />} />
 
           <Route path="/perfil" element={<Profile />}></Route>
