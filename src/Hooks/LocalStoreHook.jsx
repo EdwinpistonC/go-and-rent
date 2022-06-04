@@ -60,25 +60,12 @@ function getStorageValue(key, defaultValue) {
 }
 
 export const useLocalStorage = (key, defaultValue) => {
-  const navegar = useNavigate();
-
   const [value, setValue] = useState(() => {
     return getStorageValue(key, defaultValue);
   });
 
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value));
-    console.log(DefaultBusqueda);
-    console.log(value);
-    if (key === "busqueda") {
-      console.log(DefaultBusqueda);
-      console.log(value);
-    }
-    if (key === "busqueda" && Busqueda.place.label !== value.place.label) {
-      console.log("viaja");
-
-      navegar("/busqueda");
-    }
   }, [key, value]);
 
   return [

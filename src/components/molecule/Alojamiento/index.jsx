@@ -6,10 +6,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Image from "resources/images/puntadeleste.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function Alojamiento({ data }) {
+  const navegar = useNavigate();
+
   return (
-    <Card sx={{ maxWidth: "100%" }}>
+    <Card
+      sx={{ maxWidth: "100%" }}
+      onClick={() => navegar("/detalles/" + data.id)}
+    >
       <CardMedia
         component="img"
         height="140"
