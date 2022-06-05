@@ -56,10 +56,14 @@ export default class Api {
   };
   changePasswordProfile = (email, data) => {
     //TODO falta en el back
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    console.log(usuario);
     //return this.init().post("auth/recover/change-password/" + email, data);
   };
-  editUserProfile = (data) => {
-    return this.init().post("user/update-profile", data);
+  editUserProfile = async (data) => {
+    let resultado = await this.init().put("user/update-profile", data);
+
+    return [resultado.data, resultado.status];
   };
 
   hostCreate = (data) => {
@@ -134,5 +138,19 @@ export default class Api {
   };
   listadoUsuarios = () => {
     return this.init().get("admin/users");
+  };
+  alojamientosAnfitrion = async () => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    let resultado = await this.init().get("hosts/accommodation/list/" + alias);
+
+    return resultado.data;
   };
 }

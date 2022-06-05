@@ -104,6 +104,7 @@ export default function Header({ busqueda, setBusqueda }) {
         onIniciar={abrirInicioH}
         onCrear={abrirRegistroH}
         onCerrar={handleOpen}
+        onReserva={() => navegar("/reservas")}
         onPerfil={() => navegar("/perfil")}
       >
         {/* Huésped */}

@@ -177,7 +177,7 @@ export default function NewHousing({ submit }) {
               <FormTextfield
                 id="locStreet"
                 onChange={handleFieldChange}
-                nombre="Nombre del alojamiento"
+                nombre="Calles"
               ></FormTextfield>
             </Grid>
 
@@ -185,7 +185,7 @@ export default function NewHousing({ submit }) {
               <FormTextfield
                 id="locDoorNumber"
                 onChange={handleFieldChange}
-                nombre="Nombre del alojamiento"
+                nombre="Numero de puerta"
                 number
               ></FormTextfield>
             </Grid>
