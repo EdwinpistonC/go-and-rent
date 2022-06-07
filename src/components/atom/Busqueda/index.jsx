@@ -23,3 +23,20 @@ export default function Busqueda() {
     </BusquedaContainer>
   );
 }
+export function BusquedaField({ setValor }) {
+  const [state, dispatch] = useGlobalState();
+  return (
+    <BusquedaContainer>
+      <Input
+        fullWidth
+        value={state.busqueda}
+        onChange={(e) => {
+          alert("modifica");
+
+          dispatch({ busqueda: e.target.value });
+          setValor(e.target);
+        }} //setInput(e.target.value)}
+      ></Input>
+    </BusquedaContainer>
+  );
+}
