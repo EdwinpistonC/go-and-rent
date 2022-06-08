@@ -15,60 +15,8 @@ import { tooltip } from "leaflet";
 import { button, Link } from "react-router-dom";
 
 const ListaUsuarios = ({ datos }) => {
-  // 1 - configuramos los hooks
-
-  // {
-  //     usuarios: [
-  //       {
-  //       "alias": "",
-  //       "email": "",
-  //       "password": "",
-  //       "name": "",
-  //       "lastName": "",
-  //       "phone": "",
-  //       "creationDate": "",
-  //       "status": "",
-  //       "role": "",
-  //       "rating": ""
-  //       }, {...}
-  //     ]
-  //   }
-  const [usuarios, setUsuarios] = useState([]);
-
-  // 2 funcion para mostrar datos con axios
-  const endponit = "https://fakestoreapi.com/users";
-
-  const getData = async () => {
-    await axios.get(endponit).then((response) => {
-      const data = response.data;
-      //const data = []
-      //console.log(data)
-      setUsuarios(data);
-    });
-  };
-
-  useEffect(() => {
-    setUsuarios(datos);
-    //getData()
-  }, []);
-
-  // 3 definimos columnas
+  //  definimos columnas
   const columns = [
-    /*{   name:"id",
-            label:"ID",
-        },
-        {
-            name:"email",
-            label:"Correo Electronico",
-        },
-        {
-            name:"username",
-            label:"Usuario",
-        },
-        {
-        name: "Action"
-        },*/
-
     { name: "alias", label: "Alias" },
     {
       name: "email",
@@ -110,11 +58,11 @@ const ListaUsuarios = ({ datos }) => {
     },
   ];
 
-  // 4 - mostramos datos
+  //  mostramos datos
   return (
     <MUIDataTableStyled
       title={"Lista Usuarios"}
-      data={usuarios}
+      data={datos}
       columns={columns}
       options={definirOpciones()}
     />
