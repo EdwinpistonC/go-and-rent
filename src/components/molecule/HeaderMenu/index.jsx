@@ -10,9 +10,7 @@ export default function HeaderMenu({
   onCrear,
   onIniciar,
   rol,
-  alert = () => {
-    alert("default");
-  },
+
   messages = () => {
     alert("default");
   },
@@ -22,6 +20,9 @@ export default function HeaderMenu({
   onPerfil = () => {
     alert("default");
   },
+  onReserva = () => {
+    alert("default");
+  },
 }) {
   if (rol == "ROLE_GUEST") {
     return (
@@ -29,7 +30,7 @@ export default function HeaderMenu({
         {children}
         <Alert />
         <Messages />
-        <Bookings />
+        <Bookings onClick={onReserva} />
         <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil
         </Item>
@@ -60,7 +61,7 @@ export default function HeaderMenu({
       <MenuContainer>
         <Alert />
         <Messages />
-        <Bookings />
+        <Bookings onClick={onReserva} />
         <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil
         </Item>

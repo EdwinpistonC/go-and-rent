@@ -11,7 +11,7 @@ import {
   PasswordTextfield,
   DatePicker,
 } from "components/atom/Textfield";
-import { Grid } from "@mui/material";
+import { Grid, MenuItem, FormControl, InputLabel } from "@mui/material";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import Avatar from "@mui/material/Avatar";
 import { green, pink, red } from "@mui/material/colors";
@@ -25,6 +25,8 @@ import {
   ErrorLabel,
   EmptyLabel,
 } from "components/organism/FormModal/StyledComponents";
+import { BusquedaField } from "components/atom/Busqueda";
+import Select from "@mui/material/Select";
 
 const steps = [
   "Información del usuario",
@@ -56,12 +58,16 @@ export default function RegisterHost({ submit }) {
     accDescription: [],
     bank: "",
     account: "",
+    usuarioRegistrado: false,
   });
   const [servicios, setServicios] = React.useState([]);
   const [caracteristicas, setCaracteristicas] = React.useState([]);
 
   const callSubmit = () => {
-    alert("hola");
+    console.log(fields.fechaNacimiento);
+    console.log(new Date(fields.fechaNacimiento));
+
+    console.log(formatDate(new Date(fields.fechaNacimiento)));
 
     submit(
       fields.alias,
@@ -71,7 +77,7 @@ export default function RegisterHost({ submit }) {
       fields.nombre,
       fields.telefono,
       fields.avatar,
-      formatDate(fields.fechaNacimiento),
+      formatDate(new Date(fields.fechaNacimiento)),
       fields.bank,
       fields.account,
       fields.locCoordinates,
@@ -94,6 +100,8 @@ export default function RegisterHost({ submit }) {
         console.log(err.response);
         if (err.response.status === 401) {
           changeField("apiError", "Datos incorrectos");
+        } else {
+          changeField("apiError", err.response.data);
         }
       });
   };
@@ -202,12 +210,30 @@ export default function RegisterHost({ submit }) {
                     />
                   </Grid>
                   <Grid item xs>
-                    <FormTextfield
-                      id="bank"
-                      onChange={handleFieldChange}
-                      nombre="Banco"
-                      value={fields.bank}
-                    />
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Banco
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-autowidth-label"
+                        id="bank"
+                        name="bank"
+                        value={fields.bank}
+                        onChange={(e) => {
+                          console.log(e.target.value);
+                          changeField("bank", e.target.value);
+                        }}
+                        fullWidth
+                        label="Banco"
+                      >
+                        <MenuItem value={"SANTANDER"}>SANTANDER</MenuItem>
+                        <MenuItem value={"BROU"}>BROU</MenuItem>
+                        <MenuItem value={"BBVA"}>BBVA</MenuItem>
+                        <MenuItem value={"ITAU"}>ITAU</MenuItem>
+                        <MenuItem value={"SCOTIABANK"}>SCOTIABANK</MenuItem>
+                        <MenuItem value={"HSBC"}>HSBC</MenuItem>
+                      </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs>
                     <FormTextfield
@@ -241,7 +267,10 @@ export default function RegisterHost({ submit }) {
                       id="fechaNacimiento"
                       label="Fecha de nacimiento"
                       fecha={fields.fechaNacimiento}
+                      format="DD/MM/YYYY"
+                      minDate={new Date("1/1/2004").toString()}
                       onChange={(e) => {
+                        console.log(e);
                         changeField("fechaNacimiento", e);
                       }}
                       value={fields.fechaNacimiento}
@@ -288,11 +317,6 @@ export default function RegisterHost({ submit }) {
                       </Avatar>
                     </IconButton>
                   </Grid>
-                  {fields.apiError !== "" ? (
-                    <ErrorLabel>{fields.apiError}</ErrorLabel>
-                  ) : (
-                    <EmptyLabel />
-                  )}
                 </Grid>
               </Grid>
             </Box>
@@ -343,82 +367,93 @@ export default function RegisterHost({ submit }) {
         marginBottom: "auto",
       }}
     >
-      <Box
-        sx={{
-          width: "80%",
-          height: "100%",
-          minHeight: "50vh",
-          marginTop: 0,
-          alignContent: "center",
-          margin: "auto",
-        }}
-      >
-        <Stepper activeStep={fields.activeStep}>
-          {steps.map((label, index) => {
-            const stepProps = {};
-            const labelProps = {};
-            if (isStepOptional(index)) {
-              labelProps.optional = (
-                <Typography variant="caption">Optional</Typography>
-              );
-            }
-            if (isStepSkipped(index)) {
-              stepProps.completed = false;
-            }
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        {fields.activeStep === steps.length ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleReset}>Reset</Button>
-            </Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            {renderSwitch(fields.activeStep)}
+      {fields.usuarioRegistrado ? (
+        <Typography></Typography>
+      ) : (
+        <>
+          <Box
+            sx={{
+              width: "80%",
+              height: "100%",
+              minHeight: "50vh",
+              marginTop: 0,
+              alignContent: "center",
+              margin: "auto",
+            }}
+          >
+            <Stepper activeStep={fields.activeStep}>
+              {steps.map((label, index) => {
+                const stepProps = {};
+                const labelProps = {};
+                if (isStepOptional(index)) {
+                  labelProps.optional = (
+                    <Typography variant="caption">Optional</Typography>
+                  );
+                }
+                if (isStepSkipped(index)) {
+                  stepProps.completed = false;
+                }
+                return (
+                  <Step key={label} {...stepProps}>
+                    <StepLabel {...labelProps}>{label}</StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+            {fields.activeStep === steps.length ? (
+              <React.Fragment>
+                <Typography sx={{ mt: 2, mb: 1 }}>
+                  All steps completed - you&apos;re finished
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button onClick={handleReset}>Reset</Button>
+                </Box>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                {renderSwitch(fields.activeStep)}
 
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-                color="inherit"
-                disabled={fields.activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Volver
-              </Button>
-              <Box sx={{ flex: "1 1 auto" }} />
-              {isStepOptional(fields.activeStep) && (
-                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                  Saltar
-                </Button>
-              )}
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Button
+                    color="inherit"
+                    disabled={fields.activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Volver
+                  </Button>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  {isStepOptional(fields.activeStep) && (
+                    <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                      Saltar
+                    </Button>
+                  )}
+                  {fields.apiError !== "" ? (
+                    <ErrorLabel>{fields.apiError}</ErrorLabel>
+                  ) : (
+                    <EmptyLabel />
+                  )}
 
-              {fields.activeStep === steps.length - 1 ? (
-                <Button onClick={callSubmit}> Finalizar</Button>
-              ) : (
-                <Button onClick={handleNext}> Siguiente</Button>
-              )}
-            </Box>
-          </React.Fragment>
-        )}
-      </Box>
-      <Box
-        sx={{
-          width: "100%",
-          height: "fit-content",
-          top: 0,
-          alignContent: "center",
-        }}
-      ></Box>
+                  {fields.activeStep === steps.length - 1 ? (
+                    <Button onClick={callSubmit}> Finalizar</Button>
+                  ) : (
+                    <Button onClick={handleNext}> Siguiente</Button>
+                  )}
+                </Box>
+              </React.Fragment>
+            )}
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: "fit-content",
+              top: 0,
+              alignContent: "center",
+            }}
+          ></Box>
+        </>
+      )}
     </Box>
   );
 }
