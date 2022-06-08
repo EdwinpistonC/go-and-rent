@@ -20,6 +20,9 @@ export default function Busqueda() {
     caracteristicas
   ) => {
     console.log(place.value);
+    if (typeof place.value === "undefined") {
+      return;
+    }
     let country = place.value.terms[0];
     let province = place.value.terms[0];
     let city = place.value.terms[0];
@@ -35,6 +38,24 @@ export default function Busqueda() {
 
     city = "Solymar";
 
+    let serviciosApi = [];
+    servicios.map(function (servicio) {
+      if (servicio.valor) {
+        serviciosApi.append(servicio.id);
+      }
+    });
+    let caracteristicaApi = [];
+    caracteristicas.map(function (caracteristica) {
+      if (caracteristica.cantidad > 0) {
+        caracteristicaApi.append(
+          caracteristica.id + "-" + caracteristica.cantidad
+        );
+      }
+    });
+    console.log(serviciosApi);
+
+    console.log(caracteristicaApi);
+
     const resultado = await api.filter({
       city: city,
       country: country,
@@ -43,8 +64,8 @@ export default function Busqueda() {
       priceTo: 10000000,
       dateFrom: "01/08/1993",
       dateTo: "01/08/2030",
-      features: ["4-2"],
-      services: [1],
+      features: caracteristicaApi,
+      services: serviciosApi,
     });
     setAlojamientos(resultado);
     console.log(resultado);
@@ -57,6 +78,7 @@ export default function Busqueda() {
       justifyContent="flex-start"
       alignItems="stretch"
       spacing={2}
+      columns={2}
     >
       <Grid item>
         <Container
@@ -68,6 +90,7 @@ export default function Busqueda() {
             marginTop: "-10px",
             marginBottom: "-10px",
           }}
+          xs
         >
           <SideBarFilter filtrar={filtrar} />
         </Container>

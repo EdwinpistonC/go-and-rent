@@ -153,4 +153,25 @@ export default class Api {
 
     return resultado.data;
   };
+
+  listadoReservas = async () => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    let resultado = await this.init().get(
+      "hosts/bookings/" + alias + "?nroPag=0&cantReg=100"
+    );
+
+    return resultado.data;
+  };
+  booking = async (data) => {
+    let resultado = await this.init().post("booking/guest/confirm", data);
+    return resultado.data;
+  };
 }

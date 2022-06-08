@@ -184,6 +184,7 @@ export function SideBarFilter({ filtrar }) {
             <DateRange
               editableDateInputs={true}
               locale={locales["es"]}
+              key="datefilter"
               onChange={(ranges) => {
                 //console.log(item);
                 console.log(ranges);
@@ -201,12 +202,13 @@ export function SideBarFilter({ filtrar }) {
               alignItems="flex-start"
               spacing={2}
               columns={27}
+              key="serviciosfilter"
             >
               {fields.servicios &&
                 fields.servicios.length > 0 &&
                 fields.servicios.map(function renderFields(servicio, index) {
                   return (
-                    <Grid item xs={7}>
+                    <Grid item xs={7} key={"serviciosGrid" + index}>
                       <FormControlLabel
                         key={"servicio" + index}
                         control={
@@ -237,17 +239,17 @@ export function SideBarFilter({ filtrar }) {
               alignItems="flex-start"
               spacing={2}
               columns={3}
+              key="caracteristicasfilter"
             >
-              {fields.servicios &&
+              {fields.caracteristicas &&
                 fields.caracteristicas.length > 0 &&
                 fields.caracteristicas.map(function renderFields(
                   caracteristica,
                   index
                 ) {
                   return (
-                    <Grid item xs>
+                    <Grid item xs key={"caracteristicaGrid" + index}>
                       <TextFieldSmall
-                        zeroMinWidth
                         xs={{
                           width: "100px",
                         }}

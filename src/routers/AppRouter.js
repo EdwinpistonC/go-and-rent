@@ -20,7 +20,9 @@ import ChangePassword from "pages/ChangePassword";
 import { RouterContainer, Container } from "./StyledComponents";
 import DetalleAlojamiento from "pages/DetalleAlojamiento";
 import TestPage from "pages/Test";
-import { ListaReservasAnfitrion, ListaReservasHuesped } from "pages/Reservas";
+import { ListaReservas } from "pages/Reservas";
+import AdministrarReservas from "pages/AdministrarReservas";
+import EditarReserva from "pages/EditarReserva";
 
 function HeaderView() {
   const location = useLocation();
@@ -37,12 +39,10 @@ export const AppRouter = ({ children }) => {
 
       <Container>
         <Routes>
-          {usuario.rol === "ROLE_GUEST" && (
-            <Route path="/reservas" element={<ListaReservasHuesped />} />
-          )}
-          {usuario.rol === "ROLE_HOST" && (
-            <Route path="/reservas" element={<ListaReservasAnfitrion />} />
-          )}
+          <Route path="/reservas" element={<ListaReservas />} />
+          <Route path="/reservas/:id" element={<AdministrarReservas />} />
+          <Route path="/reservas/editar/:id" element={<EditarReserva />} />
+
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/registrar-anfitrion" element={<HostHousing />} />
