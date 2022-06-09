@@ -135,4 +135,19 @@ export default class Api {
   listadoUsuarios = () => {
     return this.init().get("admin/users");
   };
+  aceptarUsuarios = (alias) => {
+    return this.init().put("admin/approve-host/"+alias);
+  };
+  bloquearUsuarios = (alias) => {
+    return this.init().put("admin/block/"+alias);
+  };
+  desloquearUsuarios = (alias) => {
+    return this.init().put("admin/unlock/"+alias);
+  };
+  eliminarUsuarios = (alias) => {
+    return this.init().put("admin/delete-user/"+alias);
+  };
+  rechazarUsuarios = (alias) => {
+    return this.init().put("admin/delete-user/"+alias);
+  };
 }
