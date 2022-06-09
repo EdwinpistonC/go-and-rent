@@ -23,7 +23,7 @@ export default function ChangeUserData() {
         sx={{
           display: "flex",
           width: "40%",
-          height: "400px",
+          height: "100%",
           backgroundColor: "#FFFFFF",
         }}
         direction="column"
