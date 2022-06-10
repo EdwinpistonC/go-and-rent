@@ -722,7 +722,7 @@ export function CambioCModal({
   );
 }
 export function ReservarAlojamiento({
-  abrirModal = false,
+  abrirModal = true,
   onCloseModal,
   cerrarModal,
   backTo,
@@ -743,8 +743,12 @@ export function ReservarAlojamiento({
   };
 
   return (
-    <ModalBasico abrirModal={abrirModal} onCloseModal={back}>
-      <iframe src={url} />;
+    <ModalBasico
+      sx={{ height: "70%", width: "70%" }}
+      abrirModal={abrirModal}
+      onCloseModal={back}
+    >
+      <iframe src={url} style={{ height: "100%", width: "100%" }} />;
     </ModalBasico>
   );
 }

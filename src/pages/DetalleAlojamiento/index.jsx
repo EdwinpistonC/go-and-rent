@@ -6,18 +6,22 @@ import Galeria from "components/molecule/Galeria";
 import Loading from "components/atom/Loading";
 import { GoogleMapLocation } from "components/atom/Googlemap";
 import { Button } from "components/atom/Button";
-import { DateRange } from "react-date-range";
-import * as locales from "react-date-range/dist/locale";
 import { ReservarAlojamiento } from "components/organism/FormModal";
 import moment from "moment";
 import { formatDate } from "components/util/functions";
+import { DateRange } from "react-date-range";
+import * as locales from "react-date-range/dist/locale";
 
+import { useModalHook } from "Hooks/ModalHooks";
+import Carousel from "components/atom/Carousel";
 export default function DetalleAlojamiento() {
   const { id } = useParams();
   const api = new Api();
   const [galeria, setGaleria] = React.useState([]);
   const [alojamiento, setAlojamiento] = React.useState(null);
   const [urlReserva, setUrlReserva] = React.useState(null);
+  const [paypalModal, abrirPaypalModal, cerrarPaypalModal, despuesPaypalModal] =
+    useModalHook();
   const [fecha, setFecha] = React.useState([
     {
       startDate: new Date(),
@@ -63,7 +67,11 @@ export default function DetalleAlojamiento() {
     };
 
     const response = await api.booking(payload);
+
     console.log(response);
+    setUrlReserva(response.replace("redirect:", ""));
+    abrirPaypalModal();
+    console.log(response.replace("redirect:", ""));
   };
 
   return (
@@ -82,7 +90,13 @@ export default function DetalleAlojamiento() {
       }}
     >
       {urlReserva != null && (
-        <ReservarAlojamiento url={urlReserva}></ReservarAlojamiento>
+        <ReservarAlojamiento
+          url={urlReserva}
+          abrirModal={paypalModal}
+          cerrarModal={abrirPaypalModal}
+          onCloseModal={cerrarPaypalModal}
+          onAfterOpen={despuesPaypalModal}
+        ></ReservarAlojamiento>
       )}
 
       <Typography
@@ -126,14 +140,16 @@ export default function DetalleAlojamiento() {
       >
         <Container
           sx={{
-            width: "100%",
-            height: "50%",
-            left: "0px",
-            top: "0px",
-            height: "400px",
+            marginBottom: "50px",
           }}
         >
-          {/*Galeria de imagenes */}
+          {
+            /*Galeria de imagenes */
+            <Carousel
+              style={{ height: "500px" }}
+              fotos={alojamiento.photos}
+            ></Carousel>
+          }
         </Container>
         <Container
           sx={{

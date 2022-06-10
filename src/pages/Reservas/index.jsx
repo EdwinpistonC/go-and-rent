@@ -9,6 +9,10 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Rating from "@mui/material/Rating";
+import InfoAlojamiento from "components/organism/InfoAlojamiento";
+import { Info } from "@mui/icons-material";
+
 export function ListaReservasAnfitrion() {
   const api = new Api();
   const [alojamientos, setAtlojamientos] = React.useState([]);
@@ -35,6 +39,8 @@ export function ListaReservasAnfitrion() {
 
       if (resultadoReservas.bookings.length > 0) {
         setReservasActual(resultadoReservas);
+      } else {
+        setReservasActual([]);
       }
     }
   }, [alojamientoSeleccionado]);
@@ -81,8 +87,88 @@ export function ListaReservasAnfitrion() {
             Crear Alojamiento
           </Button>
         </Grid>
-        {alojamientoActual !== null && (
-          <Grid item xs sx={{ textAlign: "center", minHeight: "500px" }}>
+        {alojamientoActual !== null && reservasActual !== null && (
+          <InfoAlojamiento
+            alojamiento={alojamientoActual}
+            reservas={reservasActual}
+            alojamientoId={alojamientoSeleccionado}
+          />
+        )}
+      </Grid>
+
+      <Grid item xs>
+        <ListaAlojamientosAnfitrion
+          seleccionar={setAlojamientoSeleccionado}
+          alojamientos={alojamientos}
+        ></ListaAlojamientosAnfitrion>
+      </Grid>
+    </Grid>
+  );
+}
+export function ListaReservasHuesped() {
+  const api = new Api();
+  const [reservas, setReservas] = React.useState([]);
+  const [reservaSeleccionado, setReservaSeleccionado] = React.useState(0);
+  const navegar = useNavigate();
+  const [reservasActual, setReservasActual] = React.useState(null);
+
+  const CargarReservas = async () => {
+    const resultado = await api.reservasHuesped();
+    setReservaSeleccionado(resultado[0].accommodationId);
+    console.log(resultado);
+    setReservas(resultado);
+  };
+  React.useEffect(async () => {
+    CargarReservas();
+  }, []);
+  // React.useEffect(async () => {
+  //   if (reservaSeleccionado !== 0) {
+  //     const resultado = await api.details(reservaSeleccionado);
+  //     setAlojamientoActual(resultado);
+  //     const resultadoReservas = await api.listadoReservas();
+  //     console.log(resultadoReservas);
+
+  //     if (resultadoReservas.bookings.length > 0) {
+  //       setReservasActual(resultadoReservas);
+  //     }
+  //   }
+  // }, [reservaSeleccionado]);
+
+  return (
+    <Grid
+      container
+      direction="row"
+      justifyContent="flex-start"
+      alignItems="flex-start"
+      sx={{
+        marginX: "0px",
+        marginY: "0px",
+        overflowY: "auto",
+        height: "1200px",
+      }}
+    >
+      <Grid
+        container
+        direction="column"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        item
+        rowSpacing={2}
+        xs
+        sx={{
+          marginX: "12px",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          flexWrap: "wrap",
+          alignContent: "stretch",
+          justifyContent: "center",
+          alignItems: "stretch",
+        }}
+        display="flex"
+      >
+        {reservasActual !== null && (
+          <Grid item xs sx={{ textAlign: "left", minHeight: "500px" }}>
             <Paper variant="o" elevation={0}>
               <Grid
                 sx={{
@@ -104,7 +190,7 @@ export function ListaReservasAnfitrion() {
                 <Grid item xs>
                   <Paper elevation={2}>
                     <Typography variant="h4" gutterBottom component="div">
-                      {alojamientoActual.accommodation.name}
+                      {reservasActual.accommodation.name}
                     </Typography>
                   </Paper>
                 </Grid>
@@ -114,7 +200,7 @@ export function ListaReservasAnfitrion() {
                       paragraph
                       sx={{ textAlign: "start", width: "100%" }}
                     >
-                      {alojamientoActual.accommodation.description}
+                      {reservasActual.accommodation.description}
                     </Typography>
                   </Paper>
                 </Grid>
@@ -128,23 +214,25 @@ export function ListaReservasAnfitrion() {
                     <Grid item xs>
                       <Paper elevation={2}>
                         <Typography>
-                          Precio: {alojamientoActual.accommodation.price}
+                          Precio: {reservasActual.accommodation.price}
                         </Typography>
                       </Paper>
                     </Grid>
 
                     <Grid item xs>
                       <Paper elevation={2}>
-                        <Typography>
-                          Calificacion:
-                          {alojamientoActual.accommodation.qualification}
-                        </Typography>
+                        <Typography component="legend">Calificacion</Typography>
+                        <Rating
+                          name="read-only"
+                          value={reservasActual.accommodation.qualification}
+                          readOnly
+                        />
                       </Paper>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item xs>
-                  {alojamientoActual.features.map(function (feature, i) {
+                  {reservasActual.features.map(function (feature, i) {
                     return (
                       <Grid
                         container
@@ -164,7 +252,7 @@ export function ListaReservasAnfitrion() {
                   })}
                 </Grid>
                 <Grid item xs>
-                  {alojamientoActual.services.map(function (service, i) {
+                  {reservasActual.services.map(function (service, i) {
                     return (
                       <Grid
                         container
@@ -311,7 +399,7 @@ export function ListaReservasAnfitrion() {
                 <Grid item xs>
                   <Button
                     onClick={() =>
-                      navegar("/reservas/editar/" + alojamientoSeleccionado)
+                      navegar("/reservas/editar/" + reservaSeleccionado)
                     }
                   >
                     Editar
@@ -321,8 +409,7 @@ export function ListaReservasAnfitrion() {
                   <Button
                     onClick={() =>
                       navegar(
-                        "/reservas/reviews/" +
-                          alojamientoActual.accommodation.id
+                        "/reservas/reviews/" + reservasActual.accommodation.id
                       )
                     }
                   >
@@ -337,22 +424,20 @@ export function ListaReservasAnfitrion() {
 
       <Grid item xs>
         <ListaAlojamientosAnfitrion
-          seleccionar={setAlojamientoSeleccionado}
-          alojamientos={alojamientos}
+          seleccionar={setReservaSeleccionado}
+          alojamientos={reservas}
         ></ListaAlojamientosAnfitrion>
       </Grid>
     </Grid>
   );
 }
-export function ListaReservasHuesped() {
-  return <div>hola</div>;
-}
 
 export function ListaReservas() {
   const [usuario] = useLocalStorage("usuario", "");
-  alert(usuario.rol);
+  console.log(usuario.rol);
   if (usuario.rol === "ROLE_GUEST") {
     return <ListaReservasHuesped />;
+  } else if (usuario.rol === "ROLE_HOST") {
+    return <ListaReservasAnfitrion />;
   }
-  return <ListaReservasAnfitrion />;
 }
