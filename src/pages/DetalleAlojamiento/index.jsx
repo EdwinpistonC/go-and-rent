@@ -6,12 +6,14 @@ import Galeria from "components/molecule/Galeria";
 import Loading from "components/atom/Loading";
 import { GoogleMapLocation } from "components/atom/Googlemap";
 import { Button } from "components/atom/Button";
-import { DateRange } from "react-date-range";
-import * as locales from "react-date-range/dist/locale";
 import { ReservarAlojamiento } from "components/organism/FormModal";
 import moment from "moment";
 import { formatDate } from "components/util/functions";
+import { DateRange } from "react-date-range";
+import * as locales from "react-date-range/dist/locale";
+
 import { useModalHook } from "Hooks/ModalHooks";
+import Carousel from "components/atom/Carousel";
 export default function DetalleAlojamiento() {
   const { id } = useParams();
   const api = new Api();
@@ -138,14 +140,16 @@ export default function DetalleAlojamiento() {
       >
         <Container
           sx={{
-            width: "100%",
-            height: "50%",
-            left: "0px",
-            top: "0px",
-            height: "400px",
+            marginBottom: "50px",
           }}
         >
-          {/*Galeria de imagenes */}
+          {
+            /*Galeria de imagenes */
+            <Carousel
+              style={{ height: "500px" }}
+              fotos={alojamiento.photos}
+            ></Carousel>
+          }
         </Container>
         <Container
           sx={{
