@@ -652,45 +652,47 @@ export function FormEditUser({ onBack, children, setFields }) {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-around"
-          alignItems="stretch"
-          spacing={1}
-          item
-          sx
-        >
-          <Grid item sm sx={{ mt: 2 }}>
-            <TextField
-              type="tel"
-              placeholder="Banco"
-              label="Banco"
-              {...register("bank", {
-                validate: {
-                  requerido: (v) => v !== "" || "Ingrese el banco",
-                },
-              })}
-              error={errors.bank ? true : false}
-              helperText={errors.bank && errors.bank.message}
-            />
-          </Grid>
+        {usuario.rol === "ROLE_HOST" && (
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-around"
+            alignItems="stretch"
+            spacing={1}
+            item
+            sx
+          >
+            <Grid item sm sx={{ mt: 2 }}>
+              <TextField
+                type="tel"
+                placeholder="Banco"
+                label="Banco"
+                {...register("bank", {
+                  validate: {
+                    requerido: (v) => v !== "" || "Ingrese el banco",
+                  },
+                })}
+                error={errors.bank ? true : false}
+                helperText={errors.bank && errors.bank.message}
+              />
+            </Grid>
 
-          <Grid item sm sx={{ mt: 2 }}>
-            <TextField
-              type="text"
-              placeholder="Numero de cuenta"
-              label="Numero de cuenta"
-              {...register("account", {
-                validate: {
-                  requerido: (v) => v !== "" || "Ingrese el numero de cuenta",
-                },
-              })}
-              error={errors.account ? true : false}
-              helperText={errors.account && errors.account.message}
-            />
+            <Grid item sm sx={{ mt: 2 }}>
+              <TextField
+                type="text"
+                placeholder="Numero de cuenta"
+                label="Numero de cuenta"
+                {...register("account", {
+                  validate: {
+                    requerido: (v) => v !== "" || "Ingrese el numero de cuenta",
+                  },
+                })}
+                error={errors.account ? true : false}
+                helperText={errors.account && errors.account.message}
+              />
+            </Grid>
           </Grid>
-        </Grid>
+        )}
 
         <Grid item sx={{ mt: 2, my: 2 }}>
           {children}
@@ -706,6 +708,7 @@ export function FormEditUser({ onBack, children, setFields }) {
           direction="row"
           justifyContent="space-around"
           alignItems="stretch"
+          sx={{ marginBottom: "30px" }}
           item
         >
           <Grid item xs sx={{ margin: 0 }}>

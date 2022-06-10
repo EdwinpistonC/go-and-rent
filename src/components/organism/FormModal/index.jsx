@@ -721,3 +721,30 @@ export function CambioCModal({
     </ModalBasico>
   );
 }
+export function ReservarAlojamiento({
+  abrirModal = false,
+  onCloseModal,
+  cerrarModal,
+  backTo,
+  children,
+  url,
+}) {
+  const [fields, handleFieldChange, changeField] = useInputsForm({
+    step: 0,
+    email: "",
+    codigo: "",
+  });
+  const back = () => {
+    backTo(true);
+    changeField("step", 0);
+    changeField("email", "");
+    changeField("codigo", "");
+    cerrarModal(false);
+  };
+
+  return (
+    <ModalBasico abrirModal={abrirModal} onCloseModal={back}>
+      <iframe src={url} />;
+    </ModalBasico>
+  );
+}

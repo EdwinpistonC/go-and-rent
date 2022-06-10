@@ -44,8 +44,10 @@ export default function RegisterHost({ submit }) {
     apellido: "",
     nombre: "",
     telefono: "",
-    avatar: 0,
+    bank: "",
+    account: "",
     fechaNacimiento: {},
+    avatar: 0,
     apiError: "",
     locCoordinates: [],
     locCountry: [],
@@ -56,8 +58,6 @@ export default function RegisterHost({ submit }) {
     locDoorNumber: [],
     accName: [],
     accDescription: [],
-    bank: "",
-    account: "",
     usuarioRegistrado: false,
   });
   const [servicios, setServicios] = React.useState([]);
@@ -115,6 +115,25 @@ export default function RegisterHost({ submit }) {
   };
 
   const handleNext = () => {
+    if (fields.activeStep === 0) {
+      if (
+        fields.alias === "" ||
+        fields.email === "" ||
+        fields.contra === "" ||
+        fields.apellido === "" ||
+        fields.nombre === "" ||
+        fields.telefono === "" ||
+        fields.bank === "" ||
+        fields.account === "" ||
+        fields.fechaNacimiento === {}
+      ) {
+        changeField("apiError", "Debe completar todos los campos");
+        return;
+      } else {
+        changeField("apiError", "");
+      }
+    }
+
     let newSkipped = fields.skipped;
     if (isStepSkipped(fields.activeStep)) {
       newSkipped = new Set(newSkipped.values());

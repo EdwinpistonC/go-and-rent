@@ -7,7 +7,7 @@ import React from "react";
 export default function ListaAlojamientos({ alojamientos = [] }) {
   console.log(alojamientos);
   return (
-    <Grid container spacing={2} columns={20} width={"100%"}>
+    <Grid container columns={20} width={"100%"}>
       {alojamientos.map((alojamiento, i) => {
         return (
           <Grid item xs={10} key={i}>
@@ -27,6 +27,7 @@ export function ListaAlojamientosAnfitrion({
       container
       columns={20}
       sx={{ overflowY: "auto", maxHeight: 700, background: "#d4d4d4" }}
+      key={"listaAlojamiento"}
     >
       {alojamientos.map((alojamiento, i) => {
         return (

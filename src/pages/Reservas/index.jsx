@@ -4,7 +4,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ListaAlojamientosAnfitrion } from "components/organism/ListaAlojamientos";
 import Api from "server/Api";
-
+import { useLocalStorage } from "Hooks/LocalStoreHook";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 export function ListaReservasAnfitrion() {
   const api = new Api();
   const [alojamientos, setAtlojamientos] = React.useState([]);
@@ -12,38 +16,41 @@ export function ListaReservasAnfitrion() {
     React.useState(0);
   const navegar = useNavigate();
   const [alojamientoActual, setAlojamientoActual] = React.useState(null);
+  const [reservasActual, setReservasActual] = React.useState(null);
 
   const CargarAlojamientos = async () => {
     const resultado = await api.alojamientosAnfitrion();
-    console.log(resultado);
-    console.log(resultado[0].accommodationId);
-
     setAlojamientoSeleccionado(resultado[0].accommodationId);
     setAtlojamientos(resultado);
-    console.log(alojamientoSeleccionado);
   };
   React.useEffect(async () => {
     CargarAlojamientos();
   }, []);
   React.useEffect(async () => {
     if (alojamientoSeleccionado !== 0) {
-      console.log(alojamientoSeleccionado);
       const resultado = await api.details(alojamientoSeleccionado);
-      console.log("alojamientoSeleccionado");
-
-      console.log(resultado);
       setAlojamientoActual(resultado);
+      const resultadoReservas = await api.listadoReservas();
+      console.log(resultadoReservas);
+
+      if (resultadoReservas.bookings.length > 0) {
+        setReservasActual(resultadoReservas);
+      }
     }
   }, [alojamientoSeleccionado]);
 
-  console.log(alojamientoActual);
   return (
     <Grid
       container
       direction="row"
       justifyContent="flex-start"
       alignItems="flex-start"
-      sx={{ marginX: "0px", marginY: "0px" }}
+      sx={{
+        marginX: "0px",
+        marginY: "0px",
+        overflowY: "auto",
+        height: "1200px",
+      }}
     >
       <Grid
         container
@@ -56,7 +63,6 @@ export function ListaReservasAnfitrion() {
         sx={{
           marginX: "12px",
           width: "100%",
-          height: "100%",
           display: "flex",
           flexDirection: "column",
           flexWrap: "wrap",
@@ -72,7 +78,6 @@ export function ListaReservasAnfitrion() {
               navegar("/anfitrion/nuevo-alojamiento");
             }}
           >
-            {" "}
             Crear Alojamiento
           </Button>
         </Grid>
@@ -176,18 +181,153 @@ export function ListaReservasAnfitrion() {
                   })}
                 </Grid>
               </Grid>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  sx={{
+                    backgroundColor: "#b8c5d0",
+                  }}
+                >
+                  <Typography>Reservas Pendientes</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {reservasActual != null ? (
+                    <Grid item xs container wrap="nowrap" spacing={2}>
+                      <Grid item>
+                        <Typography style={{ wordWrap: "break-word" }}>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Suspendisse malesuada lacus ex, sit amet blandit
+                          leo lobortis eget.
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Button>Aceptar</Button>
+                      </Grid>
+                      <Grid item>
+                        <Button>Cancelar</Button>
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    <Grid item xs container wrap="nowrap" spacing={2}>
+                      <Grid item>
+                        <Typography style={{ wordWrap: "break-word" }}>
+                          Sin Reservas Pendientes
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  sx={{
+                    backgroundColor: "#b8c5d0",
+                  }}
+                >
+                  <Typography>Reservas Actuales</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {reservasActual != null ? (
+                    <Grid item xs container wrap="nowrap" spacing={2}>
+                      <Grid item>
+                        <Typography style={{ wordWrap: "break-word" }}>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Suspendisse malesuada lacus ex, sit amet blandit
+                          leo lobortis eget.
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Button>Aceptar</Button>
+                      </Grid>
+                      <Grid item>
+                        <Button>Cancelar</Button>
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    <Grid item xs container wrap="nowrap" spacing={2}>
+                      <Grid item>
+                        <Typography style={{ wordWrap: "break-word" }}>
+                          Sin Reservas Actuales
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  sx={{
+                    backgroundColor: "#b8c5d0",
+                  }}
+                >
+                  <Typography>Reservas Aceptadas</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {reservasActual != null ? (
+                    <Grid item xs container wrap="nowrap" spacing={2}>
+                      <Grid item>
+                        <Typography style={{ wordWrap: "break-word" }}>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Suspendisse malesuada lacus ex, sit amet blandit
+                          leo lobortis eget.
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Button>Aceptar</Button>
+                      </Grid>
+                      <Grid item>
+                        <Button>Cancelar</Button>
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    <Grid item xs container wrap="nowrap" spacing={2}>
+                      <Grid item>
+                        <Typography style={{ wordWrap: "break-word" }}>
+                          Sin Reservas Aceptadas
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+
               <Grid
                 container
                 direction="row"
                 justifyContent="space-evenly"
                 alignItems="flex-start"
-                spacing={2}
+                sx={{ background: "#7bde90" }}
               >
                 <Grid item xs>
-                  <Button>Editar</Button>
+                  <Button
+                    onClick={() =>
+                      navegar("/reservas/editar/" + alojamientoSeleccionado)
+                    }
+                  >
+                    Editar
+                  </Button>
                 </Grid>
                 <Grid item xs>
-                  <Button>Administrar Reservas</Button>
+                  <Button
+                    onClick={() =>
+                      navegar(
+                        "/reservas/reviews/" +
+                          alojamientoActual.accommodation.id
+                      )
+                    }
+                  >
+                    Reviews
+                  </Button>
                 </Grid>
               </Grid>
             </Paper>
@@ -205,5 +345,14 @@ export function ListaReservasAnfitrion() {
   );
 }
 export function ListaReservasHuesped() {
-  return <div>index</div>;
+  return <div>hola</div>;
+}
+
+export function ListaReservas() {
+  const [usuario] = useLocalStorage("usuario", "");
+  alert(usuario.rol);
+  if (usuario.rol === "ROLE_GUEST") {
+    return <ListaReservasHuesped />;
+  }
+  return <ListaReservasAnfitrion />;
 }
