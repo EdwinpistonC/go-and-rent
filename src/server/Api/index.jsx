@@ -153,6 +153,20 @@ export default class Api {
 
     return resultado.data;
   };
+  reservasHuesped = async () => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    let resultado = await this.init().get("guests/bookings/" + alias);
+
+    return resultado.data;
+  };
 
   listadoReservas = async () => {
     let usuario = JSON.parse(localStorage.getItem("usuario"));
@@ -172,6 +186,66 @@ export default class Api {
   };
   booking = async (data) => {
     let resultado = await this.init().post("booking/guest/confirm", data);
+    return resultado.data;
+  };
+  calificarHuesped = async (
+    data = {
+      qualifyingUser: "anfitrion1",
+      qualifiedUser: "prueba1",
+      qualification: 4,
+    }
+  ) => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    data.qualifyingUser = alias;
+    let resultado = await this.init().post("hosts/qualify-guest", data);
+    return resultado.data;
+  };
+  eliminarCalificacionHuesped = async (guest) => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    let resultado = await this.init().delete(
+      "hosts/qualify-guest/" + alias + "/" + guest
+    );
+    return resultado.data;
+  };
+  rechazarReserva = async (
+    data = {
+      booking_id: 0,
+    }
+  ) => {
+    let resultado = await this.init().post("booking/host/reject", data);
+    return resultado.data;
+  };
+  rembolsarReserva = async (
+    data = {
+      booking_id: 0,
+      reimbursedBy: "HOST" | "GUEST",
+    }
+  ) => {
+    let resultado = await this.init().post("booking/refund", data);
+    return resultado.data;
+  };
+  confirmarReserva = async (
+    data = {
+      booking_id: 0,
+    }
+  ) => {
+    let resultado = await this.init().post("booking/host/confirm", data);
     return resultado.data;
   };
 }

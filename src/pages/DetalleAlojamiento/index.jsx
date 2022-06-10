@@ -11,13 +11,15 @@ import * as locales from "react-date-range/dist/locale";
 import { ReservarAlojamiento } from "components/organism/FormModal";
 import moment from "moment";
 import { formatDate } from "components/util/functions";
-
+import { useModalHook } from "Hooks/ModalHooks";
 export default function DetalleAlojamiento() {
   const { id } = useParams();
   const api = new Api();
   const [galeria, setGaleria] = React.useState([]);
   const [alojamiento, setAlojamiento] = React.useState(null);
   const [urlReserva, setUrlReserva] = React.useState(null);
+  const [paypalModal, abrirPaypalModal, cerrarPaypalModal, despuesPaypalModal] =
+    useModalHook();
   const [fecha, setFecha] = React.useState([
     {
       startDate: new Date(),
@@ -63,7 +65,11 @@ export default function DetalleAlojamiento() {
     };
 
     const response = await api.booking(payload);
+
     console.log(response);
+    setUrlReserva(response.replace("redirect:", ""));
+    abrirPaypalModal();
+    console.log(response.replace("redirect:", ""));
   };
 
   return (
@@ -82,7 +88,13 @@ export default function DetalleAlojamiento() {
       }}
     >
       {urlReserva != null && (
-        <ReservarAlojamiento url={urlReserva}></ReservarAlojamiento>
+        <ReservarAlojamiento
+          url={urlReserva}
+          abrirModal={paypalModal}
+          cerrarModal={abrirPaypalModal}
+          onCloseModal={cerrarPaypalModal}
+          onAfterOpen={despuesPaypalModal}
+        ></ReservarAlojamiento>
       )}
 
       <Typography

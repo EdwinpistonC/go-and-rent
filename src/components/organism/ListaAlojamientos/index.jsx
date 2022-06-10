@@ -26,7 +26,11 @@ export function ListaAlojamientosAnfitrion({
     <Grid
       container
       columns={20}
-      sx={{ overflowY: "auto", maxHeight: 700, background: "#d4d4d4" }}
+      sx={{
+        overflowY: "auto",
+        maxHeight: 700,
+        background: "#d4d4d4",
+      }}
       key={"listaAlojamiento"}
     >
       {alojamientos.map((alojamiento, i) => {

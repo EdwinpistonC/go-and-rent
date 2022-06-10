@@ -63,7 +63,15 @@ export default function Alojamiento({ data }) {
 export function AlojamientoAnfitrion({ data, onClick }) {
   const navegar = useNavigate();
   return (
-    <Card sx={{ height: "auto" }} onClick={onClick}>
+    <Card
+      sx={{
+        height: "auto",
+        "&:hover": {
+          background: "#ffffff",
+        },
+      }}
+      onClick={onClick}
+    >
       <Grid
         container
         direction="row"

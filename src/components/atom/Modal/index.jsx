@@ -22,7 +22,7 @@ export default function ModalBasico({
       aria-describedby="modal-modal-description"
       {...props}
     >
-      <BoxSC>
+      <BoxSC sx={{ overflow: "hidden" }}>
         <CloseIcon
           sx={{
             position: "absolute",
