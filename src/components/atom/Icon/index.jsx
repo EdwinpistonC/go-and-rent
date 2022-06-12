@@ -1,7 +1,11 @@
 import React from "react";
 
 import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
-
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DoneIcon from "@mui/icons-material/Done";
+import DoDisturbIcon from "@mui/icons-material/DoDisturb";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import { IconButton } from "@mui/material";
 const Alert = () => {
   return (
     <svg
@@ -34,8 +38,38 @@ const Messages = () => {
     </svg>
   );
 };
-
-const Bookings = () => {
-  return <HolidayVillageIcon></HolidayVillageIcon>;
+const iconoEstados = (estado) => {
+  let icono = () => {
+    return <></>;
+  };
+  if (estado == "ACEPTADO") {
+    icono = () => {
+      return <DoneIcon style={{ color: "#33b047" }}></DoneIcon>;
+    };
+  } else if (estado == "BLOQUEADO") {
+    icono = () => {
+      return <DoDisturbIcon style={{ color: "#d55a34" }}></DoDisturbIcon>;
+    };
+  } else if (estado == "ELIMINADO") {
+    icono = () => {
+      return (
+        <DeleteForeverIcon style={{ color: "#e53c41" }}></DeleteForeverIcon>
+      );
+    };
+  } else if (estado == "ESPERANDO") {
+    icono = () => {
+      return (
+        <HourglassBottomIcon style={{ color: "#ecab40" }}></HourglassBottomIcon>
+      );
+    };
+  }
+  return icono;
 };
-export { Messages, Alert, Bookings };
+const Bookings = ({ onClick, ...parms }) => {
+  return (
+    <IconButton onClick={onClick}>
+      <HolidayVillageIcon {...parms}></HolidayVillageIcon>
+    </IconButton>
+  );
+};
+export { Messages, Alert, Bookings, iconoEstados };

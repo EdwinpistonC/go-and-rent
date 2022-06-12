@@ -75,7 +75,7 @@ export default function BannerHome({ tituloBanner, imagenBanner }) {
               fontStyle: "normal",
             }}
           >
-            Exploarar
+            Explorar
           </Button>
         </Grid>
       </Grid>

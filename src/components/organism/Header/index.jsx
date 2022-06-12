@@ -1,7 +1,6 @@
 import React from "react";
 
 import Logo from "components/atom/Logo";
-import Busqueda from "components/atom/Busqueda";
 import HeaderMenu from "components/molecule/HeaderMenu";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +13,8 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { ModalSmall } from "components/atom/Modal";
 import SideBarMenu from "../SideBarMenu";
+
+import GoogleMap from "components/atom/Googlemap";
 
 const registerH = async function (
   alias,
@@ -39,9 +40,10 @@ const registerH = async function (
   });
 };
 
-export default function Header() {
+export default function Header({ busqueda, setBusqueda }) {
   const navegar = useNavigate();
   const backend = new Api();
+
   /* 
   Cerrar sesion
   */
@@ -72,7 +74,7 @@ export default function Header() {
   };
 
   return (
-    <HeaderContainer>
+    <HeaderContainer sx={{ zIndex: 10 }}>
       {/* Cerrar sesion */}
       {usuario.rol === "ROLE_ADMIN" && <SideBarMenu></SideBarMenu>}
       <ModalSmall abrirModal={alertaCerrarSesion} onCloseModal={handleClose}>
@@ -95,12 +97,14 @@ export default function Header() {
         </Stack>
       </ModalSmall>
       <Logo />
-      <Busqueda></Busqueda>
+      <GoogleMap></GoogleMap>
+      {/* <Busqueda setInput={setBusqueda} input={busqueda}></Busqueda> */}
       <HeaderMenu
         rol={usuario.rol}
         onIniciar={abrirInicioH}
         onCrear={abrirRegistroH}
         onCerrar={handleOpen}
+        onReserva={() => navegar("/reservas")}
         onPerfil={() => navegar("/perfil")}
       >
         {/* Huésped */}

@@ -1,13 +1,6 @@
+import { ConstructionOutlined } from "@mui/icons-material";
 import axios from "axios";
-
-/*
-
-const [token, setToken] = useLocalStorage("token", "");
-const [alias, setAlias] = useLocalStorage("alias", "");
-const [nombre, setNombre] = useLocalStorage("nombre", "");
-const [rol, setRol] = useLocalStorage("rol", "");
-
-*/
+import { parseParams } from "components/util/functions";
 
 export default class Api {
   constructor() {
@@ -16,7 +9,7 @@ export default class Api {
     let usuario = JSON.parse(localStorage.getItem("usuario"));
     let token = null;
     if (
-      usuario != null &&
+      usuario !== null &&
       typeof usuario === "object" &&
       usuario.hasOwnProperty("token")
     ) {
@@ -32,6 +25,7 @@ export default class Api {
     let headers = header;
     if (this.api_token && this.api_token !== "") {
       headers.Authorization = `Bearer ${this.api_token}`;
+      console.log(headers.Authorization);
     }
     this.client = axios.create({
       baseURL: this.api_url,
@@ -62,10 +56,14 @@ export default class Api {
   };
   changePasswordProfile = (email, data) => {
     //TODO falta en el back
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    console.log(usuario);
     //return this.init().post("auth/recover/change-password/" + email, data);
   };
-  editUserProfile = (data) => {
-    return this.init().post("user/update-profile", data);
+  editUserProfile = async (data) => {
+    let resultado = await this.init().put("user/update-profile", data);
+
+    return [resultado.data, resultado.status];
   };
 
   hostCreate = (data) => {
@@ -79,7 +77,7 @@ export default class Api {
 
     let alias = null;
     if (
-      usuario != null &&
+      usuario !== null &&
       typeof usuario === "object" &&
       usuario.hasOwnProperty("alias")
     ) {
@@ -90,6 +88,35 @@ export default class Api {
       data
     );
   };
+
+  details = async (id) => {
+    try {
+      const response = await this.init().get("data/accommodation/info/" + id);
+      console.log(response);
+      return response.data;
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  filter = async (params) => {
+    /* return await this.init({ "Content-Type": "multipart/form-data" }).get(
+      "/data/accommodation/search" + alias,
+      data
+    );
+
+    */
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_API_ENDPOINT + "data/accommodation/search",
+        { params, paramsSerializer: (params) => parseParams(params) }
+      );
+      return response.data.accommodations;
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
   features = () => {
     return this.init().get("data/features");
   };
@@ -97,7 +124,7 @@ export default class Api {
     let usuario = JSON.parse(localStorage.getItem("usuario"));
     let alias = null;
     if (
-      usuario != null &&
+      usuario !== null &&
       typeof usuario === "object" &&
       usuario.hasOwnProperty("alias")
     ) {
@@ -108,5 +135,117 @@ export default class Api {
       "hosts/accommodation/add/" + alias,
       data
     );
+  };
+  listadoUsuarios = () => {
+    return this.init().get("admin/users");
+  };
+  alojamientosAnfitrion = async () => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    let resultado = await this.init().get("hosts/accommodation/list/" + alias);
+
+    return resultado.data;
+  };
+  reservasHuesped = async () => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    let resultado = await this.init().get("guests/bookings/" + alias);
+
+    return resultado.data;
+  };
+
+  listadoReservas = async () => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    let resultado = await this.init().get(
+      "hosts/bookings/" + alias + "?nroPag=0&cantReg=100"
+    );
+
+    return resultado.data;
+  };
+  booking = async (data) => {
+    let resultado = await this.init().post("booking/guest/confirm", data);
+    return resultado.data;
+  };
+  calificarHuesped = async (
+    data = {
+      qualifyingUser: "anfitrion1",
+      qualifiedUser: "prueba1",
+      qualification: 4,
+    }
+  ) => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    data.qualifyingUser = alias;
+    let resultado = await this.init().post("hosts/qualify-guest", data);
+    return resultado.data;
+  };
+  eliminarCalificacionHuesped = async (guest) => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    let resultado = await this.init().delete(
+      "hosts/qualify-guest/" + alias + "/" + guest
+    );
+    return resultado.data;
+  };
+  rechazarReserva = async (
+    data = {
+      booking_id: 0,
+    }
+  ) => {
+    let resultado = await this.init().post("booking/host/reject", data);
+    return resultado.data;
+  };
+  rembolsarReserva = async (
+    data = {
+      booking_id: 0,
+      reimbursedBy: "HOST" | "GUEST",
+    }
+  ) => {
+    let resultado = await this.init().post("booking/refund", data);
+    return resultado.data;
+  };
+  confirmarReserva = async (
+    data = {
+      booking_id: 0,
+    }
+  ) => {
+    let resultado = await this.init().post("booking/host/confirm", data);
+    return resultado.data;
   };
 }
