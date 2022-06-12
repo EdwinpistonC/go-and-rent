@@ -64,7 +64,6 @@ export const AppRouter = ({ children }) => {
           <Route path="/busqueda" element={<Busqueda />}></Route>
 
           <Route path="/admin">
-            <Route path="new-admin" element={<AdminRegister />} />
             <Route path="nuevo-admin" element={<AdminRegister />} />
           </Route>
           <Route
