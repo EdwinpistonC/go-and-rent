@@ -4,9 +4,9 @@ import ControlPointIcon from "@mui/icons-material/ControlPoint";
 //import Api from "server/Api";
 import SimpleModal from "./modalBotonera"
 
-export default function botoneraEstados(estado,alias) {
+export default function botoneraEstados(estado,alias,actualizarTabla) {
   //const backend = new Api();
-  const botonAceptar = (estado,alias) => {
+  const botonAceptar = (estado,alias,actualizarTabla) => {
     if (estado == "ESPERANDO") {
       return (
         // <Button
@@ -24,13 +24,14 @@ export default function botoneraEstados(estado,alias) {
         <SimpleModal
         boton="Aceptar"
         alias={alias}
+        actualizarTabla={actualizarTabla}
         ></SimpleModal>
       );
     }
     return <></>;
   };
 
-  const botonBloquear = (estado,alias) => {
+  const botonBloquear = (estado,alias,actualizarTabla) => {
     if (estado == "ACEPTADO") {
       return (
         // <Button
@@ -48,13 +49,14 @@ export default function botoneraEstados(estado,alias) {
         <SimpleModal
         boton="Bloquear"
         alias={alias}
+        actualizarTabla={actualizarTabla}
         ></SimpleModal>
       );
     }
     return <></>;
   };
 
-  const botonDesbloquear = (estado,alias) => {
+  const botonDesbloquear = (estado,alias,actualizarTabla) => {
     if (estado == "BLOQUEADO") {
       return (
         // <Button         
@@ -72,12 +74,13 @@ export default function botoneraEstados(estado,alias) {
         <SimpleModal
         boton="Desbloquear"
         alias={alias}
+        actualizarTabla={actualizarTabla}
         ></SimpleModal>
       );
     }
     return <></>;
   };
-  const botonEliminar = (estado,alias) => {
+  const botonEliminar = (estado,alias,actualizarTabla) => {
     if (estado == "ACEPTADO") {
       return (
         // <Button
@@ -100,12 +103,13 @@ export default function botoneraEstados(estado,alias) {
         <SimpleModal
         boton="Eliminar"
         alias={alias}
+        actualizarTabla={actualizarTabla}
         ></SimpleModal>
       );
     }
     return <></>;
   };
-  const botonRechazar = (estado,alias) => {
+  const botonRechazar = (estado,alias,actualizarTabla) => {
     if (estado == "ESPERANDO") {
       return (
         // <Button
@@ -123,6 +127,7 @@ export default function botoneraEstados(estado,alias) {
         <SimpleModal
         boton="Rechazar"
         alias={alias}
+        actualizarTabla={actualizarTabla}
         ></SimpleModal>
       );
     }
@@ -130,11 +135,11 @@ export default function botoneraEstados(estado,alias) {
   };
   return (
     <div>
-      {botonAceptar(estado,alias)}
-      {botonBloquear(estado,alias)}
-      {botonDesbloquear(estado,alias)}
-      {botonEliminar(estado,alias)}
-      {botonRechazar(estado,alias)}
+      {botonAceptar(estado,alias,actualizarTabla)}
+      {botonBloquear(estado,alias,actualizarTabla)}
+      {botonDesbloquear(estado,alias,actualizarTabla)}
+      {botonEliminar(estado,alias,actualizarTabla)}
+      {botonRechazar(estado,alias,actualizarTabla)}
     </div>
   );
 }

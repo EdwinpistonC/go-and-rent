@@ -136,18 +136,23 @@ export default class Api {
     return this.init().get("admin/users");
   };
   aceptarUsuarios = (alias) => {
+    console.log("approve-host",alias);
     return this.init().put("admin/approve-host/"+alias);
   };
   bloquearUsuarios = (alias) => {
+    console.log("block",alias);
     return this.init().put("admin/block/"+alias);
   };
   desloquearUsuarios = (alias) => {
+    console.log("unlock",alias);
     return this.init().put("admin/unlock/"+alias);
   };
   eliminarUsuarios = (alias) => {
+    console.log("delete-user",alias);
     return this.init().put("admin/delete-user/"+alias);
   };
   rechazarUsuarios = (alias) => {
-    return this.init().put("admin/delete-user/"+alias);
+    console.log("delete-user",alias);
+    //return this.init().put("admin/delete-user/"+alias);
   };
 }

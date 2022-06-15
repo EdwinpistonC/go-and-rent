@@ -53,7 +53,7 @@ function getBotonStyle(boton) {
 }
 
 
-const body = (boton,alias,modalStyle,classes,handleClose)=>{
+const body = (boton,alias,modalStyle,classes,handleClose,actualizarTabla)=>{
 
   let div = (<></>);
   if(boton == "Aceptar"){
@@ -78,8 +78,13 @@ const body = (boton,alias,modalStyle,classes,handleClose)=>{
             style={getBotonStyle(boton)}
             onClick={(alias) => {
                   backend.aceptarUsuarios(alias).then((response)=>{
-                    console.log(response.data)
-                   })
+                    console.log(response.data);
+                    handleClose();
+                    actualizarTabla();
+                   }).catch((response)=>{
+                    alert("Hubo un error intentelo más tarde.");
+                    console.error(response.data);
+                   });
                 }}
           >
           {boton}
@@ -109,10 +114,16 @@ const body = (boton,alias,modalStyle,classes,handleClose)=>{
 
           <Button 
             style={getBotonStyle(boton)}
-            onClick={(alias) => {
+            onClick={() => {
+
                   backend.bloquearUsuarios(alias).then((response)=>{
-                    console.log(response.data)
-                   })
+                    console.log(response.data);
+                    handleClose();
+                    actualizarTabla();
+                   }).catch((response)=>{
+                    alert("Hubo un error intentelo más tarde.");
+                    console.error(response.data);
+                   });
                 }}
           >
           {boton}
@@ -144,8 +155,13 @@ const body = (boton,alias,modalStyle,classes,handleClose)=>{
             style={getBotonStyle(boton)}
             onClick={(alias) => {
                   backend.desloquearUsuarios(alias).then((response)=>{
-                    console.log(response.data)
-                   })
+                    console.log(response.data);
+                    handleClose();
+                    actualizarTabla();
+                   }).catch((response)=>{
+                    alert("Hubo un error intentelo más tarde.");
+                    console.error(response.data);
+                   });
                 }}
           >
           {boton}
@@ -176,8 +192,13 @@ const body = (boton,alias,modalStyle,classes,handleClose)=>{
             style={getBotonStyle(boton)}
             onClick={(alias) => {
                   backend.eliminarUsuarios(alias).then((response)=>{
-                    console.log(response.data)
-                   })
+                    console.log(response.data);
+                    handleClose();
+                    actualizarTabla();
+                   }).catch((response)=>{
+                    alert("Hubo un error intentelo más tarde.");
+                    console.error(response.data);
+                   });
                 }}
           >
           {boton}
@@ -208,8 +229,13 @@ const body = (boton,alias,modalStyle,classes,handleClose)=>{
             style={getBotonStyle(boton)}
             onClick={(alias) => {
                   backend.rechazarUsuarios(alias).then((response)=>{
-                    console.log(response.data)
-                   })
+                    console.log(response.data);
+                    handleClose();
+                    actualizarTabla();
+                   }).catch((response)=>{
+                    alert("Hubo un error intentelo más tarde.");
+                    console.error(response.data);
+                   });
                 }}
           >
           {boton}
@@ -229,7 +255,7 @@ const body = (boton,alias,modalStyle,classes,handleClose)=>{
   }
   return div;  
 }
-export default function SimpleModal({boton, alias}) {
+export default function SimpleModal({boton, alias,actualizarTabla}) {
 
   const classes = useStyles();
   //const classes = useStyles();
@@ -262,7 +288,7 @@ export default function SimpleModal({boton, alias}) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {body(boton,alias,modalStyle,classes,handleClose) }
+        {body(boton,alias,modalStyle,classes,handleClose,actualizarTabla) }
       </Modal>
     </div>
   );
