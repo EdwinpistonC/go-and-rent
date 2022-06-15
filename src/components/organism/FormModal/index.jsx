@@ -721,3 +721,34 @@ export function CambioCModal({
     </ModalBasico>
   );
 }
+export function ReservarAlojamiento({
+  abrirModal = true,
+  onCloseModal,
+  cerrarModal,
+  backTo,
+  children,
+  url,
+}) {
+  const [fields, handleFieldChange, changeField] = useInputsForm({
+    step: 0,
+    email: "",
+    codigo: "",
+  });
+  const back = () => {
+    backTo(true);
+    changeField("step", 0);
+    changeField("email", "");
+    changeField("codigo", "");
+    cerrarModal(false);
+  };
+
+  return (
+    <ModalBasico
+      sx={{ height: "70%", width: "70%" }}
+      abrirModal={abrirModal}
+      onCloseModal={back}
+    >
+      <iframe src={url} style={{ height: "100%", width: "100%" }} />;
+    </ModalBasico>
+  );
+}

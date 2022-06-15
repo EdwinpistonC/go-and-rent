@@ -20,6 +20,9 @@ import ChangePassword from "pages/ChangePassword";
 import { RouterContainer, Container } from "./StyledComponents";
 import DetalleAlojamiento from "pages/DetalleAlojamiento";
 import TestPage from "pages/Test";
+import { ListaReservas } from "pages/Reservas";
+import AdministrarReservas from "pages/AdministrarReservas";
+import EditarReserva from "pages/EditarReserva";
 
 function HeaderView() {
   const location = useLocation();
@@ -36,20 +39,21 @@ export const AppRouter = ({ children }) => {
 
       <Container>
         <Routes>
+          <Route path="/reservas" element={<ListaReservas />} />
+          <Route path="/reservas/:id" element={<AdministrarReservas />} />
+          <Route path="/reservas/editar/:id" element={<EditarReserva />} />
+
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/registrar-anfitrion" element={<HostHousing />} />
           <Route path="/test" element={<TestPage />} />
-
           <Route path="/perfil" element={<Profile />}></Route>
           <Route path="/detalles/:id" element={<DetalleAlojamiento />} />
-
           <Route
             path="/perfil/cambiar-contrasena"
             element={<ChangePassword />}
           />
           <Route path="/perfil/editar" element={<ChangeUserData />} />
-
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="edit" element={<ChangeUserData />} />
           <Route path="change-password" element={<ChangePassword />} />
@@ -63,7 +67,6 @@ export const AppRouter = ({ children }) => {
             <Route path="new-admin" element={<AdminRegister />} />
             <Route path="nuevo-admin" element={<AdminRegister />} />
           </Route>
-
           <Route
             path="*"
             element={

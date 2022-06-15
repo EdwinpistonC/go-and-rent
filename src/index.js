@@ -6,7 +6,12 @@ import { ThemeProvider } from "@mui/material/styles";
 import "./index.css";
 import { theme } from "resources/const/Template";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>,
+  document.getElementById("root")
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
