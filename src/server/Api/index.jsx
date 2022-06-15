@@ -1,4 +1,3 @@
-import { ConstructionOutlined } from "@mui/icons-material";
 import axios from "axios";
 import { parseParams } from "components/util/functions";
 
@@ -54,11 +53,25 @@ export default class Api {
   changePassword = (email, data) => {
     return this.init().post("auth/recover/change-password/" + email, data);
   };
-  changePasswordProfile = (email, data) => {
-    //TODO falta en el back
+  changePasswordProfile = (
+    data = {
+      alias: "prueba1",
+      oldPassword: "prueba2",
+      newPassword: "prueba1",
+    }
+  ) => {
     let usuario = JSON.parse(localStorage.getItem("usuario"));
-    console.log(usuario);
-    //return this.init().post("auth/recover/change-password/" + email, data);
+
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    data.alias = alias;
+    return this.init().put("user/update/password", data);
   };
   editUserProfile = async (data) => {
     let resultado = await this.init().put("user/update-profile", data);
@@ -184,8 +197,15 @@ export default class Api {
 
     return resultado.data;
   };
+
+  detalleReserva = async (id) => {
+    let resultado = await this.init().get("/guests/booking/detail/" + id);
+
+    return resultado.data;
+  };
+
   booking = async (data) => {
-    let resultado = await this.init().post("booking/guest/confirm", data);
+    let resultado = await this.init().post("booking/guest-web/confirm", data);
     return resultado.data;
   };
   calificarHuesped = async (
@@ -223,6 +243,62 @@ export default class Api {
     );
     return resultado.data;
   };
+  calificarAnfitrion = async (
+    data = {
+      qualifyingUser: "anfitrion1",
+      qualifiedUser: "prueba1",
+      qualification: 4,
+    }
+  ) => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    data.qualifyingUser = alias;
+    let resultado = await this.init().post("guests/qualify-host", data);
+    return resultado.data;
+  };
+  eliminarCalificacionAnfitrion = async (guest) => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+    let resultado = await this.init().delete(
+      "guests/qualify-host/" + alias + "/" + guest
+    );
+    return resultado.data;
+  };
+  agregarResenaAlojamiento = async (
+    data = {
+      bookingId: 1,
+      description: "todo roto el alojamiento. muy malo",
+      qualification: "1",
+    }
+  ) => {
+    let resultado = await this.init().post("guests/review/add", data);
+    return resultado.data;
+  };
+  editarResenaAlojamiento = async (
+    data = {
+      reviewId: 6,
+      qualification: 2,
+      description: "Perdia agua la pileta.",
+    }
+  ) => {
+    let resultado = await this.init().put("guests/review/update", data);
+    return resultado.data;
+  };
+
   rechazarReserva = async (
     data = {
       booking_id: 0,
@@ -231,6 +307,7 @@ export default class Api {
     let resultado = await this.init().post("booking/host/reject", data);
     return resultado.data;
   };
+
   rembolsarReserva = async (
     data = {
       booking_id: 0,
@@ -240,6 +317,7 @@ export default class Api {
     let resultado = await this.init().post("booking/refund", data);
     return resultado.data;
   };
+
   confirmarReserva = async (
     data = {
       booking_id: 0,
@@ -247,5 +325,20 @@ export default class Api {
   ) => {
     let resultado = await this.init().post("booking/host/confirm", data);
     return resultado.data;
+  };
+
+  borrarUsuario = async () => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+
+    let resultado = await this.init().delete("guests/delete/" + alias);
+    return resultado;
   };
 }

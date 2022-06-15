@@ -5,7 +5,10 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DoneIcon from "@mui/icons-material/Done";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
-import { IconButton } from "@mui/material";
+import { IconButton, SvgIcon } from "@mui/material";
+
+import HousesSvg from "resources/svgs/Houses.svg";
+
 const Alert = () => {
   return (
     <svg
@@ -72,4 +75,12 @@ const Bookings = ({ onClick, ...parms }) => {
     </IconButton>
   );
 };
-export { Messages, Alert, Bookings, iconoEstados };
+function Houses(props) {
+  return (
+    <SvgIcon {...props}>
+      <HousesSvg />
+    </SvgIcon>
+  );
+}
+
+export { Messages, Alert, Bookings, iconoEstados, Houses };

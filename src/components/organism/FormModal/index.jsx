@@ -81,11 +81,7 @@ export default function LoginModal({
                   navegar("/");
                 })
                 .catch((err) => {
-                  if (err.response.status == 401) {
-                    setApiError(
-                      "Tu contraseña es incorrecta o la cuenta ingresada no existe"
-                    );
-                  }
+                  setApiError(err.response.data.mensaje);
                 });
               return false;
             }}
@@ -747,8 +743,6 @@ export function ReservarAlojamiento({
       sx={{ height: "70%", width: "70%" }}
       abrirModal={abrirModal}
       onCloseModal={back}
-    >
-      <iframe src={url} style={{ height: "100%", width: "100%" }} />;
-    </ModalBasico>
+    ></ModalBasico>
   );
 }

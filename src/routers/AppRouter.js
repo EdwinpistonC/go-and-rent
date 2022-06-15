@@ -43,11 +43,15 @@ export const AppRouter = ({ children }) => {
           <Route path="/reservas/:id" element={<AdministrarReservas />} />
           <Route path="/reservas/editar/:id" element={<EditarReserva />} />
 
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage key={Date.now()} />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/registrar-anfitrion" element={<HostHousing />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/perfil" element={<Profile />}></Route>
+          <Route
+            path="/detalles/:id/:startDate/:endDate"
+            element={<DetalleAlojamiento />}
+          />
           <Route path="/detalles/:id" element={<DetalleAlojamiento />} />
           <Route
             path="/perfil/cambiar-contrasena"

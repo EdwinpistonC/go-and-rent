@@ -1,16 +1,20 @@
 import React from "react";
-import { Grid, Typography, Paper } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Paper,
+  Divider,
+  Chip,
+  Stack,
+  Card,
+} from "@mui/material";
 import { Button } from "components/atom/Button";
 import { useNavigate } from "react-router-dom";
-import { ListaAlojamientosAnfitrion } from "components/organism/ListaAlojamientos";
 import Api from "server/Api";
-import { useLocalStorage } from "Hooks/LocalStoreHook";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Rating from "@mui/material/Rating";
 import FiltroReservas from "../FiltroReservas";
+import { RateReview } from "@mui/icons-material";
+import TextField from "components/atom/Textfield";
 export default function InfoAlojamiento({
   alojamientoId,
   alojamiento,
@@ -195,6 +199,299 @@ export default function InfoAlojamiento({
           reservas={reservas.bookings}
           idAlojamiento={alojamientoId}
         />
+      </Paper>
+    </Grid>
+  );
+}
+/*
+accommodationId: 29
+accommodationName: "Apartamento en Punta del Este"
+accommodationPhoto: "alojamiento-29/apto5.jpg"
+bookingId: 22
+bookingStatus: "PENDIENTE"
+endDate: "25/06/2022"
+finalPrice: 118
+hostAlias: "RAngelGGG"
+hostEmail: "rangelgggreyes@gmail.com"
+hostName: "Angel"
+hostQualification: 0
+paymentStatus: "PENDIENTE"
+reviewDesc: null
+reviewId: 0
+reviewQualification: 0
+startDate: "24/06/2022" s
+ 
+  */
+
+export function InfoReserva({ reservaId, reserva }) {
+  const api = new Api();
+
+  const [id, setId] = React.useState(reservaId);
+
+  const [ratingHost, setRatingHost] = React.useState(reserva.hostQualification);
+  const [ratingAlojamiento, setRatingAlojamiento] = React.useState(
+    reserva.reviewQualification
+  );
+  const [estado, setEstado] = React.useState(reserva.bookingStatus);
+  const [resena, setResena] = React.useState(reserva.reviewDesc);
+
+  let estadoActual = estado;
+
+  var datePartsEnd = reserva.endDate.split("/");
+  var datePartsStart = reserva.startDate.split("/");
+
+  var lastDate = new Date(
+    +datePartsEnd[2],
+    datePartsEnd[1] - 1,
+    +datePartsEnd[0]
+  );
+
+  var startDate = new Date(
+    +datePartsStart[2],
+    datePartsStart[1] - 1,
+    +datePartsStart[0]
+  );
+  if (lastDate < new Date() && estadoActual === "ACEPTADA") {
+    estadoActual = "COMPLETADA";
+    setEstado("COMPLETADA");
+  } else if (lastDate < new Date() && estadoActual === "PENDIENTE") {
+    estadoActual = "CANCELADA";
+    setEstado("CANCELADA");
+  } else if (
+    startDate < new Date() &&
+    lastDate > new Date() &&
+    estadoActual === "PENDIENTE"
+  ) {
+    setEstado("EN CURSO");
+    estadoActual = "EN CURSO";
+  }
+  if (reservaId != id) {
+    setId(reservaId);
+  }
+  React.useEffect(() => {
+    setRatingHost(reserva.hostQualification);
+    setRatingAlojamiento(reserva.reviewQualification);
+    setEstado(reserva.bookingStatus);
+    if (reserva.reviewDesc === null) {
+      setResena("");
+    } else {
+      setResena(reserva.reviewDesc);
+    }
+  }, [id]);
+
+  console.log(reserva);
+  return (
+    <Grid item xs sx={{ textAlign: "left", minHeight: "500px" }}>
+      <Paper variant="o" elevation={0}>
+        <Grid
+          sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            flexWrap: "wrap",
+            flexFlow: "column nowrap",
+            alignContent: "stretch",
+            justifyContent: "center",
+            alignItems: "stretch",
+          }}
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
+          <Grid item xs>
+            <Paper elevation={2}>
+              <Typography
+                variant="h4"
+                gutterBottom
+                component="div"
+                sx={{ textAlign: "center" }}
+              >
+                {reserva.accommodationName}
+                <Typography> {estado}</Typography>
+                <Typography>
+                  {reserva.startDate} a {reserva.endDate}
+                </Typography>
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs>
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-evenly"
+              alignItems="flex-start"
+            >
+              <Grid item xs>
+                <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
+                  Precio {reserva.finalPrice}$UY
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Divider sx={{ marginY: "15px" }}>
+            <Chip label={"Reseñar Anfitrion"} />
+          </Divider>{" "}
+          <Grid item xs>
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-evenly"
+              alignItems="flex-start"
+            >
+              <Grid item xs>
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  justifyContent="space-evenly"
+                  marginBottom={"5px"}
+                >
+                  <Typography>{reserva.hostName}</Typography>
+                  <Typography>{reserva.hostEmail}</Typography>
+                </Stack>
+
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  sx={{ justifyContent: "center" }}
+                >
+                  <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
+                    Calificar Anfitrion
+                  </Typography>
+
+                  <Rating
+                    value={ratingHost}
+                    onChange={(e) => {
+                      let val = e.target.value;
+
+                      if (Number(val) === ratingHost) {
+                        val = 0;
+                        api.eliminarCalificacionAnfitrion(reserva.hostAlias);
+                      } else {
+                        api.calificarAnfitrion({
+                          qualifiedUser: reserva.hostAlias,
+                          qualification: val,
+                        });
+                      }
+                      setRatingHost(Number(val));
+                    }}
+                  />
+                </Stack>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Divider sx={{ marginY: "15px" }}>
+            <Chip label={"Reseña Alojamiento"} />
+          </Divider>
+          <Grid item xs>
+            <Card sx={{ padding: "10px" }}>
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-evenly"
+                alignItems="flex-start"
+              >
+                <Grid item xs>
+                  <Stack spacing={2}>
+                    <TextField
+                      placeholder="reseña"
+                      label="Reseñar Alojamiento"
+                      value={resena}
+                      onChange={(e) => {
+                        setResena(e.target.value);
+                      }}
+                    ></TextField>
+
+                    <Stack
+                      direction="row"
+                      spacing={2}
+                      alignContent="space-evenly"
+                      justifyContent="space-between"
+                      width={"100%"}
+                    >
+                      <Typography
+                        sx={{
+                          fontWeight: 600,
+                          textAlign: "center",
+                          marginY: "15px",
+                        }}
+                      >
+                        Calificación{" "}
+                      </Typography>
+
+                      <Rating
+                        sx={{ justifyContent: "center", alignItems: "center" }}
+                        value={ratingAlojamiento}
+                        onChange={(e) => {
+                          let val = e.target.value;
+
+                          if (Number(val) === ratingAlojamiento) {
+                            val = 0;
+                          }
+
+                          setRatingAlojamiento(Number(val));
+                        }}
+                      />
+                      <Button
+                        width={"40%"}
+                        onClick={async () => {
+                          if (reserva.reviewId == 0) {
+                            await api.agregarResenaAlojamiento({
+                              bookingId: reservaId,
+                              description: resena,
+                              qualification: ratingAlojamiento,
+                            });
+                            //window.location.reload();
+                          } else {
+                            await api.editarResenaAlojamiento({
+                              bookingId: reservaId,
+                              description: resena,
+                              qualification: ratingAlojamiento,
+                            });
+                            //window.location.reload();
+                          }
+                          /*
+                      await api.agregarResenaAlojamiento({
+                        booking_id: reserva.bookingId,
+                        reimbursedBy: "GUEST",
+                      });
+                      window.location.reload();         */
+                        }}
+                      >
+                        Guardar
+                      </Button>
+                    </Stack>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </Card>
+          </Grid>
+        </Grid>
+
+        {reserva.estado === "CONFIRMADO" && (
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-evenly"
+            alignItems="flex-start"
+            sx={{ marginTop: "30px" }}
+          >
+            <Grid item xs>
+              <Button
+                onClick={async () => {
+                  await api.rembolsarReserva({
+                    booking_id: reserva.bookingId,
+                    reimbursedBy: "GUEST",
+                  });
+                  window.location.reload();
+                }}
+              >
+                Rembolsar
+              </Button>
+            </Grid>
+          </Grid>
+        )}
       </Paper>
     </Grid>
   );
