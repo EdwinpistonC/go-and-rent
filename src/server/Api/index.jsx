@@ -248,4 +248,8 @@ export default class Api {
     let resultado = await this.init().post("booking/host/confirm", data);
     return resultado.data;
   };
+  obtenerEstadisticas = async () => {
+    let resultado = await this.init().get("admin/statistics");
+    return resultado.data;
+  };
 }

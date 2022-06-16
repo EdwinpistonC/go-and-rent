@@ -105,4 +105,32 @@ function AlojamientosPorRegion(props){
     );
 }
 
-export {Pie, UsuariosRegistradosMensualmente, AlojamientosRegistradosMensualmente, AlojamientosPorRegion};
+function StatusAnfitriones(props){
+    let options = {
+        "labels": props.labels,
+        chart: {
+            type: 'bar'
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false
+            }
+        }
+    }
+
+    return (
+        <>
+            <div className="donut">
+                <Chart options={options} series={props.series} type="bar" width="500" />
+            </div>
+        </>
+    );
+}
+
+export {
+    Pie,
+    UsuariosRegistradosMensualmente,
+    AlojamientosRegistradosMensualmente,
+    AlojamientosPorRegion,
+    StatusAnfitriones
+};
