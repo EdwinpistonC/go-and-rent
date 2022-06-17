@@ -6,7 +6,7 @@ import { useGlobalState } from "Hooks/GlobalHook";
 import { useLocation, useNavigate } from "react-router-dom";
 import GoogleMapReact from "google-map-react";
 
-export default function GoogleMap() {
+export default function GoogleMapPlaces({ setData }) {
   /*
   const [busqueda, , setBusqueda] = useLocalStorage(
     "busqueda",
@@ -49,6 +49,72 @@ export default function GoogleMap() {
     </BusquedaContainer>
   );
 }
+
+export function GoogleMapPlacesForm({ setData }) {
+  const [busqueda, setBusqueda] = React.useState("");
+
+  return (
+    <BusquedaContainer>
+      <GooglePlacesAutocomplete
+        styles={{
+          textInputContainer: {
+            innerHeight: "100%",
+            fontFamily: "Roboto,Helvetica,Arial,sans-serif",
+            fontWeight: "400",
+            fontSize: "1rem",
+            lineHeight: "1.4375em",
+            letterSpacing: "0.00938em",
+            color: "rgba(72, 135, 218, 0.87)",
+            boxSizing: "border-box",
+            position: "relative",
+            cursor: "text",
+            display: "inline-flex",
+            height: "100%",
+            alignItems: "center",
+            width: "100%",
+            position: "relative",
+            borderRadius: "4px",
+          },
+          textInput: {
+            font: "inherit",
+            letterSpacing: "inherit",
+            color: "currentColor",
+            padding: "4px 0 5px",
+            border: 0,
+            boxSizing: "content-box",
+            background: "none",
+            height: "1.4375em",
+            margin: 0,
+            display: "block",
+            minWidth: 0,
+            width: "100%",
+            animationName: "mui-auto-fill-cancel",
+            animationDuration: "10ms",
+            padding: "16.5px 14px",
+          },
+        }}
+        getOptionValue={({ value }) => console.log(value)}
+        apiKey={process.env.REACT_APP_API_GOOGLEMAP}
+        apiOptions={{ language: "es", region: "es" }}
+        types={"geocode"}
+        autocompletionRequest={{
+          bounds: [
+            { lat: 50, lng: 50 },
+            { lat: 100, lng: 100 },
+          ],
+        }}
+        selectProps={{
+          busqueda,
+          onChange: (e) => {
+            setBusqueda(e);
+            setData(e);
+          },
+        }}
+      />
+    </BusquedaContainer>
+  );
+}
+
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 export function GoogleMapLocation() {

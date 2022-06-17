@@ -10,7 +10,6 @@ import TextField from "components/atom/Textfield";
 
 export function Servicios({ lista, setValores }) {
   const [checked, setChecked] = React.useState([]);
-  console.log(lista);
 
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);

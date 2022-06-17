@@ -51,3 +51,44 @@ export default function IconSelector({ avatar, setAvatar }) {
     </Grid>
   );
 }
+
+export function IconUser({ id }) {
+  switch (id) {
+    case 0:
+      return (
+        <IconButton>
+          <Avatar sx={{ bgcolor: green[500] }}>
+            <AssignmentIcon />
+          </Avatar>
+        </IconButton>
+      );
+      break;
+    case 1:
+      return (
+        <IconButton>
+          <Avatar sx={{ bgcolor: pink[600] }}>
+            <AssignmentIcon />
+          </Avatar>
+        </IconButton>
+      );
+      break;
+    case 2:
+      return (
+        <IconButton>
+          <Avatar sx={{ bgcolor: red[700] }}>
+            <AssignmentIcon />
+          </Avatar>
+        </IconButton>
+      );
+      break;
+    default:
+      return (
+        <IconButton>
+          <Avatar sx={{ bgcolor: red[700] }}>
+            <AssignmentIcon />
+          </Avatar>
+        </IconButton>
+      );
+      break;
+  }
+}
