@@ -11,6 +11,18 @@ import { Button } from "components/atom/Button";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "Hooks/LocalStoreHook";
 
+import { styled } from '@mui/material/styles';
+const Div = styled('div')(({ theme }) => ({
+  ...theme.typography.button,
+  backgroundColor: theme.palette.background.paper,
+  padding: theme.spacing(1),
+}));
+
+const Paragraph = styled('p')(({ theme }) => ({
+  ...theme.typography.button,
+  backgroundColor: theme.palette.background.paper
+}));
+
 export default function Profile() {
   const [fields, handleFieldChange, changeField] = useInputsForm({
     account: null,
@@ -64,100 +76,131 @@ export default function Profile() {
   }
 
   return (
-    <Grid
-      container
-      sx={{
-        display: "flex",
-        width: "100%",
-        height: "100%",
-      }}
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-    >
       <Grid
-        container
-        sx={{
-          display: "flex",
-          minWidth: "40%",
-          maxWidth: "fit-content",
-          height: "400px",
-          backgroundColor: "#FFFFFF",
-        }}
-        direction="column"
-        alignItems="center"
-        justifyContent="space-around"
+          container
+          sx={{
+            display: "flex",
+            width: "100%",
+            height: "100%",
+          }}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
       >
         <Grid
-          item
-          xs
-          container
-          justifyContent="space-around"
-          alignItems="center"
-          direction="column"
+            container
+            sx={{
+              display: "flex",
+              minWidth: "40%",
+              maxWidth: "fit-content",
+              height: "600px",
+              backgroundColor: "#FFFFFF",
+            }}
+            direction="column"
+            alignItems="center"
+            justifyContent="space-around"
         >
-          <Grid item xs>
-            <Avatar sx={{ bgcolor: green[500] }}>
-              <AssignmentIcon />
-            </Avatar>
+          <Grid
+              item
+              xs
+              container
+              justifyContent="space-around"
+              alignItems="center"
+              direction="column"
+          >
+            <Grid item xs>
+              <Avatar sx={{ bgcolor: green[500] }}>
+                <AssignmentIcon />
+              </Avatar>
+            </Grid>
+            <Grid item xs>
+              {fields.alias}
+            </Grid>
+            <Grid item xs>
+              <Rating value={fields.qualification} readOnly precision={0.1} />
+            </Grid>
           </Grid>
-          <Grid item xs>
-            {fields.alias}
+          <Grid
+              item
+              xs
+              sx={{ width: "80%" }}
+              display="flex"
+              justifyContent="space-evenly"
+          >
+            <Grid item xs>
+              <Div>
+                <Paragraph>Nombre:</Paragraph>
+                <Paragraph>{fields.name} {fields.lastName}</Paragraph>
+              </Div>
+            </Grid>
+            <Grid item xs>
+              <Div>
+                <Paragraph>Fecha de Nacimiento:</Paragraph>
+                <Paragraph>{fields.birthday}</Paragraph>
+              </Div>
+            </Grid>
           </Grid>
-          <Grid item xs>
-            <Rating value={fields.qualification} readOnly precision={0.1} />
+          <Grid
+              item
+              xs
+              sx={{ width: "80%" }}
+              display="flex"
+              justifyContent="space-evenly"
+          >
+            <Grid item xs>
+              <Div>
+                <Paragraph>Teléfono/Celular:</Paragraph>
+                <Paragraph>{fields.phone}</Paragraph>
+              </Div>
+            </Grid>
+            <Grid item xs>
+              <Div>
+                <Paragraph>Email:</Paragraph>
+                <Paragraph>{fields.email}</Paragraph>
+              </Div>
+            </Grid>
           </Grid>
-
-          <Grid item xs>
-            {fields.email}
+          <Grid
+              item
+              xs
+              sx={{ width: "80%" }}
+              display="flex"
+              justifyContent="space-evenly"
+          >
+            { usuario.rol === 'ROLE_HOST'  && (
+            <Grid item xs>
+              <Div>
+                <Paragraph>Banco:</Paragraph>
+                <Paragraph>{fields.bank}</Paragraph>
+              </Div>
+            </Grid>)}
+            { usuario.rol === 'ROLE_HOST'  && (
+            <Grid item xs>
+              <Div>
+                <Paragraph>Cuenta:</Paragraph>
+                <Paragraph>{fields.account}</Paragraph>
+              </Div>
+            </Grid>
+                )}
           </Grid>
-        </Grid>
-        <Grid
-          item
-          xs
-          sx={{ width: "80%" }}
-          display="flex"
-          justifyContent="space-evenly"
-        >
-          <Grid item xs>
-            {fields.name} {fields.lastName}
-          </Grid>
-          <Grid item xs>
-            {fields.birthday}
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs
-          sx={{ width: "80%" }}
-          display="flex"
-          justifyContent="space-evenly"
-        >
-          <Grid item sx>
-            {fields.phone}
-          </Grid>
-          <Grid item sx>
-            {fields.email}
-          </Grid>
-        </Grid>
-        <Grid item xs justifyContent="space-evenly" spacing={"2px"}>
-          <Grid item sx>
-            <Button onClick={() => navegar("editar")}>Editar Datos</Button>
-          </Grid>
-          <Grid item xs>
-            <Button onClick={() => navegar("cambiar-contrasena")}>
-              Cambiar Contraseña
-            </Button>
-          </Grid>
-          {usuario.rol === "ROLE_GUEST" && (
+          <Grid item xs justifyContent="space-evenly" spacing={"2px"}>
             <Grid item sx>
-              <Button onClick={() => borrarUsuario()} color="error">
-                Borrar Usuario
+              <Button onClick={() => navegar("editar")}>Editar Datos</Button>
+            </Grid>
+            <Grid item xs>
+              <Button onClick={() => navegar("cambiar-contrasena")}>
+                Cambiar Contraseña
               </Button>
             </Grid>
-          )}
+            {usuario.rol === "ROLE_GUEST" && (
+                <Grid item sx>
+                  <Button onClick={() => borrarUsuario()} color="error">
+                    Borrar Usuario
+                  </Button>
+                </Grid>
+            )}
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
   );
 }
