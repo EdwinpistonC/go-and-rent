@@ -315,7 +315,7 @@ export default class Api {
     }
   ) => {
     let resultado = await this.init().post("booking/refund", data);
-    return resultado.data;
+    return resultado;
   };
 
   confirmarReserva = async (
@@ -324,7 +324,7 @@ export default class Api {
     }
   ) => {
     let resultado = await this.init().post("booking/host/confirm", data);
-    return resultado.data;
+    return resultado;
   };
 
   borrarUsuario = async () => {

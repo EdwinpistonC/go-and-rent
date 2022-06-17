@@ -34,6 +34,7 @@ import {
 } from "./StyledComponents";
 
 import { FormRequestCode, FormSendCode, FormChangePassword } from "../Forms";
+import { Label } from "@mui/icons-material";
 
 export default function LoginModal({
   abrirModal = false,
@@ -721,28 +722,78 @@ export function ReservarAlojamiento({
   abrirModal = true,
   onCloseModal,
   cerrarModal,
-  backTo,
   children,
-  url,
+  submit,
 }) {
-  const [fields, handleFieldChange, changeField] = useInputsForm({
-    step: 0,
-    email: "",
-    codigo: "",
-  });
+  const [apiError, setApiError] = React.useState("");
+
   const back = () => {
-    backTo(true);
-    changeField("step", 0);
-    changeField("email", "");
-    changeField("codigo", "");
     cerrarModal(false);
   };
+  //CSS
+  let left = 0;
+  let right = 0;
+  let direccion = "alternate";
+  let posImagen;
+
+  posImagen = "row";
+  right = 4;
+  left = "sds";
+
+  direccion = "alternate-reverse";
 
   return (
     <ModalBasico
       sx={{ height: "70%", width: "70%" }}
       abrirModal={abrirModal}
       onCloseModal={back}
-    ></ModalBasico>
+    >
+      <FormContainer posImagen={posImagen}>
+        <Columna>
+          <Form
+            action="/"
+            method="POST"
+            onSubmit={(e) => {
+              e.preventDefault();
+              submit();
+            }}
+          >
+            <H1>Registro</H1>
+            <Box sx={{ marginInline: "5%" }}>
+              <Grid
+                container
+                rowSpacing={1}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                columns={12}
+              >
+                <Grid item xs={6}>
+                  <Label> Nombre</Label>
+                </Grid>
+                <Grid item xs={6}>
+                  <Label> dfafgasafsd</Label>
+                </Grid>
+
+                {apiError !== "" ? (
+                  <ErrorLabel>{apiError}</ErrorLabel>
+                ) : (
+                  <EmptyLabel />
+                )}
+                <BtnContainer>
+                  <Button onClick={back} width={40}>
+                    Cancelar
+                  </Button>
+
+                  <Button type="submit" width={40}>
+                    Aceptar
+                  </Button>
+                </BtnContainer>
+              </Grid>
+            </Box>
+          </Form>
+        </Columna>
+
+        <Imagen rel="preload" direccion={direccion}></Imagen>
+      </FormContainer>
+    </ModalBasico>
   );
 }

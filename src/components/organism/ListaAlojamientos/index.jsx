@@ -11,7 +11,6 @@ export default function ListaAlojamientos({
   endDate = "",
 }) {
   console.log(alojamientos);
-  console.log(endDate);
 
   return (
     <Grid container columns={20} width={"100%"}>

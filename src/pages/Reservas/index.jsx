@@ -12,7 +12,7 @@ import { useLocalStorage } from "Hooks/LocalStoreHook";
 import InfoAlojamiento, {
   InfoReserva,
 } from "components/organism/InfoAlojamiento";
-import { Houses } from "components/atom/Icon";
+import { useModalHook } from "Hooks/ModalHooks";
 
 export function ListaReservasAnfitrion() {
   const api = new Api();
@@ -31,6 +31,8 @@ export function ListaReservasAnfitrion() {
   React.useEffect(async () => {
     CargarAlojamientos();
   }, []);
+  const [resenas, abrirResenas, cerrarResenas, despuesResenas] = useModalHook();
+
   React.useEffect(async () => {
     if (alojamientoSeleccionado !== 0) {
       const resultado = await api.details(alojamientoSeleccionado);
@@ -199,7 +201,6 @@ export function ListaReservasHuesped() {
         justifyContent="center"
         alignItems="center"
       >
-        <Houses></Houses>
         <Typography> Sin reservas realizadas</Typography>
       </Card>
     </Grid>

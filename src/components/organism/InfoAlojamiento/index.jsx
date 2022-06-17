@@ -67,6 +67,9 @@ export default function InfoAlojamiento({
               {alojamiento.accommodation.description}
             </Typography>
           </Grid>
+          <Divider sx={{ marginY: "15px" }}>
+            <Chip label={"Precio por noche"} />
+          </Divider>
           <Grid item xs>
             <Grid
               container
@@ -75,9 +78,6 @@ export default function InfoAlojamiento({
               alignItems="flex-start"
             >
               <Grid item xs>
-                <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
-                  Precio por noche
-                </Typography>
                 <Typography sx={{ textAlign: "center" }}>
                   {alojamiento.accommodation.price} $UY
                 </Typography>
@@ -104,19 +104,16 @@ export default function InfoAlojamiento({
               alignItems: "stretch",
             }}
           >
+            <Divider sx={{ marginY: "15px" }}>
+              <Chip label={"Caracteristicas"} />
+            </Divider>
             <Grid item>
               <Grid
                 container
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="flex-start"
-              >
-                <Grid item xs>
-                  <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
-                    Caracteristicas
-                  </Typography>
-                </Grid>
-              </Grid>
+              ></Grid>
 
               {alojamiento.features.map(function (feature, i) {
                 return (
@@ -137,6 +134,9 @@ export default function InfoAlojamiento({
                 );
               })}
             </Grid>
+            <Divider sx={{ marginY: "15px" }}>
+              <Chip label={"Servicios"} />
+            </Divider>
             <Grid item>
               <Grid
                 container
@@ -144,13 +144,7 @@ export default function InfoAlojamiento({
                 justifyContent="flex-start"
                 alignItems="flex-start"
                 sx={{ marginX: "0px", marginY: "0px" }}
-              >
-                <Grid item xs>
-                  <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
-                    Servicios
-                  </Typography>
-                </Grid>
-              </Grid>
+              ></Grid>
               {alojamiento.services.map(function (service, i) {
                 return (
                   <Grid
@@ -169,7 +163,9 @@ export default function InfoAlojamiento({
             </Grid>
           </Grid>
         </Grid>
-
+        <Divider sx={{ marginY: "15px" }}>
+          <Chip label={"Reservas"} />
+        </Divider>
         <Grid
           container
           direction="row"
