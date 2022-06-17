@@ -247,6 +247,9 @@ export function InfoReserva({ reservaId, reserva }) {
     datePartsStart[1] - 1,
     +datePartsStart[0]
   );
+
+  console.log(reserva);
+
   if (lastDate < new Date() && estadoActual === "ACEPTADA") {
     estadoActual = "COMPLETADA";
     setEstado("COMPLETADA");

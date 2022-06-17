@@ -44,8 +44,8 @@ const Reserva = ({ reserva }) => {
     const response = await api.confirmarReserva({
       booking_id: reserva.bookingId,
     });
-    console.log(response);
-    if (response.success) {
+
+    if (response.status === 200) {
       setEstado("ACEPTADA");
       const [dayI, monthI, yearI] = reserva.startDate.split("/");
       const [dayF, monthF, yearF] = reserva.endDate.split("/");
@@ -97,7 +97,7 @@ const Reserva = ({ reserva }) => {
       reimbursedBy: "HOST",
     });
 
-    if (response.success) {
+    if (response.status === 200) {
       setEstado("CANCELADA");
 
       const id =
