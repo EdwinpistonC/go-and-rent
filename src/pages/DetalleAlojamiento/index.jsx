@@ -1,4 +1,12 @@
-import { Card, Chip, Container, Grid, Typography } from "@mui/material";
+import {
+  Card,
+  Chip,
+  Container,
+  Grid,
+  Paper,
+  Rating,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import Api from "server/Api";
@@ -14,18 +22,26 @@ import * as locales from "react-date-range/dist/locale";
 
 import { useModalHook } from "Hooks/ModalHooks";
 import Carousel from "components/atom/Carousel";
+import { cambiarFormatoFecha } from "components/util/functions";
+import ListaReviews from "components/molecule/ListaReviews";
+
 export default function DetalleAlojamiento() {
-  const { id } = useParams();
+  const { id, startDate, endDate } = useParams();
   const api = new Api();
   const [galeria, setGaleria] = React.useState([]);
   const [alojamiento, setAlojamiento] = React.useState(null);
-  const [urlReserva, setUrlReserva] = React.useState(null);
-  const [paypalModal, abrirPaypalModal, cerrarPaypalModal, despuesPaypalModal] =
-    useModalHook();
+  const [abrirReserva, setAbrirReserva] = React.useState(false);
+  const [
+    reservaModal,
+    abrirReservaModal,
+    cerrarReservaModal,
+    despuesReservaModal,
+  ] = useModalHook();
+
   const [fecha, setFecha] = React.useState([
     {
-      startDate: new Date(),
-      endDate: null,
+      startDate: cambiarFormatoFecha(startDate),
+      endDate: cambiarFormatoFecha(endDate),
       key: "selection",
     },
   ]);
@@ -49,7 +65,6 @@ export default function DetalleAlojamiento() {
 
   React.useEffect(() => {
     obtenerDatos();
-
     return;
   }, []);
 
@@ -58,6 +73,10 @@ export default function DetalleAlojamiento() {
   }
 
   const realizarReserva = async () => {
+    setAbrirReserva(true);
+    abrirReservaModal();
+  };
+  const confirmarReserva = async () => {
     let alias = JSON.parse(localStorage.getItem("usuario")).alias;
     let payload = {
       idAccommodation: id,
@@ -68,10 +87,8 @@ export default function DetalleAlojamiento() {
 
     const response = await api.booking(payload);
 
-    console.log(response);
-    setUrlReserva(response.replace("redirect:", ""));
-    abrirPaypalModal();
-    console.log(response.replace("redirect:", ""));
+    const newWindow = window.open(response.replace("redirect:", ""), "_self");
+    if (newWindow) newWindow.opener = null;
   };
 
   return (
@@ -83,19 +100,19 @@ export default function DetalleAlojamiento() {
         width: "80%",
         background: "#ffffff",
 
-        height: "1315px",
+        height: "10%",
         margin: "auto",
 
         borderRadius: "31px",
       }}
     >
-      {urlReserva != null && (
+      {abrirReserva && (
         <ReservarAlojamiento
-          url={urlReserva}
-          abrirModal={paypalModal}
-          cerrarModal={abrirPaypalModal}
-          onCloseModal={cerrarPaypalModal}
-          onAfterOpen={despuesPaypalModal}
+          abrirModal={reservaModal}
+          cerrarModal={abrirReservaModal}
+          onCloseModal={cerrarReservaModal}
+          onAfterOpen={despuesReservaModal}
+          submit={confirmarReserva}
         ></ReservarAlojamiento>
       )}
 
@@ -190,8 +207,7 @@ export default function DetalleAlojamiento() {
                 order: 0,
                 alignSelf: "stretch",
                 flexGrow: 1,
-                boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                height: "110%",
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -206,6 +222,9 @@ export default function DetalleAlojamiento() {
                   alignSelf: "stretch",
                   flexGrow: 1,
                   paddingLeft: 0,
+                  marginLeft: " 0 !important",
+                  paddingLeft: " 0 !important",
+                  marginTop: "20px",
                 }}
                 style={{ paddingLeft: "0 !important" }}
               >
@@ -239,7 +258,7 @@ export default function DetalleAlojamiento() {
                 order: 0,
                 alignSelf: "stretch",
                 flexGrow: 1,
-                height: "50%",
+                height: "200px",
                 width: "100%",
                 padding: "0 !important",
               }}
@@ -322,6 +341,9 @@ export default function DetalleAlojamiento() {
               {alojamiento.features.map(function (feature, index) {
                 return (
                   <Chip
+                    sx={{
+                      margin: "5px",
+                    }}
                     key={"feature" + index}
                     label={feature.name + " : " + feature.value}
                   />
@@ -329,11 +351,35 @@ export default function DetalleAlojamiento() {
               })}
               {alojamiento.services.map(function (service, index) {
                 if (service.value) {
-                  return <Chip key={"service" + index} label={service.name} />;
+                  return (
+                    <Chip
+                      sx={{
+                        margin: "5px",
+                      }}
+                      key={"service" + index}
+                      label={service.name}
+                    />
+                  );
                 }
               })}
             </Container>
           </Container>
+        </Container>
+        <Grid container sx={{ margin: "50px" }}>
+          <Grid item xs>
+            <Typography variant="h5">
+              Calificacion del Alojamiento{" "}
+              <Rating
+                readOnly
+                size="large"
+                precision={0.1}
+                value={alojamiento.accommodation.qualification}
+              ></Rating>
+            </Typography>
+          </Grid>
+        </Grid>
+        <Container sx={{ marginY: "50px" }} maxWidth="sm">
+          <ListaReviews reviews={alojamiento.reviews}></ListaReviews>
         </Container>
       </Card>
     </Card>

@@ -13,8 +13,11 @@ import Grid from "@mui/material/Grid";
 import { FormTextfield } from "components/atom/Textfield";
 import { useInputsForm } from "Hooks/Inputhooks";
 import { Typography } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 import DemoImage from "./demo-image.jpg";
+import GoogleMapPlaces, {
+  GoogleMapPlacesForm,
+} from "components/atom/Googlemap";
 
 function GetCaracteristicas() {
   const backend = new Api();
@@ -22,6 +25,8 @@ function GetCaracteristicas() {
 }
 
 export default function NewHousing({ submit }) {
+  const navegar = useNavigate();
+
   const [fields, handleFieldChange, changeField] = useInputsForm({
     serviciosApi: [],
     caracteristicasApi: [],
@@ -35,6 +40,7 @@ export default function NewHousing({ submit }) {
     accName: [],
     accDescription: [],
     apiError: [],
+    places: "",
   });
 
   const [servicios, setServicios] = React.useState([]);
@@ -47,7 +53,6 @@ export default function NewHousing({ submit }) {
     GetCaracteristicas().then((resultado) => {
       resultado.data.servicios.map((item) => (item.valor = false));
       resultado.data.caracteristicas.map((item) => (item.cantidad = 0));
-      console.log(resultado);
       changeField("serviciosApi", resultado.data.servicios);
       setServicios(resultado.data.servicios);
       changeField("caracteristicasApi", resultado.data.caracteristicas);
@@ -65,7 +70,6 @@ export default function NewHousing({ submit }) {
         backgroundColor: "#ffffff",
 
         padding: "4%",
-        paddingTop: "0",
         margin: "auto",
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
         borderRadius: "3px",
@@ -78,9 +82,7 @@ export default function NewHousing({ submit }) {
           submit(
             servicios,
             caracteristicas,
-            fields.locCoordinates,
-            fields.locCountry,
-            fields.locRegion,
+            fields.places,
             fields.locStreet,
             fields.locDoorNumber,
             fields.accPrice,
@@ -90,6 +92,7 @@ export default function NewHousing({ submit }) {
           )
             .then((response, status) => {
               console.log(response);
+              navegar("/reservas");
             })
             .catch((err) => {
               console.log(err);
@@ -138,33 +141,18 @@ export default function NewHousing({ submit }) {
           >
             <Grid item xs={6}>
               <FormTextfield
-                id="locCoordinates"
-                onChange={handleFieldChange}
-                nombre="Coordenadas"
-              ></FormTextfield>
-            </Grid>
-            <Grid item xs={6}>
-              <FormTextfield
-                id="locCountry"
-                onChange={handleFieldChange}
-                nombre="Pais"
-              ></FormTextfield>
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormTextfield
-                id="locRegion"
-                onChange={handleFieldChange}
-                nombre="Region"
-              ></FormTextfield>
-            </Grid>
-            <Grid item xs={6}>
-              <FormTextfield
                 id="accPrice"
                 onChange={handleFieldChange}
                 nombre="Precio"
                 number
               ></FormTextfield>
+            </Grid>
+            <Grid item xs={6}>
+              <GoogleMapPlacesForm
+                setData={(e) => {
+                  changeField("places", e);
+                }}
+              ></GoogleMapPlacesForm>
             </Grid>
           </Grid>
           <Grid

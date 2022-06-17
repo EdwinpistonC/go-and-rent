@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 
 import { SideBarFilter } from "components/organism/SideBarMenu";
 import ListaAlojamientos from "components/organism/ListaAlojamientos";
-import { Grid } from "@mui/material";
+import { Alert, Grid, Snackbar } from "@mui/material";
 import Api from "server/Api";
 
 export default function Busqueda() {
@@ -11,33 +11,48 @@ export default function Busqueda() {
 
   const api = new Api();
   const [alojamientos, setAlojamientos] = React.useState([]);
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "bottom",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = async () => {
+    return setState({ ...state, open: true });
+  };
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  const [fechas, setFechas] = React.useState(["", ""]);
 
   const filtrar = async (
     place,
-    startDate,
-    endDate,
+    startDate = "",
+    endDate = "",
     servicios,
     caracteristicas
   ) => {
+    setFechas([startDate, endDate]);
+
     console.log(place.value);
     if (typeof place.value === "undefined") {
+      await handleClick();
+      console.log(state);
       return;
     }
-    let country = place.value.terms[0];
-    let province = place.value.terms[0];
-    let city = place.value.terms[0];
-    if (place.value.terms.length == 2) {
-      province = place.value.terms[1];
-      city = place.value.terms[1];
-    } else if (place.value.terms.length == 3) {
-      province = place.value.terms[1];
-      city = place.value.terms[2];
+    let country = place.value.terms[0].value;
+    let province = place.value.terms[0].value;
+    let city = place.value.terms[0].value;
+
+    if (place.value.terms.length === 3) {
+      country = place.value.terms[2].value;
+      province = place.value.terms[1].value;
+    } else if (place.value.terms.length === 2) {
+      country = place.value.terms[1].value;
+      province = place.value.terms[0].value;
     }
-    country = "Uruguay";
-    province = "Canelones";
-
-    city = "Solymar";
-
     let serviciosApi = [];
     servicios.map(function (servicio) {
       if (servicio.valor) {
@@ -52,18 +67,26 @@ export default function Busqueda() {
         );
       }
     });
-    console.log(serviciosApi);
 
-    console.log(caracteristicaApi);
-
+    console.log({
+      city: city,
+      country: country,
+      province: province,
+      priceFrom: 0,
+      priceTo: 10000000,
+      dateFrom: startDate,
+      dateTo: endDate,
+      features: caracteristicaApi,
+      services: serviciosApi,
+    });
     const resultado = await api.filter({
       city: city,
       country: country,
       province: province,
-      priceFrom: 20,
+      priceFrom: 0,
       priceTo: 10000000,
-      dateFrom: "01/08/1993",
-      dateTo: "01/08/2030",
+      dateFrom: startDate,
+      dateTo: endDate,
       features: caracteristicaApi,
       services: serviciosApi,
     });
@@ -80,6 +103,18 @@ export default function Busqueda() {
       spacing={2}
       columns={2}
     >
+      <Snackbar
+        severity="error"
+        open={open}
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={handleClose}
+        message="I love snacks"
+        key={"alerta"}
+      >
+        <Alert severity="error">
+          Debe buscarse una localización para obtener un resultado
+        </Alert>
+      </Snackbar>
       <Grid item>
         <Container
           maxWidth="xs"
@@ -96,7 +131,11 @@ export default function Busqueda() {
         </Container>
       </Grid>
       <Grid item xs>
-        <ListaAlojamientos alojamientos={alojamientos} />
+        <ListaAlojamientos
+          alojamientos={alojamientos}
+          startDate={fechas[0]}
+          endDate={fechas[1]}
+        />
       </Grid>
     </Grid>
   );

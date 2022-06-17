@@ -96,6 +96,10 @@ const registerReserve = async function (
     console.log(pair[0] + ", " + pair[1]);
   }*/
 
+  console.log(formData);
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ", " + pair[1]);
+  }
   return backend.reserveCreate(formData);
 };
 

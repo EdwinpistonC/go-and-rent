@@ -48,7 +48,9 @@ export default function Header({ busqueda, setBusqueda }) {
   Cerrar sesion
   */
   const [alertaCerrarSesion, setAlerta] = React.useState(false);
-  const handleOpen = () => setAlerta(true);
+  const handleOpen = () => {
+    setAlerta(true);
+  };
   const handleClose = () => setAlerta(false);
 
   const [usuario, setUsuario] = useLocalStorage("usuario", "");
@@ -85,7 +87,10 @@ export default function Header({ busqueda, setBusqueda }) {
               variant="contained"
               onClick={() => {
                 handleClose();
-                setUsuario("");
+                localStorage.removeItem("usuario");
+
+                //navegar("/");
+                window.location = "/";
               }}
             >
               Si
@@ -104,6 +109,7 @@ export default function Header({ busqueda, setBusqueda }) {
         onIniciar={abrirInicioH}
         onCrear={abrirRegistroH}
         onCerrar={handleOpen}
+        onMensaje={() => navegar("/mensajes")}
         onReserva={() => navegar("/reservas")}
         onPerfil={() => navegar("/perfil")}
       >

@@ -334,6 +334,7 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
       contrasenavieja: "",
     },
   });
+
   const [backendError, setBackendError] = React.useState("");
   const navegar = useNavigate();
 
@@ -341,13 +342,17 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
     const api = new Api();
     api
       .changePasswordProfile({
-        password: data.password,
-        oldpassword: data.contrasenavieja,
+        newPassword: data.contrasena1,
+        oldPassword: data.contrasenavieja,
       })
       .then((response, status) => {
         console.log(response);
-        setBackendError("");
-        navegar("/perfil");
+        if (status >= 200 && status < 300) {
+          setBackendError("");
+          navegar("/perfil");
+        } else {
+          setBackendError(response.mensaje);
+        }
       })
       .catch((err) => {
         if (typeof err.response !== "undefined") {

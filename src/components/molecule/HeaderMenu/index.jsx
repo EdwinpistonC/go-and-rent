@@ -23,13 +23,17 @@ export default function HeaderMenu({
   onReserva = () => {
     alert("default");
   },
+  onMensaje = () => {
+    alert("default");
+  },
 }) {
   if (rol == "ROLE_GUEST") {
     return (
       <MenuContainer>
         {children}
         <Alert />
-        <Messages />
+        <Messages onClick={onMensaje} />
+
         <Bookings onClick={onReserva} />
         <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil
@@ -60,7 +64,7 @@ export default function HeaderMenu({
     return (
       <MenuContainer>
         <Alert />
-        <Messages />
+        <Messages onClick={onMensaje} />
         <Bookings onClick={onReserva} />
         <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil

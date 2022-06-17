@@ -12,10 +12,11 @@ const backend = new Api();
 //let listaDeUsuarios = backend.listadoUsuarios()
 
 //console.log(Usuarios["usuarios"]);
-backend.listadoUsuarios().then((response)=>{
+/*backend.listadoUsuarios().then((response)=>{
  console.log(response.data)
 
 })
+*/
 
 
 //console.log(backend.listadoUsuarios())

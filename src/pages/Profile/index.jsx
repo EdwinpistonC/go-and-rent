@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Grid } from "@mui/material";
+import { Grid, Rating } from "@mui/material";
 
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import Avatar from "@mui/material/Avatar";
@@ -9,6 +9,7 @@ import Api from "server/Api";
 import { useInputsForm } from "Hooks/Inputhooks";
 import { Button } from "components/atom/Button";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "Hooks/LocalStoreHook";
 
 export default function Profile() {
   const [fields, handleFieldChange, changeField] = useInputsForm({
@@ -25,11 +26,21 @@ export default function Profile() {
     carga: false,
   });
 
-  const navegar = useNavigate();
+  const api = new Api();
 
-  const [alertaCerrarSesion, setAlerta] = React.useState(false);
-  const handleOpen = () => setAlerta(true);
-  const handleClose = () => setAlerta(false);
+  const [usuario, setUsuario] = useLocalStorage("usuario", "");
+
+  const borrarUsuario = async () => {
+    //const resultado = await api.borrarUsuario();
+    //if (resultado.status === 200) {
+    localStorage.removeItem("usuario");
+
+    navegar("/");
+    window.location.reload();
+    // }
+  };
+
+  const navegar = useNavigate();
 
   if (!fields.carga) {
     const api = new Api();
@@ -68,7 +79,8 @@ export default function Profile() {
         container
         sx={{
           display: "flex",
-          width: "40%",
+          minWidth: "40%",
+          maxWidth: "fit-content",
           height: "400px",
           backgroundColor: "#FFFFFF",
         }}
@@ -78,41 +90,48 @@ export default function Profile() {
       >
         <Grid
           item
-          sx
+          xs
           container
           justifyContent="space-around"
           alignItems="center"
           direction="column"
-          display="flex"
         >
-          <Grid item>
+          <Grid item xs>
             <Avatar sx={{ bgcolor: green[500] }}>
               <AssignmentIcon />
             </Avatar>
           </Grid>
-          <Grid item>{fields.alias}</Grid>
-          <Grid item> {fields.email}</Grid>
+          <Grid item xs>
+            {fields.alias}
+          </Grid>
+          <Grid item xs>
+            <Rating value={fields.qualification} readOnly precision={0.1} />
+          </Grid>
+
+          <Grid item xs>
+            {fields.email}
+          </Grid>
         </Grid>
         <Grid
           item
+          xs
           sx={{ width: "80%" }}
           display="flex"
           justifyContent="space-evenly"
-          direction="row"
         >
-          <Grid item sx>
+          <Grid item xs>
             {fields.name} {fields.lastName}
           </Grid>
-          <Grid item sx>
+          <Grid item xs>
             {fields.birthday}
           </Grid>
         </Grid>
         <Grid
           item
+          xs
           sx={{ width: "80%" }}
           display="flex"
           justifyContent="space-evenly"
-          direction="row"
         >
           <Grid item sx>
             {fields.phone}
@@ -121,21 +140,22 @@ export default function Profile() {
             {fields.email}
           </Grid>
         </Grid>
-        <Grid
-          item
-          sx={{ width: "100%" }}
-          display="flex"
-          justifyContent="space-evenly"
-          direction="row"
-        >
+        <Grid item xs justifyContent="space-evenly" spacing={"2px"}>
           <Grid item sx>
             <Button onClick={() => navegar("editar")}>Editar Datos</Button>
           </Grid>
-          <Grid item sx>
+          <Grid item xs>
             <Button onClick={() => navegar("cambiar-contrasena")}>
               Cambiar Contraseña
             </Button>
           </Grid>
+          {usuario.rol === "ROLE_GUEST" && (
+            <Grid item sx>
+              <Button onClick={() => borrarUsuario()} color="error">
+                Borrar Usuario
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </Grid>
