@@ -341,4 +341,8 @@ export default class Api {
     let resultado = await this.init().delete("guests/delete/" + alias);
     return resultado;
   };
+  obtenerEstadisticas = async () => {
+    let resultado = await this.init().get("admin/statistics");
+    return resultado.data;
+  };
 }

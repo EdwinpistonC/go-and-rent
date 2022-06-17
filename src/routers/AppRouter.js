@@ -24,6 +24,7 @@ import { ListaReservas } from "pages/Reservas";
 import AdministrarReservas from "pages/AdministrarReservas";
 import EditarReserva from "pages/EditarReserva";
 import Mensajeria from "pages/Mensajeria";
+import Estadisticas from "pages/Estadisticas";
 
 function HeaderView() {
   const location = useLocation();
@@ -69,9 +70,8 @@ export const AppRouter = ({ children }) => {
             <Route path="nuevo-alojamiento" element={<CreateHousing />} />
           </Route>
           <Route path="/busqueda" element={<Busqueda />}></Route>
-
+          <Route path="/estadisticas" element={<Estadisticas />} />
           <Route path="/admin">
-            <Route path="new-admin" element={<AdminRegister />} />
             <Route path="nuevo-admin" element={<AdminRegister />} />
           </Route>
           <Route
