@@ -3,23 +3,26 @@
 // https://www.youtube.com/watch?v=fJRyC-xLIQc referencia
 // npm install @material-ui/core --save
 
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { set } from "date-fns";
+
 
 import { MUIDataTableStyled } from "./style";
 
 import { definirOpciones } from "./configuracionMUIDatatable";
-import { tooltip } from "leaflet";
 
-import { button, Link } from "react-router-dom";
+
+
+
+
 
 const ListaUsuarios = ({ datos }) => {
   //  definimos columnas
+
+
   const columns = [
     { name: "alias", label: "Alias",
-    options: {
-      filter: false,}
+      options: {
+        filter: false
+      }
     },
     {
       name: "email",
@@ -30,33 +33,55 @@ const ListaUsuarios = ({ datos }) => {
 
     },
 
-    { name: "name", label: "Nombre" },
-    { name: "lastName", label: "Apellido" },
-    { name: "phone", label: "Teléfono" ,
-      options: {
-        filter: true,
-        filterOptions: {
-          renderValue: v => v ? v.replace(/^[9]{8,8}$/, 'hola') : ''
-        },
-        //display: 'excluded',
-        filterType: 'dropdown'
-      },
-    },
-    { name: "creationDate", label: "Fecha de alta" },
-    { name: "status", label: "Estado",
+    { name: "name", label: "Nombre",      
       options: {
         filter: false,
-        customFilterListOptions: {
-          render: v =>{
-            console.log(v);
-            return v.toLowerCase()
-          } 
+      } 
+    },
+    { name: "lastName", label: "Apellido",      
+      options: {
+        filter: false,
+      }  
+    },
+    { name: "phone", label: "Teléfono",      
+      options: {
+        filter: false,
+      }  
+    },
+    { name: "creationDate", label: "Fecha de alta",      
+      options: {
+        filter: false,
+      }  
+    },
+    { name: "iconStatus", label: "Estado",
+
+      options: {
+        filter: true,
+        filterType: 'checkbox',
+        filterOptions: {
+          names: ["BLOQUEADO","ELIMINADO","ESPERANDO","ACEPTADO"],
+          logic(iconStatus, filterVal) {
+      
+            let strIconStatus = ""+iconStatus+"";
+            console.log(strIconStatus.search("d55a34"));
+            const show =
+              (filterVal.indexOf('BLOQUEADO') >= 0 && strIconStatus.search("d55a34") != -1) ||
+              (filterVal.indexOf('ELIMINADO') >= 0 && strIconStatus.search("e53c41") != -1) ||
+              (filterVal.indexOf('ESPERANDO') >= 0 && strIconStatus.search("ecab40") != -1) ||
+              (filterVal.indexOf('ACEPTADO') >= 0 && strIconStatus.search("33b047") != -1);
+            return !show;
+          },
         },
+        sort: false,
       },
+      
     },
     { name: "role", label: "Rol" },
     {
-      name: "Action",
+      name: "Action",      
+      options: {
+        filter: false,
+      }
     },
   ];
 
@@ -70,5 +95,8 @@ const ListaUsuarios = ({ datos }) => {
     />
   );
 };
+
+
+
 
 export { ListaUsuarios };

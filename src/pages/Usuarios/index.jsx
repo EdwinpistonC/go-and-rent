@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Api from "server/Api";
 import   {  ListaUsuarios } from "components/molecule/ListaUsuarios";
+import   Example from "components/molecule/ListaUsuarios/prueba";
+
 import Mapa from "components/atom/Mapa";
 //import Usuarios from "./users.json"
-import botoneraEstados from "components/molecule/BotoneraEstados";
+import {botoneraEstados} from "components/molecule/BotoneraEstados";
 import { iconoEstados } from "components/atom/Icon";
 
 import { useState, useEffect } from "react";
@@ -40,7 +42,7 @@ const roles = {
 };
 
 //console.log(backend.listadoUsuarios())
-export default function TestPage() {
+export default function UsuariosPage() {
   const [usuarios, setUsuarios] = useState([]);
   const [cambioEstado, setcambioEstado] = useState(false);
 
@@ -53,11 +55,13 @@ export default function TestPage() {
       let listaUsuarios = response.data["usuarios"];
       listaUsuarios.forEach(function(usuario, index){
         let estado = usuario["status"];
+        let icono =  iconoEstados(estado);
         let aliasUsuario = usuario["alias"];
         let rol = usuario["role"];
         let email = usuario["email"];
-        usuario["Action"] = botoneraEstados(estado,aliasUsuario,actualizarTabla);
-        usuario["status"] = iconoEstados(estado);
+
+        usuario["Action"] = botoneraEstados(estado,aliasUsuario,actualizarTabla,usuario["accommodationId"]);
+        usuario["iconStatus"] = icono;
         usuario["role"] = roles[rol];
         usuario["email"] = emails(email);
       });

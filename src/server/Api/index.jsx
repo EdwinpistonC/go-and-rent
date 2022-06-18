@@ -359,4 +359,5 @@ export default class Api {
   rechazarUsuarios = (alias) => {
     //return this.init().put("admin/delete-user/"+alias)
   }
+
 }

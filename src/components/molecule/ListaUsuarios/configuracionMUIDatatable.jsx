@@ -52,6 +52,7 @@ function definirOpciones() {
       },
     },
     setRowProps: (row, dataIndex, rowIndex) => {
+
       // let estado = row[row.length - 3];
       // let alias = row[0];
       // let rol = row[row.length - 2];

@@ -77,10 +77,11 @@ const body = (boton,alias,modalStyle,classes,handleClose,actualizarTabla)=>{
           <Button 
             style={getBotonStyle(boton)}
             onClick={(alias) => {
+                  
                   backend.aceptarUsuarios(alias).then((response)=>{
                     console.log(response.data);
                     handleClose();
-                    actualizarTabla();
+                    window.location.href = '/Admin/usuarios'; 
                    }).catch((response)=>{
                     alert("Hubo un error intentelo más tarde.");
                     console.error(response.data);
@@ -231,11 +232,11 @@ const body = (boton,alias,modalStyle,classes,handleClose,actualizarTabla)=>{
                   backend.rechazarUsuarios(alias).then((response)=>{
                     console.log(response.data);
                     handleClose();
-                    actualizarTabla();
-                   }).catch((response)=>{
+                    window.location.href = '/Admin/usuarios';
+                  }).catch((response)=>{
                     alert("Hubo un error intentelo más tarde.");
                     console.error(response.data);
-                   });
+                  });
                 }}
           >
           {boton}
@@ -255,7 +256,7 @@ const body = (boton,alias,modalStyle,classes,handleClose,actualizarTabla)=>{
   }
   return div;  
 }
-export default function SimpleModal({boton, alias,actualizarTabla}) {
+export default function SimpleModal({boton, alias,actualizarTabla=null}) {
 
   const classes = useStyles();
   //const classes = useStyles();

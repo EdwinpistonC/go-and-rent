@@ -41,7 +41,7 @@ const iconoEstados = (estado) => {
   };
   if (estado == "ACEPTADO") {
     icono = () => {
-      return <DoneIcon style={{ color: "#33b047" }}></DoneIcon>;
+      return (<DoneIcon style={{ color: "#33b047" }}></DoneIcon>);
     };
   } else if (estado == "BLOQUEADO") {
     icono = () => {
