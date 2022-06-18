@@ -357,7 +357,7 @@ export default class Api {
     return this.init().put("admin/delete-user/"+alias);
   };
   rechazarUsuarios = (alias) => {
-    //return this.init().put("admin/delete-user/"+alias)
+    return this.init().put("admin/reject-host/"+alias)
   }
 
 }

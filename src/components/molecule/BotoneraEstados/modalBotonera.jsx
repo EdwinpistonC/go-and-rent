@@ -76,7 +76,7 @@ const body = (boton,alias,modalStyle,classes,handleClose,actualizarTabla)=>{
 
           <Button 
             style={getBotonStyle(boton)}
-            onClick={(alias) => {
+            onClick={() => {
                   
                   backend.aceptarUsuarios(alias).then((response)=>{
                     console.log(response.data);
@@ -228,7 +228,7 @@ const body = (boton,alias,modalStyle,classes,handleClose,actualizarTabla)=>{
 
           <Button 
             style={getBotonStyle(boton)}
-            onClick={(alias) => {
+            onClick={() => {
                   backend.rechazarUsuarios(alias).then((response)=>{
                     console.log(response.data);
                     handleClose();
