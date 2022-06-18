@@ -507,7 +507,6 @@ export function FormEditUser({ onBack, children, setFields }) {
   const onSubmit = async (data) => {
     const api = new Api();
     let date = formatDate(new Date(fecha));
-    console.log(date);
     console.log({
       alias: data.alias,
       email: data.email,
@@ -531,7 +530,6 @@ export function FormEditUser({ onBack, children, setFields }) {
       account: data.account,
     });
 
-    console.log(respuesta);
     if (status == 201) {
       navegar("/perfil");
     } else {
