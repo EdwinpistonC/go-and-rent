@@ -30,7 +30,6 @@ export const AppRouter = ({ children }) => {
   return (
     <RouterContainer>
       <Header />
-
       <Container>
         <Routes>
           <Route path="/reservas" element={<ListaReservas />} />
@@ -78,7 +77,7 @@ export const AppRouter = ({ children }) => {
         </Routes>
         {children}
       </Container>
-      {usuario.rol !== "ROLE_ADMIN" && <Footer />}
+      <Footer />
     </RouterContainer>
   );
 };

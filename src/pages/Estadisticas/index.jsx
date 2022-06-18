@@ -6,7 +6,7 @@ import {
   StatusAnfitriones,
   UsuariosRegistradosMensualmente,
 } from "../../components/atom/Charts";
-import { MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import Api from "../../server/Api";
 
@@ -139,6 +139,7 @@ export default function Estadisticas() {
   const [usersSeries, setUsersSeries] = useState([]);
   const [accomodations, setAccomodations] = useState([]);
   const [hostsRegistered, setHostsRegistered] = useState([]);
+  const [select, setSelect] = useState(0);
 
   const getStats = async () => {
     let data = await api.obtenerEstadisticas();
@@ -198,7 +199,7 @@ export default function Estadisticas() {
     };
 
     return (
-      <>
+      <Container>
         <Select
           labelId="select-region-label"
           id="select-region"
@@ -209,7 +210,7 @@ export default function Estadisticas() {
           {filters}
         </Select>
         <AlojamientosPorRegion labels={chartLabels} series={seriesData} />
-      </>
+      </Container>
     );
   };
 
@@ -219,9 +220,9 @@ export default function Estadisticas() {
     }
     const series = registeredUsersPerMonth(usersSeries);
     return (
-      <>
+      <Container>
         <UsuariosRegistradosMensualmente labels={months} series={series} />
-      </>
+      </Container>
     );
   };
 
@@ -231,12 +232,14 @@ export default function Estadisticas() {
     }
     const housesSeries = registeredHousesPerMonth(accomodations);
     return (
-      <>
+      <Container
+        sx={{ marginY: "2%", justifyContent: "center", alignContent: "center" }}
+      >
         <AlojamientosRegistradosMensualmente
           labels={months}
           series={housesSeries}
         />
-      </>
+      </Container>
     );
   };
 
@@ -247,18 +250,56 @@ export default function Estadisticas() {
     const labels = ["Eliminado", "Bloqueado", "Aceptado"];
     const series = statusHostPerMonth(hostsRegistered);
     return (
-      <>
+      <Container>
         <StatusAnfitriones labels={months} series={series}></StatusAnfitriones>
-      </>
+      </Container>
     );
   };
 
+  const renderSwitch = () => {
+    console.log(select);
+    switch (select) {
+      case 0:
+        return (
+          <AlojamientosRegistradosMensualmenteWrapper></AlojamientosRegistradosMensualmenteWrapper>
+        );
+      case 1:
+        return <UsuariosRegistradosWrapper></UsuariosRegistradosWrapper>;
+      case 2:
+        return <AlojamientosPorRegionWrapper></AlojamientosPorRegionWrapper>;
+      case 3:
+        return <AnfitrionesWrapper></AnfitrionesWrapper>;
+
+      default:
+        return "";
+    }
+  };
+  const handleChange = (event) => {
+    setSelect(event.target.value);
+  };
   return (
-    <Container>
-      <AlojamientosRegistradosMensualmenteWrapper></AlojamientosRegistradosMensualmenteWrapper>
-      <UsuariosRegistradosWrapper></UsuariosRegistradosWrapper>
-      <AlojamientosPorRegionWrapper></AlojamientosPorRegionWrapper>
-      <AnfitrionesWrapper></AnfitrionesWrapper>
+    <Container sx={{ height: "100%" }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">
+          Seleccionar estadistica
+        </InputLabel>
+        <Select
+          id="demo-simple-select"
+          value={select}
+          label="Seleccionar estadistica"
+          onChange={handleChange}
+        >
+          <MenuItem sx={{ width: "100%", height: "100%" }} value={0}>
+            Alojamientos registrados Mensualmente
+          </MenuItem>
+          <MenuItem value={1}>Usuarios registrados</MenuItem>
+          <MenuItem value={2}>Alojamientos por region</MenuItem>
+          <MenuItem value={3}>
+            Anfitriones aceptados/rezadados/eliminados{" "}
+          </MenuItem>
+        </Select>
+      </FormControl>
+      {renderSwitch()}
     </Container>
   );
 }
