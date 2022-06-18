@@ -8,26 +8,26 @@ import { iconoEstados } from "components/atom/Icon";
 
 function definirOpciones() {
   //const action = <button onClick={alert("hola")}> boton</button>;
-  const roles = {
-    ROLE_GUEST: "HUÉSPED",
-    ROLE_ADMIN: "ADMINISTRADOR",
-    ROLE_HOST: "ANFITRIÓN",
-  };
+  // const roles = {
+  //   ROLE_GUEST: "HUÉSPED",
+  //   ROLE_ADMIN: "ADMINISTRADOR",
+  //   ROLE_HOST: "ANFITRIÓN",
+  // };
 
-  const emails = (email) => {
-    return (
-      <div
-        style={{
-          width: "10em",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {email}
-      </div>
-    );
-  };
+  // const emails = (email) => {
+  //   return (
+  //     <div
+  //       style={{
+  //         width: "10em",
+  //         overflow: "hidden",
+  //         whiteSpace: "nowrap",
+  //         textOverflow: "ellipsis",
+  //       }}
+  //     >
+  //       {email}
+  //     </div>
+  //   );
+  // };
 
   const opciones = {
     //customAction: action,
@@ -52,12 +52,13 @@ function definirOpciones() {
       },
     },
     setRowProps: (row, dataIndex, rowIndex) => {
-      let estado = row[row.length - 3];
-      let rol = row[row.length - 2];
-      row[row.length - 1] = botoneraEstados(estado);
-      row[row.length - 2] = roles[rol];
-      row[row.length - 3] = iconoEstados(estado);
-      row[1] = emails(row[1]);
+      // let estado = row[row.length - 3];
+      // let alias = row[0];
+      // let rol = row[row.length - 2];
+      // row[row.length - 1] = botoneraEstados(estado,alias);
+      // row[row.length - 2] = roles[rol];
+      // row[row.length - 3] = iconoEstados(estado);
+      // row[1] = emails(row[1]);
     },
   };
   return opciones;

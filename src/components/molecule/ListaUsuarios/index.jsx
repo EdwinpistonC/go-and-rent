@@ -17,41 +17,43 @@ import { button, Link } from "react-router-dom";
 const ListaUsuarios = ({ datos }) => {
   //  definimos columnas
   const columns = [
-    { name: "alias", label: "Alias" },
+    { name: "alias", label: "Alias",
+    options: {
+      filter: false,}
+    },
     {
       name: "email",
       label: "Correo Electronico",
       options: {
-        setCellProps: (value) => {
-          return {
-            style: {
-              color: "red",
-              width: "230px !important",
-              // overflow: 'hidden',
-              // whiteSpace: 'nowrap',
-              // textOverflow: 'ellipsis'
-            },
-          };
-        },
-        setCellHeaderProps: (value) => {
-          return {
-            style: {
-              color: "red",
-              width: "230px !important",
-              // overflow: 'hidden',
-              // whiteSpace: 'nowrap',
-              // textOverflow: 'ellipsis'
-            },
-          };
-        },
-      },
+        filter: false
+      }
+
     },
 
     { name: "name", label: "Nombre" },
     { name: "lastName", label: "Apellido" },
-    { name: "phone", label: "Teléfono" },
+    { name: "phone", label: "Teléfono" ,
+      options: {
+        filter: true,
+        filterOptions: {
+          renderValue: v => v ? v.replace(/^[9]{8,8}$/, 'hola') : ''
+        },
+        //display: 'excluded',
+        filterType: 'dropdown'
+      },
+    },
     { name: "creationDate", label: "Fecha de alta" },
-    { name: "status", label: "Estado" },
+    { name: "status", label: "Estado",
+      options: {
+        filter: false,
+        customFilterListOptions: {
+          render: v =>{
+            console.log(v);
+            return v.toLowerCase()
+          } 
+        },
+      },
+    },
     { name: "role", label: "Rol" },
     {
       name: "Action",
