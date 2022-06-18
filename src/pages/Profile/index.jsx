@@ -126,12 +126,6 @@ export default function Profile() {
               <Rating value={fields.qualification} readOnly precision={0.1} />
             </Grid>
           </Grid>
-          <Grid item xs>
-            {fields.alias}
-          </Grid>
-          <Grid item xs>
-            <Rating value={fields.qualification} readOnly precision={0.1} />
-          </Grid>
         </Grid>
         <Grid
           item
