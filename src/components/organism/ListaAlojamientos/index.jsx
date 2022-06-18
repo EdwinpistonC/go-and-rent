@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Alojamiento, {
   AlojamientoAnfitrion,
 } from "components/molecule/Alojamiento";
@@ -10,8 +10,6 @@ export default function ListaAlojamientos({
   startDate = "",
   endDate = "",
 }) {
-  console.log(alojamientos);
-
   return (
     <Grid container columns={20} width={"100%"}>
       {alojamientos.map((alojamiento, i) => {
@@ -62,26 +60,27 @@ export function ListaReservaAlojamientoHuesped({
   seleccionar = () => {},
 }) {
   return (
-    <Grid
-      container
-      width={"100%"}
-      rowSpacing={4}
-      columnSpacing={4}
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      key={"listaReservas"}
-    >
-      {reservas.map((reserva, i) => {
-        return (
-          <Grid item xs={20} key={i} width={"100%"}>
-            <DescReserva
-              onClick={() => seleccionar(reserva.bookingId)}
-              reserva={reserva}
-            ></DescReserva>
-          </Grid>
-        );
-      })}
-    </Grid>
+    <Box sx={{ height: "100%", overflowY: "scroll" }}>
+      <Grid
+        container
+        columnSpacing={4}
+        rowSpacing={2}
+        direction="column"
+        justifyContent="center"
+        alignItems="stretch"
+        key={"listaReservas"}
+      >
+        {reservas.map((reserva, i) => {
+          return (
+            <Grid item xs key={i} width={"100%"}>
+              <DescReserva
+                onClick={() => seleccionar(reserva.bookingId)}
+                reserva={reserva}
+              ></DescReserva>
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Box>
   );
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import Api from "server/Api";
 import NewReserve from "components/organism/NewHousing";
-import { dataURItoBlob } from "components/util/functions";
 
 /*
 acc_name
@@ -44,10 +43,7 @@ const registerReserve = async function (
   images
 ) {
   const backend = new Api();
-  const objeto = {};
-
   var formData = new FormData(); //formdata object
-
   services.forEach((service) => {
     if (service.hasOwnProperty("valor") && service.valor) {
       formData.append("services", service.id);
@@ -95,8 +91,6 @@ const registerReserve = async function (
   /*for (var pair of formData.entries()) {
     console.log(pair[0] + ", " + pair[1]);
   }*/
-
-  console.log(formData);
   for (var pair of formData.entries()) {
     console.log(pair[0] + ", " + pair[1]);
   }

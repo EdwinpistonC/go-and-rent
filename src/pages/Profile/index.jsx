@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "Hooks/LocalStoreHook";
 
 export default function Profile() {
-  const [fields, handleFieldChange, changeField] = useInputsForm({
+  const [fields, , changeField] = useInputsForm({
     account: null,
     alias: "",
     bank: null,
@@ -26,9 +26,7 @@ export default function Profile() {
     carga: false,
   });
 
-  const api = new Api();
-
-  const [usuario, setUsuario] = useLocalStorage("usuario", "");
+  const [usuario] = useLocalStorage("usuario", "");
 
   const borrarUsuario = async () => {
     //const resultado = await api.borrarUsuario();
@@ -48,7 +46,6 @@ export default function Profile() {
 
     api.profile().then((response) => {
       const data = response.data;
-      console.log(data);
       changeField("account", data.account);
       changeField("alias", data.alias);
       changeField("bank", data.bank);

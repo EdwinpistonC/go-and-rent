@@ -21,9 +21,9 @@ email: Formato incorrecto de email
 
 */
 
-function useInputFormHook(errors) {
+function useInputFormHook(errors, defaultVal = "") {
   const [error, setError] = useState("");
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultVal);
   const controlInput = (e = "") => {
     setError("");
     if (e !== "" && e.target.value !== "") {

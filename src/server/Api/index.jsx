@@ -24,7 +24,6 @@ export default class Api {
     let headers = header;
     if (this.api_token && this.api_token !== "") {
       headers.Authorization = `Bearer ${this.api_token}`;
-      console.log(headers.Authorization);
     }
     this.client = axios.create({
       baseURL: this.api_url,
@@ -105,11 +104,8 @@ export default class Api {
   details = async (id) => {
     try {
       const response = await this.init().get("data/accommodation/info/" + id);
-      console.log(response);
       return response.data;
-    } catch (e) {
-      console.log(e.response);
-    }
+    } catch (e) {}
   };
 
   filter = async (params) => {
@@ -125,9 +121,7 @@ export default class Api {
         { params, paramsSerializer: (params) => parseParams(params) }
       );
       return response.data.accommodations;
-    } catch (e) {
-      console.log(e.response);
-    }
+    } catch (e) {}
   };
 
   features = () => {

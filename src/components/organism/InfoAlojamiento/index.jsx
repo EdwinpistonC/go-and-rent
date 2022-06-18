@@ -231,7 +231,7 @@ export function InfoReserva({ reservaId, reserva }) {
   const [estado, setEstado] = React.useState(reserva.bookingStatus);
   const [resena, setResena] = React.useState(reserva.reviewDesc);
 
-  let estadoActual = estado;
+  let estadoActual = reserva.bookingStatus;
 
   var datePartsEnd = reserva.endDate.split("/");
   var datePartsStart = reserva.startDate.split("/");
@@ -247,8 +247,6 @@ export function InfoReserva({ reservaId, reserva }) {
     datePartsStart[1] - 1,
     +datePartsStart[0]
   );
-
-  console.log(reserva);
 
   if (lastDate < new Date() && estadoActual === "ACEPTADA") {
     estadoActual = "COMPLETADA";
@@ -278,7 +276,6 @@ export function InfoReserva({ reservaId, reserva }) {
     }
   }, [id]);
 
-  console.log(reserva);
   return (
     <Grid item xs sx={{ textAlign: "left", minHeight: "500px" }}>
       <Paper variant="o" elevation={0}>

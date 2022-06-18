@@ -1,48 +1,40 @@
-import {mount, render, shallow} from "enzyme";
+import { mount, render, shallow } from "enzyme";
 import LoginModal from "./index";
-import {BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import ModalBasico from "../../atom/Modal";
-import {screen} from '@testing-library/react';
+import { screen } from "@testing-library/react";
 
 const FAKE_CORRECT_VALUES = {
-    email: "huesped@gmail.com"
-}
+  email: "huesped@gmail.com",
+};
 
 const updateInput = (wrapperShallow, input, newValue) => {
-    // eslint-disable-next-line testing-library/no-debugging-utils
-    console.log(input.debug());
-    input.simulate('change', {
-         currentTarget: {value: newValue}
-    })
-    return input;
-}
+  input.simulate("change", {
+    currentTarget: { value: newValue },
+  });
+  return input;
+};
 
 let wrapperShallow;
 
 describe("Login Test", () => {
-    it("Renderiza modal", () => {
-        wrapperShallow = shallow(
-            <ModalBasico />
-                );
-    });
-    it("Render input email", async () => {
-        //https://bobbyhadz.com/blog/react-testing-library-find-by-classname
-        const openMock = jest.fn();
-        const closeMock = jest.fn();
-        let view = render(
-            <ModalBasico
-                abrirModal={openMock}
-                onCloseModal={closeMock}
-            />
-        );
-        const backDrop = await screen.findAllByText(/MuiBackdrop-root/i);
-        console.log(backDrop);
-        //fireEvent.click(container.children())
-        /*expect(
+  it("Renderiza modal", () => {
+    wrapperShallow = shallow(<ModalBasico />);
+  });
+  it("Render input email", async () => {
+    //https://bobbyhadz.com/blog/react-testing-library-find-by-classname
+    const openMock = jest.fn();
+    const closeMock = jest.fn();
+    let view = render(
+      <ModalBasico abrirModal={openMock} onCloseModal={closeMock} />
+    );
+    const backDrop = await screen.findAllByText(/MuiBackdrop-root/i);
+    //fireEvent.click(container.children())
+    /*expect(
             wrapperShallow.containsMatchingElement(<ModalBasico />)
         ).toEqual(true);*/
-    })
-    /*it("Render input password", () => {
+  });
+  /*it("Render input password", () => {
         expect(
             wrapperShallow.containsMatchingElement(<TextField label="Contraseña" />)
         ).toEqual(true);
@@ -52,7 +44,7 @@ describe("Login Test", () => {
             wrapperShallow.containsMatchingElement(<TextField label="No existe" />)
         ).toEqual(false);
     })*/
-    /*it("Click input email", () => {
+  /*it("Click input email", () => {
         let mntWrapper = mount(<TextField label="Email" />);
         console.log(mntWrapper.find('input').debug());
         let input = mntWrapper.find('input');

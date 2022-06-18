@@ -8,8 +8,8 @@ import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import { IconButton, SvgIcon } from "@mui/material";
 import MessageIcon from "@mui/icons-material/Message";
 import HousesSvg from "resources/svgs/Houses.svg";
-import { useNavigate } from "react-router-dom";
-
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 const Alert = () => {
   return (
     <svg
@@ -26,12 +26,24 @@ const Alert = () => {
     </svg>
   );
 };
-const Messages = (...parms) => {
-  const navegar = useNavigate();
-
+const Messages = ({ onClick }) => {
   return (
-    <IconButton onClick={() => navegar("/mensajeria")}>
-      <MessageIcon {...parms}></MessageIcon>
+    <IconButton onClick={onClick}>
+      <MessageIcon></MessageIcon>
+    </IconButton>
+  );
+};
+const Statistics = ({ onClick }) => {
+  return (
+    <IconButton onClick={onClick}>
+      <EqualizerIcon />
+    </IconButton>
+  );
+};
+const Management = ({ onClick }) => {
+  return (
+    <IconButton onClick={onClick}>
+      <SupervisorAccountIcon />
     </IconButton>
   );
 };
@@ -77,4 +89,12 @@ function Houses(props) {
   );
 }
 
-export { Messages, Alert, Bookings, iconoEstados, Houses };
+export {
+  Messages,
+  Alert,
+  Bookings,
+  iconoEstados,
+  Houses,
+  Statistics,
+  Management,
+};

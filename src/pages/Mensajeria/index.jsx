@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
@@ -13,7 +11,6 @@ import { db } from "server/Firebase";
 import {
   addDoc,
   collection,
-  collectionGroup,
   doc,
   getDoc,
   onSnapshot,
@@ -34,8 +31,6 @@ import {
   Typography,
   Grid,
   Paper,
-  Avatar,
-  Box,
   Card,
   List,
   ListItem,
@@ -63,7 +58,7 @@ const PreviewChat = ({ data, onClick, soy }) => {
 };
 
 const Chat = () => {
-  const [usuario, setUsuario] = useLocalStorage("usuario", "");
+  const [usuario] = useLocalStorage("usuario", "");
   const [previews, setPreviews] = React.useState("");
   const [chatSeleccionado, setChatSeleccionado] = React.useState(-1);
   const [msgs, setMsgs] = React.useState([]);
@@ -94,27 +89,10 @@ const Chat = () => {
       setPreviews(user);
     });
     return () => unsub();
-  }, []);
-
-  console.log(previews);
-
-  const readMessage = async () => {
-    const id =
-      `${previews[chatSeleccionado].huesped}` +
-      "-" +
-      `${previews[chatSeleccionado].anfitrion}` +
-      "-" +
-      `${previews[chatSeleccionado].housingId}` +
-      "-" +
-      `${previews[chatSeleccionado].bookingId}`;
-    const docSnap = await getDoc(doc(db, "ultimosMsg", id));
-    if (docSnap.data()?.de !== usuario.alias) {
-      await updateDoc(doc(db, "ultimosMsg", id), { noLeido: false });
-    }
-  };
+  }, [usuario.rol, usuario.alias]);
 
   const handleSubmit = async () => {
-    if (text.trim() != "") {
+    if (text.trim() !== "") {
       const id =
         `${previews[chatSeleccionado].huesped}` +
         "-" +
@@ -148,6 +126,20 @@ const Chat = () => {
 
   React.useEffect(() => {
     if (chatSeleccionado !== -1) {
+      const readMessage = async () => {
+        const id =
+          `${previews[chatSeleccionado].huesped}` +
+          "-" +
+          `${previews[chatSeleccionado].anfitrion}` +
+          "-" +
+          `${previews[chatSeleccionado].housingId}` +
+          "-" +
+          `${previews[chatSeleccionado].bookingId}`;
+        const docSnap = await getDoc(doc(db, "ultimosMsg", id));
+        if (docSnap.data()?.de !== usuario.alias) {
+          await updateDoc(doc(db, "ultimosMsg", id), { noLeido: false });
+        }
+      };
       const id =
         `${previews[chatSeleccionado].huesped}` +
         "-" +
@@ -164,12 +156,11 @@ const Chat = () => {
           msgs.push(doc.data());
         });
         setMsgs(msgs);
-        console.log(msgs);
         readMessage();
       });
       return () => mens();
     }
-  }, [chatSeleccionado]);
+  }, [chatSeleccionado, previews, usuario.alias]);
 
   return (
     <Card sx={{ marginY: "-10px" }}>

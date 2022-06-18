@@ -53,8 +53,7 @@ export default function LoginModal({
       msg: "El formato de email es incorrecto",
     },
   });
-  const [contrasena, setContrasena, contrasenaError, controlContrasena] =
-    useInputFormHook({});
+  const [contrasena, setContrasena, , controlContrasena] = useInputFormHook({});
 
   const [apiError, setApiError] = React.useState("");
 
@@ -163,8 +162,7 @@ export function RegistroHModal({
   cerrarModal,
   backTo,
 }) {
-  const [contrasena, setContrasena, contrasenaError, controlContrasena] =
-    useInputFormHook({});
+  const [contrasena, setContrasena, , controlContrasena] = useInputFormHook({});
 
   const [nombre, setNombre, nombreError, controlNombre] = useInputFormHook({
     nombre: {
@@ -189,17 +187,11 @@ export function RegistroHModal({
   const [telefono, setTelefono, telefonoError, controlTelefono] =
     useInputFormHook({});
 
-  const [
-    fechaNacimiento,
-    setFechaNacimiento,
-    fechaNacimientoError,
-    controlFechaNacimiento,
-  ] = useInputFormHook({});
+  const [fechaNacimiento, setFechaNacimiento] = useInputFormHook({});
 
   const [apiError, setApiError] = React.useState("");
-  const navegar = useNavigate();
 
-  const [avatar, setAvatar, avatarError, controlAvatar] = useInputFormHook({});
+  const [avatar, setAvatar, ,] = useInputFormHook({});
 
   const back = () => {
     backTo(true);
@@ -207,23 +199,6 @@ export function RegistroHModal({
     cerrarModal(false);
   };
 
-  //CSS
-  let left = 0;
-  let right = 0;
-  let direccion = "alternate";
-  let posImagen;
-
-  if (direction == "left") {
-    posImagen = "row";
-    right = 4;
-    left = "sds";
-
-    direccion = "alternate-reverse";
-  } else {
-    posImagen = "row-reverse";
-    left = 4;
-    right = "sds";
-  }
   return (
     <ModalBasico
       abrirModal={abrirModal}
@@ -409,45 +384,35 @@ export function RegistroAModal({
   onPrincipal,
   cerrarModal,
   backTo,
-  children,
 }) {
-  const [contrasena, setContrasena, contrasenaError, controlContrasena] =
-    useInputFormHook({});
+  const [, setContrasena, , controlContrasena] = useInputFormHook({});
 
-  const [nombre, setNombre, nombreError, controlNombre] = useInputFormHook({
+  const [, setNombre, nombreError, controlNombre] = useInputFormHook({
     nombre: {
       msg: "El nombre es muy corto",
     },
     tamMin: 4,
   });
-  const [alias, setAlias, aliasError, controlAlias] = useInputFormHook({
+  const [, setAlias, aliasError, controlAlias] = useInputFormHook({
     alias: {
       msg: "El alias es incorrecto",
     },
   });
-  const [email, setEmail, emailError, controlEmail] = useInputFormHook({
+  const [, setEmail, emailError, controlEmail] = useInputFormHook({
     email: {
       msg: "El formato de email es incorrecto",
     },
   });
 
-  const [apellido, setApellido, apellidoError, controlApellido] =
-    useInputFormHook({});
+  const [, setApellido, apellidoError, controlApellido] = useInputFormHook({});
 
-  const [telefono, setTelefono, telefonoError, controlTelefono] =
-    useInputFormHook({});
+  const [, setTelefono, telefonoError, controlTelefono] = useInputFormHook({});
 
-  const [
-    fechaNacimiento,
-    setFechaNacimiento,
-    fechaNacimientoError,
-    controlFechaNacimiento,
-  ] = useInputFormHook({});
+  const [fechaNacimiento, setFechaNacimiento, , ,] = useInputFormHook({});
 
-  const [apiError, setApiError] = React.useState("");
-  const navegar = useNavigate();
+  const [apiError] = React.useState("");
 
-  const [avatar, setAvatar, avatarError, controlAvatar] = useInputFormHook({});
+  const [avatar, setAvatar, ,] = useInputFormHook({});
   const back = () => {
     backTo(true);
 
@@ -662,7 +627,6 @@ export function CambioCModal({
   posImagen = "row";
 
   direccion = "alternate-reverse";
-  console.log(fields);
 
   return (
     <ModalBasico abrirModal={abrirModal} onCloseModal={back}>
@@ -744,7 +708,7 @@ export function ReservarAlojamiento({
 
   return (
     <ModalBasico
-      sx={{ height: "70%", width: "70%" }}
+      sx={{ height: "70%", width: "40%" }}
       abrirModal={abrirModal}
       onCloseModal={back}
     >
@@ -791,8 +755,6 @@ export function ReservarAlojamiento({
             </Box>
           </Form>
         </Columna>
-
-        <Imagen rel="preload" direccion={direccion}></Imagen>
       </FormContainer>
     </ModalBasico>
   );

@@ -77,8 +77,6 @@ export default function Header({ busqueda, setBusqueda }) {
 
   return (
     <HeaderContainer sx={{ zIndex: 10 }}>
-      {/* Cerrar sesion */}
-      {usuario.rol === "ROLE_ADMIN" && <SideBarMenu></SideBarMenu>}
       <ModalSmall abrirModal={alertaCerrarSesion} onCloseModal={handleClose}>
         <Stack spacing={2} direction="column">
           <label>¿Desea cerrar sesión?</label>
@@ -109,9 +107,11 @@ export default function Header({ busqueda, setBusqueda }) {
         onIniciar={abrirInicioH}
         onCrear={abrirRegistroH}
         onCerrar={handleOpen}
-        onMensaje={() => navegar("/mensajes")}
+        onMensaje={() => navegar("/mensajeria")}
         onReserva={() => navegar("/reservas")}
         onPerfil={() => navegar("/perfil")}
+        onEstadisticas={() => navegar("/estadisticas")}
+        onAdministracion={() => navegar("/perfil")}
       >
         {/* Huésped */}
         <LoginModal
