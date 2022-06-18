@@ -121,7 +121,6 @@ export default function Busqueda() {
           disableGutters
           sx={{
             marginLeft: 0,
-            marginTop: 0,
             marginTop: "-10px",
             marginBottom: "-10px",
           }}

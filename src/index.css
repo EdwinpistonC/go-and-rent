@@ -16,3 +16,6 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+.cursor-pointer{
+  cursor: pointer;
+}
