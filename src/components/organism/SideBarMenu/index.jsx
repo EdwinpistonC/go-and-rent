@@ -184,6 +184,9 @@ export function SideBarFilter({ filtrar }) {
               justifyContent="flex-start"
               alignItems="stretch"
           >
+          <div>
+            <label>Rango de Fechas:</label>
+          </div>
             <FormControl fullWidth variant="filled" sx={{ minWidth: 120 }}>
               <DateRange
                   editableDateInputs={true}
