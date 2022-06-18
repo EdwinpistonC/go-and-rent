@@ -48,7 +48,7 @@ function useInputFormHook(errors, defaultVal = "") {
         }
       }
       if (errors.hasOwnProperty("alias")) {
-        if (e.target.value.length == 0) setError(errors.alias.msg);
+        if (e.target.value.length === 0) setError(errors.alias.msg);
       }
     }
   };

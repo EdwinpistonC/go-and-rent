@@ -453,7 +453,7 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
 export function FormEditUser({ onBack, children, setFields }) {
   const navegar = useNavigate();
 
-  const [usuario, setUsuario] = useLocalStorage("usuario", "");
+  const [usuario] = useLocalStorage("usuario", "");
   const [backendError, setBackendError] = React.useState("");
   const [fecha, setFecha] = React.useState();
   const [avatar, setAvatar] = React.useState(0);
@@ -463,7 +463,6 @@ export function FormEditUser({ onBack, children, setFields }) {
     formState: { errors },
     handleSubmit,
     setValue,
-    watch,
   } = useForm({
     defaultValues: {
       account: " ",
@@ -545,7 +544,6 @@ export function FormEditUser({ onBack, children, setFields }) {
           alignItems="stretch"
           spacing={1}
           item
-          sx
         >
           <Grid item sm sx={{ mt: 2 }}>
             <TextField
@@ -585,7 +583,6 @@ export function FormEditUser({ onBack, children, setFields }) {
           alignItems="stretch"
           spacing={1}
           item
-          sx
         >
           <Grid item sm sx={{ mt: 2 }}>
             <TextField
@@ -624,7 +621,6 @@ export function FormEditUser({ onBack, children, setFields }) {
           alignItems="stretch"
           spacing={1}
           item
-          sx
         >
           <Grid item sm sx={{ mt: 2 }}>
             <DatePicker
@@ -648,7 +644,6 @@ export function FormEditUser({ onBack, children, setFields }) {
             alignItems="stretch"
             spacing={1}
             item
-            sx
           >
             <Grid item sm sx={{ mt: 2 }}>
               <TextField
