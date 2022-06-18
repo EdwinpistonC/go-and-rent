@@ -1,29 +1,36 @@
 import * as React from "react";
-import Drawer from "@mui/material/Drawer";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import {
+  Drawer,
+  Toolbar,
+  List,
+  Divider,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Box,
+  FormControl,
+  Button,
+  Stack,
+  FormControlLabel,
+  Checkbox,
+  Grid,
+} from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
-import FormControl from "@mui/material/FormControl";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import { ModalSmall } from "components/atom/Modal";
 import { useLocalStorage, DefaultBusqueda } from "Hooks/LocalStoreHook";
-import { FormControlLabel, Checkbox, Grid } from "@mui/material";
 import Api from "server/Api";
-import TextField, { TextFieldSmall } from "components/atom/Textfield";
+import { TextFieldSmall } from "components/atom/Textfield";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import * as locales from "react-date-range/dist/locale";
 import { useInputsForm } from "Hooks/Inputhooks";
 import { useGlobalState } from "Hooks/GlobalHook";
+
+import { formatDate } from "components/util/functions";
+
 function GetCaracteristicas() {
   const backend = new Api();
   return backend.features();
@@ -127,7 +134,7 @@ export function SideBarFilter({ filtrar }) {
     fechas: [
       {
         startDate: new Date(),
-        endDate: null,
+        endDate: new Date(),
         key: "selection",
       },
     ],
@@ -137,15 +144,17 @@ export function SideBarFilter({ filtrar }) {
     apiCargada: false,
   });
   const pasarFiltro = () => {
-    console.log(state.busqueda);
     filtrar(
       state.busqueda,
-      fields.fechas.startDate,
-      fields.fechas.endDate,
+      formatDate(fields.fechas[0].startDate),
+      formatDate(fields.fechas[0].endDate),
       fields.servicios,
       fields.caracteristicas
     );
   };
+  React.useEffect(() => {
+    pasarFiltro();
+  }, [fields.fechas]);
 
   if (!fields.apiCargada) {
     changeField("apiCargada", true);
@@ -185,30 +194,31 @@ export function SideBarFilter({ filtrar }) {
               editableDateInputs={true}
               locale={locales["es"]}
               key="datefilter"
+              showSelectionPreview={true}
+              moveRangeOnFirstSelection={false}
               onChange={(ranges) => {
-                //console.log(item);
                 console.log(ranges);
                 const { selection } = ranges;
 
                 changeField("fechas", [selection]);
-                pasarFiltro();
               }}
               ranges={fields.fechas}
             />
             <Grid
               container
+              key="serviciosfilter"
               direction="column"
               justifyContent="flex-start"
               alignItems="flex-start"
-              spacing={2}
-              columns={27}
-              key="serviciosfilter"
+              sx
+              spacing={1}
+              columns={2}
+              width={"300px"}
             >
-              {fields.servicios &&
-                fields.servicios.length > 0 &&
-                fields.servicios.map(function renderFields(servicio, index) {
-                  return (
-                    <Grid item xs={7} key={"serviciosGrid" + index}>
+              {fields.servicios && fields.servicios.length > 0 && (
+                <Grid item sx>
+                  {fields.servicios.map(function renderFields(servicio, index) {
+                    return (
                       <FormControlLabel
                         key={"servicio" + index}
                         control={
@@ -228,9 +238,10 @@ export function SideBarFilter({ filtrar }) {
                         }
                         label={servicio.name}
                       />
-                    </Grid>
-                  );
-                })}
+                    );
+                  })}
+                </Grid>
+              )}
             </Grid>
             <Grid
               container

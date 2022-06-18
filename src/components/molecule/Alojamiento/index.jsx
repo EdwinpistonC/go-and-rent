@@ -10,9 +10,8 @@ import { Grid } from "@mui/material";
 import { Button } from "components/atom/Button";
 import { Box, height } from "@mui/system";
 
-export default function Alojamiento({ data }) {
+export default function Alojamiento({ data, startDate = "", endDate = "" }) {
   const navegar = useNavigate();
-
   return (
     <Card>
       <Grid
@@ -20,13 +19,25 @@ export default function Alojamiento({ data }) {
         direction="row"
         justifyContent="flex-start"
         alignItems="center"
-        onClick={() => navegar("/detalles/" + data.id)}
+        onClick={() => {
+          if (startDate === "") {
+            return navegar("/detalles/" + data.id);
+          }
+          navegar(
+            "/detalles/" +
+              data.id +
+              "/" +
+              startDate.replaceAll("/", "-") +
+              "/" +
+              endDate.replaceAll("/", "-")
+          );
+        }}
       >
         <Grid item xs sx={{ width: 300, margin: "auto" }}>
           <Box
             sx={{ height: 200, width: "100%", objectFit: "cover" }}
             component="img"
-            src={"https://prueba-roles.s3.amazonaws.com/" + data.photo}
+            src={process.env.REACT_APP_API_IMG + data.photo}
             alt={"Alojamiento " + data.name}
           />
         </Grid>
@@ -80,8 +91,9 @@ export function AlojamientoAnfitrion({ data, onClick }) {
       >
         <Grid item xs={4}>
           <img
-            height="140"
-            src={"https://prueba-roles.s3.amazonaws.com/" + data.photo}
+            width="200px"
+            style={{}}
+            src={process.env.REACT_APP_API_IMG + data.photo}
             alt={"Alojamiento " + data.name}
           />
         </Grid>

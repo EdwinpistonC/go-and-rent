@@ -11,10 +11,12 @@ import { useState, useEffect } from "react";
 
 const Container = styled("div")``;
 const backend = new Api();
-//let listaDeUsuarios = backend.listadoUsuarios()
 
-//console.log(Usuarios["usuarios"]);
+/*backend.listadoUsuarios().then((response)=>{
+ console.log(response.data)
 
+})
+*/
 
 const emails = (email) => {
   return (

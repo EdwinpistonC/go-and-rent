@@ -23,6 +23,8 @@ import TestPage from "pages/Test";
 import { ListaReservas } from "pages/Reservas";
 import AdministrarReservas from "pages/AdministrarReservas";
 import EditarReserva from "pages/EditarReserva";
+import Mensajeria from "pages/Mensajeria";
+import Estadisticas from "pages/Estadisticas";
 
 function HeaderView() {
   const location = useLocation();
@@ -34,7 +36,6 @@ export const AppRouter = ({ children }) => {
 
   return (
     <RouterContainer>
-      {usuario.rol === "ROLE_ADMIN" && <SideBarMenu></SideBarMenu>}
       {usuario.rol !== "ROLE_ADMIN" && <Header />}
 
       <Container>
@@ -43,11 +44,18 @@ export const AppRouter = ({ children }) => {
           <Route path="/reservas/:id" element={<AdministrarReservas />} />
           <Route path="/reservas/editar/:id" element={<EditarReserva />} />
 
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage key={Date.now()} />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/registrar-anfitrion" element={<HostHousing />} />
           <Route path="/test" element={<TestPage />} />
+
+          <Route path="/mensajeria" element={<Mensajeria />} />
+
           <Route path="/perfil" element={<Profile />}></Route>
+          <Route
+            path="/detalles/:id/:startDate/:endDate"
+            element={<DetalleAlojamiento />}
+          />
           <Route path="/detalles/:id" element={<DetalleAlojamiento />} />
           <Route
             path="/perfil/cambiar-contrasena"
@@ -62,9 +70,8 @@ export const AppRouter = ({ children }) => {
             <Route path="nuevo-alojamiento" element={<CreateHousing />} />
           </Route>
           <Route path="/busqueda" element={<Busqueda />}></Route>
-
+          <Route path="/estadisticas" element={<Estadisticas />} />
           <Route path="/admin">
-            <Route path="new-admin" element={<AdminRegister />} />
             <Route path="nuevo-admin" element={<AdminRegister />} />
           </Route>
           <Route

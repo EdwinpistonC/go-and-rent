@@ -3,6 +3,9 @@ export function padTo2Digits(num) {
 }
 
 export function formatDate(date) {
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
   return [
     padTo2Digits(date.getDate()),
     padTo2Digits(date.getMonth() + 1),
@@ -46,4 +49,12 @@ export const parseParams = (params) => {
     }
   });
   return options ? options.slice(0, -1) : options;
+};
+
+export const cambiarFormatoFecha = (fecha) => {
+  if (typeof fecha !== "string" && fecha !== "") {
+    return new Date();
+  }
+  var dateParts = fecha.split("-");
+  return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
 };

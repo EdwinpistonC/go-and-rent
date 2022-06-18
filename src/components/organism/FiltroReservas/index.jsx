@@ -18,27 +18,102 @@ import * as locales from "react-date-range/dist/locale";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Button } from "components/atom/Button";
 import Api from "server/Api";
+import { useLocalStorage } from "Hooks/LocalStoreHook";
+import {
+  addDoc,
+  collection,
+  doc,
+  setDoc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { cambiarFormatoFecha } from "components/util/functions";
+import { db, firebaseConfig } from "server/Firebase";
+import firebase from "firebase/compat/app";
+
+firebase.initializeApp(firebaseConfig);
 
 const Reserva = ({ reserva }) => {
   const api = new Api();
+  const [usuario] = useLocalStorage("usuario", "");
 
   const [rating, setRating] = React.useState(reserva.guestQualification);
   const [estado, setEstado] = React.useState(reserva.bookingStatus);
 
-  const aceptarReserva = () => {
-    api.confirmarReserva({ booking_id: reserva.bookingId });
-    setEstado("ACEPTADA");
+  const aceptarReserva = async () => {
+    const response = await api.confirmarReserva({
+      booking_id: reserva.bookingId,
+    });
+
+    if (response.status === 200) {
+      setEstado("ACEPTADA");
+      const [dayI, monthI, yearI] = reserva.startDate.split("/");
+      const [dayF, monthF, yearF] = reserva.endDate.split("/");
+      const mensajeDefecto = "Reserva Confirmada";
+      const id =
+        `${reserva.guestAlias}` +
+        "-" +
+        `${usuario.alias}` +
+        "-" +
+        `${reserva.accommodationId}` +
+        "-" +
+        `${reserva.bookingId}`;
+      await setDoc(doc(db, "chats", id), {
+        anfitrion: usuario.alias,
+        fechaFinReserva: Timestamp.fromDate(
+          new Date(+yearF, monthF - 1, +dayF)
+        ),
+        fechaInicioReserva: Timestamp.fromDate(
+          new Date(+yearI, monthI - 1, +dayI)
+        ),
+        huesped: reserva.guestAlias,
+        idAlojamiento: reserva.accommodationId,
+        idReserva: reserva.bookingId,
+        nombreAlojamiento: reserva.accommodationName,
+      });
+      await addDoc(collection(db, "chats", id, "mensajes"), {
+        texto: mensajeDefecto,
+        de: usuario.alias,
+        para: reserva.guestAlias,
+        fechaCreacion: Timestamp.fromDate(new Date()),
+      });
+
+      await setDoc(doc(db, "ultimosMsg", id), {
+        texto: mensajeDefecto,
+        para: reserva.guestAlias,
+        de: usuario.alias,
+        fechaCreacion: Timestamp.fromDate(new Date()),
+        noLeido: true,
+      }).then(() => console.log("seteo"));
+    }
   };
   const rechazarReserva = () => {
     api.rechazarReserva({ booking_id: reserva.bookingId });
     setEstado("CANCELADA");
   };
-  const rembolsarReserva = () => {
-    api.rembolsarReserva({
+  const rembolsarReserva = async () => {
+    const response = await api.rembolsarReserva({
       booking_id: reserva.bookingId,
       reimbursedBy: "HOST",
     });
-    setEstado("CANCELADA");
+
+    if (response.status === 200) {
+      setEstado("CANCELADA");
+
+      const id =
+        `${reserva.guestAlias}` +
+        "-" +
+        `${usuario.alias}` +
+        "-" +
+        `${reserva.accommodationId}` +
+        "-" +
+        `${reserva.bookingId}`;
+      let date = new Date();
+      date.setFullYear(date.getFullYear() - 1);
+      await updateDoc(doc(db, "chats", id), {
+        fechaFinReserva: Timestamp.fromDate(date),
+      });
+    }
   };
 
   console.log(reserva);
