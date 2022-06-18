@@ -5,7 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@mui/material/styles";
 import "./index.css";
 import { theme } from "resources/const/Template";
-
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <App />
