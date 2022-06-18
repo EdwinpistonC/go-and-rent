@@ -15,6 +15,7 @@ export default function Alojamiento({ data, startDate = "", endDate = "" }) {
   return (
     <Card>
       <Grid
+          className="cursor-pointer"
         container
         direction="row"
         justifyContent="flex-start"
