@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "Hooks/LocalStoreHook";
 
 import { styled } from '@mui/material/styles';
+import {IconUser} from "../../components/molecule/IconSelector";
 const Div = styled('div')(({ theme }) => ({
   ...theme.typography.button,
   backgroundColor: theme.palette.background.paper,
@@ -110,7 +111,7 @@ export default function Profile() {
           >
             <Grid item xs>
               <Avatar sx={{ bgcolor: green[500] }}>
-                <AssignmentIcon />
+                <IconUser id={Number(fields.picture)} />
               </Avatar>
             </Grid>
             <Grid item xs>
