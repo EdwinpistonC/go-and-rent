@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "Hooks/LocalStoreHook";
 
 import { styled } from "@mui/material/styles";
+import { IconUser } from "../../components/molecule/IconSelector";
 const Div = styled("div")(({ theme }) => ({
   ...theme.typography.button,
   backgroundColor: theme.palette.background.paper,
@@ -105,10 +106,25 @@ export default function Profile() {
           alignItems="center"
           direction="column"
         >
-          <Grid item xs>
-            <Avatar sx={{ bgcolor: green[500] }}>
-              <AssignmentIcon />
-            </Avatar>
+          <Grid
+            item
+            xs
+            container
+            justifyContent="space-around"
+            alignItems="center"
+            direction="column"
+          >
+            <Grid item xs>
+              <Avatar sx={{ bgcolor: green[500] }}>
+                <IconUser id={Number(fields.picture)} />
+              </Avatar>
+            </Grid>
+            <Grid item xs>
+              {fields.alias}
+            </Grid>
+            <Grid item xs>
+              <Rating value={fields.qualification} readOnly precision={0.1} />
+            </Grid>
           </Grid>
           <Grid item xs>
             {fields.alias}
