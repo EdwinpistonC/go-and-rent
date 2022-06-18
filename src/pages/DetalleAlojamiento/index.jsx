@@ -1,21 +1,11 @@
-import {
-  Card,
-  Chip,
-  Container,
-  Grid,
-  Paper,
-  Rating,
-  Typography,
-} from "@mui/material";
+import { Card, Chip, Container, Grid, Rating, Typography } from "@mui/material";
 import React from "react";
-import { BrowserRouter as Router, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Api from "server/Api";
-import Galeria from "components/molecule/Galeria";
 import Loading from "components/atom/Loading";
 import { GoogleMapLocation } from "components/atom/Googlemap";
 import { Button } from "components/atom/Button";
 import { ReservarAlojamiento } from "components/organism/FormModal";
-import moment from "moment";
 import { formatDate } from "components/util/functions";
 import { DateRange } from "react-date-range";
 import * as locales from "react-date-range/dist/locale";
@@ -27,8 +17,7 @@ import ListaReviews from "components/molecule/ListaReviews";
 
 export default function DetalleAlojamiento() {
   const { id, startDate, endDate } = useParams();
-  const api = new Api();
-  const [galeria, setGaleria] = React.useState([]);
+  const [, setGaleria] = React.useState([]);
   const [alojamiento, setAlojamiento] = React.useState(null);
   const [abrirReserva, setAbrirReserva] = React.useState(false);
   const [
@@ -46,27 +35,24 @@ export default function DetalleAlojamiento() {
     },
   ]);
 
-  const obtenerDatos = async () => {
-    const data = await api.details(id);
-    console.log(data);
-
-    data.photos.map(function (foto) {
-      setGaleria([
-        ...galeria,
-        {
-          original: process.env.REACT_APP_API_IMG + foto,
-          thumbnail: process.env.REACT_APP_API_IMG + foto,
-        },
-      ]);
-    });
-    setAlojamiento(data);
-    console.log(galeria);
-  };
-
   React.useEffect(() => {
+    const api = new Api();
+
+    const obtenerDatos = async () => {
+      const data = await api.details(id);
+      setGaleria([
+        data.photos.map(function (foto) {
+          return {
+            original: process.env.REACT_APP_API_IMG + foto,
+            thumbnail: process.env.REACT_APP_API_IMG + foto,
+          };
+        }),
+      ]);
+      setAlojamiento(data);
+    };
     obtenerDatos();
     return;
-  }, []);
+  }, [id]);
 
   if (alojamiento == null) {
     return <Loading />;
@@ -77,6 +63,8 @@ export default function DetalleAlojamiento() {
     abrirReservaModal();
   };
   const confirmarReserva = async () => {
+    const api = new Api();
+
     let alias = JSON.parse(localStorage.getItem("usuario")).alias;
     let payload = {
       idAccommodation: id,
@@ -171,7 +159,6 @@ export default function DetalleAlojamiento() {
         <Container
           sx={{
             /* Auto layout */
-            height: "100%",
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
@@ -221,7 +208,6 @@ export default function DetalleAlojamiento() {
                   order: 0,
                   alignSelf: "stretch",
                   flexGrow: 1,
-                  paddingLeft: 0,
                   marginLeft: " 0 !important",
                   paddingLeft: " 0 !important",
                   marginTop: "20px",
@@ -235,7 +221,6 @@ export default function DetalleAlojamiento() {
                   key="datefilter"
                   onChange={(ranges) => {
                     const { selection } = ranges;
-                    console.log(selection);
                     setFecha([selection]);
                   }}
                   ranges={fecha}
@@ -338,30 +323,35 @@ export default function DetalleAlojamiento() {
               >
                 Caracteristicas
               </Typography>
-              {alojamiento.features.map(function (feature, index) {
-                return (
-                  <Chip
-                    sx={{
-                      margin: "5px",
-                    }}
-                    key={"feature" + index}
-                    label={feature.name + " : " + feature.value}
-                  />
-                );
-              })}
-              {alojamiento.services.map(function (service, index) {
-                if (service.value) {
+              {alojamiento.features
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map(function (feature, index) {
                   return (
                     <Chip
                       sx={{
                         margin: "5px",
                       }}
-                      key={"service" + index}
-                      label={service.name}
+                      key={"feature" + index}
+                      label={feature.name + " : " + feature.value}
                     />
                   );
-                }
-              })}
+                })}
+              {alojamiento.services
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map(function (service, index) {
+                  if (service.value) {
+                    return (
+                      <Chip
+                        sx={{
+                          margin: "5px",
+                        }}
+                        key={"service" + index}
+                        label={service.name}
+                      />
+                    );
+                  }
+                  return null;
+                })}
             </Container>
           </Container>
         </Container>

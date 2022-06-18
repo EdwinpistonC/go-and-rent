@@ -21,9 +21,9 @@ email: Formato incorrecto de email
 
 */
 
-function useInputFormHook(errors) {
+function useInputFormHook(errors, defaultVal = "") {
   const [error, setError] = useState("");
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultVal);
   const controlInput = (e = "") => {
     setError("");
     if (e !== "" && e.target.value !== "") {
@@ -48,7 +48,7 @@ function useInputFormHook(errors) {
         }
       }
       if (errors.hasOwnProperty("alias")) {
-        if (e.target.value.length == 0) setError(errors.alias.msg);
+        if (e.target.value.length === 0) setError(errors.alias.msg);
       }
     }
   };

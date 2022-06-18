@@ -25,7 +25,6 @@ const registerHost = async function (
 ) {
   const backend = new Api();
   var formData = new FormData(); //formdata object
-  console.log(servicios);
   servicios.forEach((service) => {
     if (service.hasOwnProperty("valor") && service.valor) {
       formData.append("services", service.id);

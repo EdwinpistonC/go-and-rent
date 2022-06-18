@@ -3,9 +3,6 @@ import React from "react";
 import { IconUser } from "../IconSelector";
 
 const Review = ({ image, description, userName, qualification }) => {
-  console.log(userName);
-  console.log(description);
-
   return (
     <Grid container sx={{ width: "100%" }}>
       <Grid item xs={2}>

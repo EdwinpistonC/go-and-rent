@@ -1,13 +1,11 @@
 import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import { Routes, Route } from "react-router-dom";
 
 //React components
 import Header from "components/organism/Header";
 import Footer from "components/organism/Footer";
-import SideBarMenu from "components/organism/SideBarMenu";
 //HOOK
-import { useLocalStorage, DefaultBusqueda } from "Hooks/LocalStoreHook";
+import { useLocalStorage } from "Hooks/LocalStoreHook";
 //PAGES
 import ChangeUserData from "pages/ChangeUserData";
 import Busqueda from "pages/Busqueda";
@@ -26,18 +24,12 @@ import EditarReserva from "pages/EditarReserva";
 import Mensajeria from "pages/Mensajeria";
 import Estadisticas from "pages/Estadisticas";
 
-function HeaderView() {
-  const location = useLocation();
-  console.log(location.pathname);
-}
-
 export const AppRouter = ({ children }) => {
   const [usuario] = useLocalStorage("usuario", "");
 
   return (
     <RouterContainer>
-      {usuario.rol !== "ROLE_ADMIN" && <Header />}
-
+      <Header />
       <Container>
         <Routes>
           <Route path="/reservas" element={<ListaReservas />} />
@@ -85,7 +77,7 @@ export const AppRouter = ({ children }) => {
         </Routes>
         {children}
       </Container>
-      {usuario.rol !== "ROLE_ADMIN" && <Footer />}
+      <Footer />
     </RouterContainer>
   );
 };

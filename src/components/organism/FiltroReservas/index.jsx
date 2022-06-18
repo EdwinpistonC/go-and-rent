@@ -115,8 +115,6 @@ const Reserva = ({ reserva }) => {
       });
     }
   };
-
-  console.log(reserva);
   /*
   accommodationId: 18;
   accommodationName: "Alojamiento 15 Anfitrion 1";
@@ -148,9 +146,6 @@ const Reserva = ({ reserva }) => {
     datePartsStart[1] - 1,
     +datePartsStart[0]
   );
-
-  console.log(lastDate);
-  console.log(new Date());
   if (lastDate < new Date() && estadoActual === "ACEPTADA") {
     estadoActual = "COMPLETADA";
     setEstado("COMPLETADA");
@@ -241,9 +236,6 @@ const Reserva = ({ reserva }) => {
                         qualification: val,
                       });
                     }
-                    console.log(val);
-                    console.log(rating);
-
                     setRating(Number(val));
                   }}
                 />
@@ -271,9 +263,6 @@ const Reserva = ({ reserva }) => {
 };
 
 export default function FiltroReservas({ idAlojamiento, reservas }) {
-  console.log(reservas);
-  console.log(idAlojamiento);
-
   const [filtro, setFiltro] = React.useState({
     estado: "",
     fechas: [
@@ -331,7 +320,6 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
                 key="datefilter"
                 onChange={(ranges) => {
                   const { selection } = ranges;
-                  console.log(selection);
                   setFiltro({ ...filtro, fechas: [selection] });
                 }}
                 ranges={filtro.fechas}

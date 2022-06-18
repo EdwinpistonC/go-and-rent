@@ -1,4 +1,4 @@
-import { Grid, Typography, Paper, Card } from "@mui/material";
+import { Grid, Typography, Card } from "@mui/material";
 import { Button } from "components/atom/Button";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,10 +12,8 @@ import { useLocalStorage } from "Hooks/LocalStoreHook";
 import InfoAlojamiento, {
   InfoReserva,
 } from "components/organism/InfoAlojamiento";
-import { useModalHook } from "Hooks/ModalHooks";
 
 export function ListaReservasAnfitrion() {
-  const api = new Api();
   const [alojamientos, setAtlojamientos] = React.useState([]);
   const [alojamientoSeleccionado, setAlojamientoSeleccionado] =
     React.useState(0);
@@ -23,28 +21,34 @@ export function ListaReservasAnfitrion() {
   const [alojamientoActual, setAlojamientoActual] = React.useState(null);
   const [reservasActual, setReservasActual] = React.useState(null);
 
-  const CargarAlojamientos = async () => {
-    const resultado = await api.alojamientosAnfitrion();
-    setAlojamientoSeleccionado(resultado[0].accommodationId);
-    setAtlojamientos(resultado);
-  };
-  React.useEffect(async () => {
+  React.useEffect(() => {
+    const api = new Api();
+
+    const CargarAlojamientos = async () => {
+      const resultado = await api.alojamientosAnfitrion();
+      setAlojamientoSeleccionado(resultado[0].accommodationId);
+      setAtlojamientos(resultado);
+    };
     CargarAlojamientos();
   }, []);
-  const [resenas, abrirResenas, cerrarResenas, despuesResenas] = useModalHook();
 
-  React.useEffect(async () => {
+  React.useEffect(() => {
     if (alojamientoSeleccionado !== 0) {
-      const resultado = await api.details(alojamientoSeleccionado);
-      setAlojamientoActual(resultado);
-      const resultadoReservas = await api.listadoReservas();
-      console.log(resultadoReservas);
+      const api = new Api();
 
-      if (resultadoReservas.bookings.length > 0) {
-        setReservasActual(resultadoReservas);
-      } else {
-        setReservasActual([]);
-      }
+      const fetchData = async () => {
+        const resultado = await api.details(alojamientoSeleccionado);
+        setAlojamientoActual(resultado);
+        const resultadoReservas = await api.listadoReservas();
+
+        if (resultadoReservas.bookings.length > 0) {
+          setReservasActual(resultadoReservas);
+        } else {
+          setReservasActual([]);
+        }
+      };
+
+      fetchData();
     }
   }, [alojamientoSeleccionado]);
 
@@ -99,7 +103,7 @@ export function ListaReservasAnfitrion() {
         )}
       </Grid>
 
-      <Grid item xs>
+      <Grid item xs height={"inherit"}>
         <ListaAlojamientosAnfitrion
           seleccionar={setAlojamientoSeleccionado}
           alojamientos={alojamientos}
@@ -109,33 +113,35 @@ export function ListaReservasAnfitrion() {
   );
 }
 export function ListaReservasHuesped() {
-  const api = new Api();
   const [reservas, setReservas] = React.useState([]);
   const [reservaSeleccionado, setReservaSeleccionado] = React.useState(0);
-  const [reservasActual, setReservasActual] = React.useState(null);
+  const [reservasActual, setReservasActual] = React.useState({});
 
-  const CargarReservas = async () => {
-    const resultado = await api.reservasHuesped();
-    if (resultado.length === 0) {
-      return;
-    }
-    console.log(resultado);
-    setReservaSeleccionado(resultado[0].accommodationId);
-    console.log(resultado);
-    setReservas(resultado);
-  };
-  React.useEffect(async () => {
+  React.useEffect(() => {
+    const api = new Api();
+
+    const CargarReservas = async () => {
+      const resultado = await api.reservasHuesped();
+      if (resultado.length === 0) {
+        return;
+      }
+      setReservaSeleccionado(resultado[0].accommodationId);
+      setReservasActual(resultado[0]);
+      setReservas(resultado);
+    };
     CargarReservas();
   }, []);
-  React.useEffect(async () => {
-    if (reservaSeleccionado !== 0) {
-      const resultado = await api.detalleReserva(reservaSeleccionado);
-      console.log(resultado);
 
-      setReservasActual(resultado);
-    }
-  }, [reservaSeleccionado]);
-  if (reservasActual !== null) {
+  const modificarReservaActual = (id) => {
+    const api = new Api();
+
+    api.detalleReserva(id).then((response) => {
+      setReservasActual(response);
+      setReservaSeleccionado(id);
+    });
+  };
+
+  if (typeof reservasActual.accommodationId !== "undefined") {
     return (
       <Grid
         container
@@ -174,9 +180,9 @@ export function ListaReservasHuesped() {
           )}
         </Grid>
 
-        <Grid item xs>
+        <Grid item xs sx={{ height: "inherit" }}>
           <ListaReservaAlojamientoHuesped
-            seleccionar={setReservaSeleccionado}
+            seleccionar={modificarReservaActual}
             reservas={reservas}
           ></ListaReservaAlojamientoHuesped>
         </Grid>
@@ -209,7 +215,6 @@ export function ListaReservasHuesped() {
 
 export function ListaReservas() {
   const [usuario] = useLocalStorage("usuario", "");
-  console.log(usuario.rol);
   if (usuario.rol === "ROLE_GUEST") {
     return <ListaReservasHuesped />;
   } else if (usuario.rol === "ROLE_HOST") {
