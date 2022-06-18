@@ -136,7 +136,6 @@ export function FormSendCode({ onBack, children, email, setFields }) {
     api
       .validateCode(email, data.codigo)
       .then((response, status) => {
-        console.log(response);
         setBackendError("");
         setFields("codigo", data.codigo);
         setFields("step", 2);
@@ -234,7 +233,6 @@ export function FormChangePassword({
         password: data.password,
       })
       .then((response, status) => {
-        console.log(response);
         setBackendError("");
         setFields("step", 3);
       })
@@ -346,7 +344,6 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
         oldPassword: data.contrasenavieja,
       })
       .then((response, status) => {
-        console.log(response);
         if (status >= 200 && status < 300) {
           setBackendError("");
           navegar("/perfil");
@@ -456,7 +453,7 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
 export function FormEditUser({ onBack, children, setFields }) {
   const navegar = useNavigate();
 
-  const [usuario, setUsuario] = useLocalStorage("usuario", "");
+  const [usuario] = useLocalStorage("usuario", "");
   const [backendError, setBackendError] = React.useState("");
   const [fecha, setFecha] = React.useState();
   const [avatar, setAvatar] = React.useState(0);
@@ -466,7 +463,6 @@ export function FormEditUser({ onBack, children, setFields }) {
     formState: { errors },
     handleSubmit,
     setValue,
-    watch,
   } = useForm({
     defaultValues: {
       account: " ",
@@ -485,7 +481,6 @@ export function FormEditUser({ onBack, children, setFields }) {
     const api = new Api();
     api.profile().then((response) => {
       const data = response.data;
-      console.log(data);
       setValue("name", data.name);
       setValue("lastName", data.lastName);
       setValue("phone", data.phone);
@@ -497,7 +492,6 @@ export function FormEditUser({ onBack, children, setFields }) {
         setValue("bank", data.bank);
         setValue("account", data.account);
       }
-      console.log(data);
 
       setAvatar(data.picture);
     });
@@ -507,18 +501,7 @@ export function FormEditUser({ onBack, children, setFields }) {
   const onSubmit = async (data) => {
     const api = new Api();
     let date = formatDate(new Date(fecha));
-    console.log(date);
-    console.log({
-      alias: data.alias,
-      email: data.email,
-      name: data.name,
-      lastName: data.lastName,
-      phone: data.phone,
-      birthday: date,
-      picture: avatar,
-      bank: data.bank,
-      account: data.account,
-    });
+
     let [respuesta, status] = await api.editUserProfile({
       alias: data.alias,
       email: data.email,
@@ -531,7 +514,6 @@ export function FormEditUser({ onBack, children, setFields }) {
       account: data.account,
     });
 
-    console.log(respuesta);
     if (status == 201) {
       navegar("/perfil");
     } else {
@@ -555,6 +537,10 @@ export function FormEditUser({ onBack, children, setFields }) {
         style={{ width: "100%", height: "100%" }}
         spacing={2}
       >
+        <Grid item sm sx={{ mt: 2 }}>
+          <p>Elige un avatar:</p>
+          <IconSelector avatar={avatar} setAvatar={setAvatar} />
+        </Grid>
         <Grid
           container
           direction="row"
@@ -562,7 +548,6 @@ export function FormEditUser({ onBack, children, setFields }) {
           alignItems="stretch"
           spacing={1}
           item
-          sx
         >
           <Grid item sm sx={{ mt: 2 }}>
             <TextField
@@ -602,7 +587,6 @@ export function FormEditUser({ onBack, children, setFields }) {
           alignItems="stretch"
           spacing={1}
           item
-          sx
         >
           <Grid item sm sx={{ mt: 2 }}>
             <TextField
@@ -641,7 +625,6 @@ export function FormEditUser({ onBack, children, setFields }) {
           alignItems="stretch"
           spacing={1}
           item
-          sx
         >
           <Grid item sm sx={{ mt: 2 }}>
             <DatePicker
@@ -651,9 +634,6 @@ export function FormEditUser({ onBack, children, setFields }) {
                 setFecha(newValue);
               }}
             ></DatePicker>
-          </Grid>
-          <Grid item sm sx={{ mt: 2 }}>
-            <IconSelector avatar={avatar} setAvatar={setAvatar} />
           </Grid>
         </Grid>
 
@@ -665,7 +645,6 @@ export function FormEditUser({ onBack, children, setFields }) {
             alignItems="stretch"
             spacing={1}
             item
-            sx
           >
             <Grid item sm sx={{ mt: 2 }}>
               <TextField

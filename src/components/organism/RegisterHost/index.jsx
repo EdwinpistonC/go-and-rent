@@ -25,7 +25,6 @@ import {
   ErrorLabel,
   EmptyLabel,
 } from "components/organism/FormModal/StyledComponents";
-import { BusquedaField } from "components/atom/Busqueda";
 import Select from "@mui/material/Select";
 
 const steps = [
@@ -64,11 +63,6 @@ export default function RegisterHost({ submit }) {
   const [caracteristicas, setCaracteristicas] = React.useState([]);
 
   const callSubmit = () => {
-    console.log(fields.fechaNacimiento);
-    console.log(new Date(fields.fechaNacimiento));
-
-    console.log(formatDate(new Date(fields.fechaNacimiento)));
-
     submit(
       fields.alias,
       fields.email,
@@ -93,11 +87,8 @@ export default function RegisterHost({ submit }) {
     )
       .then((response) => {
         changeField("apiError", "");
-        console.log(response);
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.response);
         if (err.response.status === 401) {
           changeField("apiError", "Datos incorrectos");
         } else {
@@ -239,7 +230,6 @@ export default function RegisterHost({ submit }) {
                         name="bank"
                         value={fields.bank}
                         onChange={(e) => {
-                          console.log(e.target.value);
                           changeField("bank", e.target.value);
                         }}
                         fullWidth
@@ -289,7 +279,6 @@ export default function RegisterHost({ submit }) {
                       format="DD/MM/YYYY"
                       minDate={new Date("1/1/2004").toString()}
                       onChange={(e) => {
-                        console.log(e);
                         changeField("fechaNacimiento", e);
                       }}
                       value={fields.fechaNacimiento}
@@ -372,7 +361,6 @@ export default function RegisterHost({ submit }) {
       case 2:
         return finalizar();
       default:
-        alert("error en renderSwitch");
         return;
     }
   };

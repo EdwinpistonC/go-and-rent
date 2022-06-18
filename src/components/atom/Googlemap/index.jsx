@@ -25,7 +25,6 @@ export default function GoogleMapPlaces({ setData }) {
         style={{
           innerHeight: "100%",
         }}
-        getOptionValue={({ value }) => console.log(value)}
         apiKey={process.env.REACT_APP_API_GOOGLEMAP}
         apiOptions={{ language: "es", region: "es" }}
         types={"geocode"}
@@ -93,7 +92,6 @@ export function GoogleMapPlacesForm({ setData }) {
             padding: "16.5px 14px",
           },
         }}
-        getOptionValue={({ value }) => console.log(value)}
         apiKey={process.env.REACT_APP_API_GOOGLEMAP}
         apiOptions={{ language: "es", region: "es" }}
         types={"geocode"}

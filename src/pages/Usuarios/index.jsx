@@ -16,7 +16,6 @@ const backend = new Api();
 
 /*backend.listadoUsuarios().then((response)=>{
  console.log(response.data)
-
 })
 */
 

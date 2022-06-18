@@ -9,6 +9,8 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker as MaterialDatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TextfieldBase, CustomOutilinedInput, TextfieldSm } from "./style";
+import moment from "moment";
+import { Alert } from "@mui/material";
 
 export const TextField = React.forwardRef(
   (
@@ -144,7 +146,36 @@ const IconTextField = ({
   );
 };
 
-const DatePicker = ({ label = "Outlined", fecha, onChange }) => {
+const DatePicker = ({
+  label = "Outlined",
+  fecha,
+  onChange,
+  mayorDeEdad = false,
+}) => {
+  const [error, setError] = React.useState(false);
+  if (mayorDeEdad) {
+    return (
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <MaterialDatePicker
+          inputFormat="dd/MM/yyyy"
+          label={label}
+          value={fecha}
+          onChange={(e) => {
+            let fecha = new Date(e).getFullYear();
+            if (fecha > new Date().getFullYear() - 18) {
+              setError(true);
+            } else {
+              onChange(e);
+              setError(false);
+            }
+          }}
+          renderInput={(params) => <TextField {...params} />}
+          style={{ width: "100%" }}
+        />
+        {error && <Alert severity="error">Debes ser mayor de edad</Alert>}
+      </LocalizationProvider>
+    );
+  }
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <MaterialDatePicker

@@ -16,7 +16,6 @@ export default function ChangeUserData() {
       }}
       alignItems="center"
       justifyContent="center"
-      direction="column"
     >
       <Grid
         content

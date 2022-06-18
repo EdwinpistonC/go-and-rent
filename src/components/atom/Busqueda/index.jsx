@@ -12,11 +12,8 @@ export default function Busqueda() {
         fullWidth
         value={state.busqueda}
         onChange={(e) => {
-          alert("modifica");
-
           dispatch({ busqueda: e.target.value });
-          if (location.pathname != "/busqueda") {
-            alert("entra");
+          if (location.pathname !== "/busqueda") {
           }
         }} //setInput(e.target.value)}
       ></Input>
@@ -31,8 +28,6 @@ export function BusquedaField({ setValor }) {
         fullWidth
         value={state.busqueda}
         onChange={(e) => {
-          alert("modifica");
-
           dispatch({ busqueda: e.target.value });
           setValor(e.target);
         }} //setInput(e.target.value)}
