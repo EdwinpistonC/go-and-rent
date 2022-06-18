@@ -117,7 +117,6 @@ export default class Api {
       "/data/accommodation/search" + alias,
       data
     );
-
     */
     try {
       const response = await axios.get(
@@ -345,4 +344,19 @@ export default class Api {
     let resultado = await this.init().get("admin/statistics");
     return resultado.data;
   };
+  aceptarUsuarios = (alias) => {
+    return this.init().put("admin/approve-host/"+alias);
+  };
+  bloquearUsuarios = (alias) => {
+    return this.init().put("admin/block/"+alias);
+  };
+  desloquearUsuarios = (alias) => {
+    return this.init().put("admin/unlock/"+alias);
+  };
+  eliminarUsuarios = (alias) => {
+    return this.init().put("admin/delete-user/"+alias);
+  };
+  rechazarUsuarios = (alias) => {
+    //return this.init().put("admin/delete-user/"+alias)
+  }
 }
