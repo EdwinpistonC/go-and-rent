@@ -537,6 +537,10 @@ export function FormEditUser({ onBack, children, setFields }) {
         style={{ width: "100%", height: "100%" }}
         spacing={2}
       >
+        <Grid item sm sx={{ mt: 2 }}>
+          <p>Elige un avatar:</p>
+          <IconSelector avatar={avatar} setAvatar={setAvatar} />
+        </Grid>
         <Grid
           container
           direction="row"
@@ -630,9 +634,6 @@ export function FormEditUser({ onBack, children, setFields }) {
                 setFecha(newValue);
               }}
             ></DatePicker>
-          </Grid>
-          <Grid item sm sx={{ mt: 2 }}>
-            <IconSelector avatar={avatar} setAvatar={setAvatar} />
           </Grid>
         </Grid>
 
