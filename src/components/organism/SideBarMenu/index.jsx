@@ -253,6 +253,9 @@ export function SideBarFilter({ filtrar }) {
                   columns={3}
                   key="caracteristicasfilter"
               >
+                <Grid item sx>
+                  <label>Caracteristicas:</label>
+                </Grid>
                 {fields.caracteristicas &&
                     fields.caracteristicas.length > 0 &&
                     fields.caracteristicas.map(function renderFields(
@@ -260,10 +263,6 @@ export function SideBarFilter({ filtrar }) {
                         index
                     ) {
                       return (
-                          <>
-                            <Grid item sx>
-                              <label>Caracteristicas:</label>
-                            </Grid>
                             <Grid item xs key={"caracteristicaGrid" + index}>
                               <TextFieldSmall
                                   xs={{
@@ -280,7 +279,6 @@ export function SideBarFilter({ filtrar }) {
                                   }}
                               ></TextFieldSmall>
                             </Grid>
-                          </>
                       );
                     })}
               </Grid>
