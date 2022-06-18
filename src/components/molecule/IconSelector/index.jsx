@@ -53,8 +53,9 @@ export default function IconSelector({ avatar, setAvatar }) {
 }
 
 export function IconUser({ id }) {
+  console.log(id);
   switch (id) {
-    case 0:
+    case 1:
       return (
         <IconButton>
           <Avatar sx={{ bgcolor: green[500] }}>
@@ -63,7 +64,7 @@ export function IconUser({ id }) {
         </IconButton>
       );
       break;
-    case 1:
+    case 2:
       return (
         <IconButton>
           <Avatar sx={{ bgcolor: pink[600] }}>
@@ -72,7 +73,7 @@ export function IconUser({ id }) {
         </IconButton>
       );
       break;
-    case 2:
+    case 3:
       return (
         <IconButton>
           <Avatar sx={{ bgcolor: red[700] }}>
