@@ -3,6 +3,7 @@ import LoginModal from "./index";
 import {BrowserRouter} from "react-router-dom";
 import ModalBasico from "../../atom/Modal";
 import {screen} from '@testing-library/react';
+import Header from "../Header";
 
 const FAKE_CORRECT_VALUES = {
     email: "huesped@gmail.com"
@@ -12,7 +13,7 @@ const updateInput = (wrapperShallow, input, newValue) => {
     // eslint-disable-next-line testing-library/no-debugging-utils
     console.log(input.debug());
     input.simulate('change', {
-         currentTarget: {value: newValue}
+        currentTarget: {value: newValue}
     })
     return input;
 }
@@ -22,25 +23,13 @@ let wrapperShallow;
 describe("Login Test", () => {
     it("Renderiza modal", () => {
         wrapperShallow = shallow(
-            <ModalBasico />
-                );
-    });
-    it("Render input email", async () => {
-        //https://bobbyhadz.com/blog/react-testing-library-find-by-classname
-        const openMock = jest.fn();
-        const closeMock = jest.fn();
-        let view = render(
-            <ModalBasico
-                abrirModal={openMock}
-                onCloseModal={closeMock}
-            />
+            <Header></Header>
         );
-        const backDrop = await screen.findAllByText(/MuiBackdrop-root/i);
-        console.log(backDrop);
-        //fireEvent.click(container.children())
-        /*expect(
-            wrapperShallow.containsMatchingElement(<ModalBasico />)
-        ).toEqual(true);*/
+    });
+    it("Render Btn Registro Anfitrion", async () => {
+        //https://bobbyhadz.com/blog/react-testing-library-find-by-classname
+        console.log(wrapperShallow.find('#registro-anfitrion'));
+        // expect(wrapperShallow.find('#registro-anfitrion')).toBeInTheDOM();
     })
     /*it("Render input password", () => {
         expect(
