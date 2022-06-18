@@ -35,11 +35,8 @@ export default function Busqueda() {
     caracteristicas
   ) => {
     setFechas([startDate, endDate]);
-
-    console.log(place.value);
     if (typeof place.value === "undefined") {
       await handleClick();
-      console.log(state);
       return;
     }
     let country = place.value.terms[0].value;
@@ -58,6 +55,7 @@ export default function Busqueda() {
       if (servicio.valor) {
         serviciosApi.append(servicio.id);
       }
+      return servicio;
     });
     let caracteristicaApi = [];
     caracteristicas.map(function (caracteristica) {
@@ -66,19 +64,9 @@ export default function Busqueda() {
           caracteristica.id + "-" + caracteristica.cantidad
         );
       }
+      return caracteristica;
     });
 
-    console.log({
-      city: city,
-      country: country,
-      province: province,
-      priceFrom: 0,
-      priceTo: 10000000,
-      dateFrom: startDate,
-      dateTo: endDate,
-      features: caracteristicaApi,
-      services: serviciosApi,
-    });
     const resultado = await api.filter({
       city: city,
       country: country,
@@ -91,7 +79,6 @@ export default function Busqueda() {
       services: serviciosApi,
     });
     setAlojamientos(resultado);
-    console.log(resultado);
   };
 
   return (

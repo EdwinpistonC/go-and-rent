@@ -14,10 +14,7 @@ import { FormTextfield } from "components/atom/Textfield";
 import { useInputsForm } from "Hooks/Inputhooks";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import DemoImage from "./demo-image.jpg";
-import GoogleMapPlaces, {
-  GoogleMapPlacesForm,
-} from "components/atom/Googlemap";
+import { GoogleMapPlacesForm } from "components/atom/Googlemap";
 
 function GetCaracteristicas() {
   const backend = new Api();
@@ -91,13 +88,9 @@ export default function NewHousing({ submit }) {
             fields.imagenes
           )
             .then((response, status) => {
-              console.log(response);
               navegar("/reservas");
             })
             .catch((err) => {
-              console.log(err);
-              console.log(err.response);
-
               if (err.response.status === 401) {
                 changeField(
                   "apiError",
@@ -434,7 +427,6 @@ export function EditHousing({ data, submit }) {
     GetCaracteristicas().then((resultado) => {
       resultado.data.servicios.map((item) => (item.valor = false));
       resultado.data.caracteristicas.map((item) => (item.cantidad = 0));
-      console.log(resultado);
       changeField("serviciosApi", resultado.data.servicios);
       setServicios(resultado.data.servicios);
       changeField("caracteristicasApi", resultado.data.caracteristicas);
@@ -475,13 +467,8 @@ export function EditHousing({ data, submit }) {
             fields.accDescription,
             fields.imagenes
           )
-            .then((response, status) => {
-              console.log(response);
-            })
+            .then((response, status) => {})
             .catch((err) => {
-              console.log(err);
-              console.log(err.response);
-
               if (err.response.status === 401) {
                 changeField(
                   "apiError",

@@ -44,7 +44,6 @@ export default function SideBarMenu() {
 
   const handleOpen = () => setAlerta(true);
   const handleClose = () => setAlerta(false);
-  const [usuario, setUsuario] = useLocalStorage("usuario", "");
 
   return (
     <Drawer
@@ -118,11 +117,7 @@ export default function SideBarMenu() {
   );
 }
 export function SideBarFilter({ filtrar }) {
-  const [busqueda, , setBusqueda] = useLocalStorage(
-    "busqueda",
-    DefaultBusqueda
-  );
-  const [state, dispatch] = useGlobalState();
+  const [state] = useGlobalState();
 
   React.useEffect(() => {
     pasarFiltro();
@@ -197,7 +192,6 @@ export function SideBarFilter({ filtrar }) {
               showSelectionPreview={true}
               moveRangeOnFirstSelection={false}
               onChange={(ranges) => {
-                console.log(ranges);
                 const { selection } = ranges;
 
                 changeField("fechas", [selection]);
@@ -226,9 +220,6 @@ export function SideBarFilter({ filtrar }) {
                             checked={servicio.valor}
                             onChange={(value) => {
                               let _servicios = fields.servicios;
-                              console.log(value.target.value);
-                              console.log(value.target.value === "on");
-
                               _servicios[index].valor =
                                 !_servicios[index].valor;
                               changeField("servicios", _servicios);
@@ -269,7 +260,6 @@ export function SideBarFilter({ filtrar }) {
                         value={caracteristica.cantidad}
                         onChange={(value) => {
                           let _caracteristica = fields.caracteristicas;
-                          console.log(value.target.value);
                           _caracteristica[index].cantidad = value.target.value;
                           changeField("caracteristicas", _caracteristica);
                           pasarFiltro();
