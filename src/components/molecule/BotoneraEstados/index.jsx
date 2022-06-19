@@ -1,145 +1,118 @@
-import { Button } from "components/atom/Button";
-import { AccessAlarm, ThreeDRotation } from "@mui/icons-material";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
+
+import {Link} from "react-router-dom";
 //import Api from "server/Api";
 import SimpleModal from "./modalBotonera"
+import Api from "server/Api";
+import { Button } from "components/atom/Button";
+const backend = new Api();
+function botonAceptar (alias) {
+    return (
+    //   <Button 
+    //     style={{ backcolor: "#33b047 !importan"}}
+    //     onClick={() => {
+    //           backend.aceptarUsuarios(alias).then((response)=>{
+    //             console.log(response.data);
+    //           }).catch((response)=>{
+    //             alert("Hubo un error intentelo más tarde.");
+    //             console.error(response.data);
+    //           });
+    //         }}
+    //   >
+    // ACEPTAR
+    // </Button>
+    <SimpleModal
+      boton="Aceptar"
+      alias={alias}
 
-export default function botoneraEstados(estado,alias,actualizarTabla) {
-  //const backend = new Api();
-  const botonAceptar = (estado,alias,actualizarTabla) => {
+      ></SimpleModal>
+    );
+};
+function botonRechazar (alias) {
+  
+    return (
+    //   <Button 
+    //     style={{ backcolor: "#e53c41 !importan"}}
+    //     onClick={() => {
+    //           backend.aceptarUsuarios(alias).then((response)=>{
+    //             console.log(response.data);
+    //           }).catch((response)=>{
+    //             alert("Hubo un error intentelo más tarde.");
+    //             console.error(response.data);
+    //           });
+    //         }}
+    //   >
+    // Rechazar
+    // </Button>
+     <SimpleModal
+     boton="Rechazar"
+     alias={alias}
+     ></SimpleModal>
+    );
+
+};
+
+function botonBloquear (estado,alias,actualizarTabla) {
+  if (estado == "ACEPTADO") {
+    return (
+      <SimpleModal
+      boton="Bloquear"
+      alias={alias}
+      actualizarTabla={actualizarTabla}
+      ></SimpleModal>
+    );
+  }
+  return <></>;
+};
+
+function botonDesbloquear  (estado,alias,actualizarTabla) {
+  if (estado == "BLOQUEADO") {
+    return (
+      <SimpleModal
+      boton="Desbloquear"
+      alias={alias}
+      actualizarTabla={actualizarTabla}
+      ></SimpleModal>
+    );
+  }
+  return <></>;
+};
+function botonEliminar(estado,alias,actualizarTabla){
+  if (estado == "ACEPTADO") {
+    return (
+      <SimpleModal
+      boton="Eliminar"
+      alias={alias}
+      actualizarTabla={actualizarTabla}
+      ></SimpleModal>
+    );
+  }
+  return <></>;
+};
+
+
+function botoneraEstados(estado,alias,actualizarTabla,accommodationId) {
+
+  
+  const btnVerAprobacion = ()=>{
     if (estado == "ESPERANDO") {
-      return (
-        // <Button
-        //   onClick={(alias) => {
-        //     backend.aceptarUsuarios(alias).then((response)=>{
-        //       console.log(response.data)
-        //      })
-        //   }}
-        //   style={{
-        //     backgroundColor: "#33b047",
-        //   }}
-        // >
-        //   Aceptar
-        // </Button>
-        <SimpleModal
-        boton="Aceptar"
-        alias={alias}
-        actualizarTabla={actualizarTabla}
-        ></SimpleModal>
-      );
+      return(
+        <Button variant="contained" href={`/Admin/aprobarUsuarios/${accommodationId}/${alias}`}>
+          Para aprobar 
+        </Button>
+      )
     }
     return <></>;
-  };
+  }
 
-  const botonBloquear = (estado,alias,actualizarTabla) => {
-    if (estado == "ACEPTADO") {
-      return (
-        // <Button
-        //   onClick={(alias) => {
-        //     backend.aceptarUsuarios(alias).then((response)=>{
-        //       console.log(response.data)
-        //      })
-        //   }}
-        //   style={{
-        //     backgroundColor: "#ecab40",
-        //   }}
-        // >
-        //   Bloquear
-        // </Button>
-        <SimpleModal
-        boton="Bloquear"
-        alias={alias}
-        actualizarTabla={actualizarTabla}
-        ></SimpleModal>
-      );
-    }
-    return <></>;
-  };
-
-  const botonDesbloquear = (estado,alias,actualizarTabla) => {
-    if (estado == "BLOQUEADO") {
-      return (
-        // <Button         
-        //   onClick={(alias) => {
-        //     backend.desbloquearUsuarios(alias).then((response)=>{
-        //       console.log(response.data)
-        //     })
-        //   }}
-        //   style={{
-        //     backgroundColor: "#ecab40",
-        //   }}
-        // >
-        //   Desbloquear
-        // </Button>
-        <SimpleModal
-        boton="Desbloquear"
-        alias={alias}
-        actualizarTabla={actualizarTabla}
-        ></SimpleModal>
-      );
-    }
-    return <></>;
-  };
-  const botonEliminar = (estado,alias,actualizarTabla) => {
-    if (estado == "ACEPTADO") {
-      return (
-        // <Button
-        //   // onClick={(alias) => {
-        //   //   // backend.elimiarUsuarios(alias).then((response)=>{
-        //   //   //   console.log(response.data)
-        //   //   // })
-        //   //   SimpleModal()
-        //   // }}
-        //   onClick={() => {
-        //   onSecundario2();
-        //   cerrarModal();
-        //   }}
-        //   style={{
-        //     backgroundColor: "#e53c41",
-        //   }}
-        // >
-        //   Eliminar
-        // </Button>
-        <SimpleModal
-        boton="Eliminar"
-        alias={alias}
-        actualizarTabla={actualizarTabla}
-        ></SimpleModal>
-      );
-    }
-    return <></>;
-  };
-  const botonRechazar = (estado,alias,actualizarTabla) => {
-    if (estado == "ESPERANDO") {
-      return (
-        // <Button
-        //   onClick={(alias) => {
-        //     backend.rechazarUsuarios(alias).then((response)=>{
-        //       console.log(response.data)
-        //     })
-        //   }}
-        //   style={{
-        //     backgroundColor: "#e53c41",
-        //   }}
-        // >
-        //   Rechazar
-        // </Button>
-        <SimpleModal
-        boton="Rechazar"
-        alias={alias}
-        actualizarTabla={actualizarTabla}
-        ></SimpleModal>
-      );
-    }
-    return <></>;
-  };
   return (
     <div>
-      {botonAceptar(estado,alias,actualizarTabla)}
+      {btnVerAprobacion(estado,alias)}
       {botonBloquear(estado,alias,actualizarTabla)}
       {botonDesbloquear(estado,alias,actualizarTabla)}
       {botonEliminar(estado,alias,actualizarTabla)}
-      {botonRechazar(estado,alias,actualizarTabla)}
     </div>
   );
 }
+
+
+ export { botoneraEstados,botonAceptar,botonBloquear,botonDesbloquear,botonEliminar,botonRechazar }

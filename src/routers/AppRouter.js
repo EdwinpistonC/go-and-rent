@@ -17,7 +17,8 @@ import HomePage from "pages/Home";
 import ChangePassword from "pages/ChangePassword";
 import { RouterContainer, Container } from "./StyledComponents";
 import DetalleAlojamiento from "pages/DetalleAlojamiento";
-import TestPage from "pages/Test";
+import UsuariosPage from "pages/Usuarios";
+import AprobarUsuario from "pages/AprobarUsuario"
 import { ListaReservas } from "pages/Reservas";
 import AdministrarReservas from "pages/AdministrarReservas";
 import EditarReserva from "pages/EditarReserva";
@@ -39,7 +40,7 @@ export const AppRouter = ({ children }) => {
           <Route path="/" element={<HomePage key={Date.now()} />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/registrar-anfitrion" element={<HostHousing />} />
-          <Route path="/test" element={<TestPage />} />
+          
 
           <Route path="/mensajeria" element={<Mensajeria />} />
 
@@ -65,6 +66,8 @@ export const AppRouter = ({ children }) => {
           <Route path="/estadisticas" element={<Estadisticas />} />
           <Route path="/admin">
             <Route path="nuevo-admin" element={<AdminRegister />} />
+            <Route path="usuarios" element={<UsuariosPage />} />
+            <Route path="aprobarUsuarios/:id/:alias" element={<AprobarUsuario />} />
           </Route>
           <Route
             path="*"
