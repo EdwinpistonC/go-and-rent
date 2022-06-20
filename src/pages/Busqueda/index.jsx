@@ -53,14 +53,14 @@ export default function Busqueda() {
     let serviciosApi = [];
     servicios.map(function (servicio) {
       if (servicio.valor) {
-        serviciosApi.append(servicio.id);
+        serviciosApi.push(servicio.id);
       }
       return servicio;
     });
     let caracteristicaApi = [];
     caracteristicas.map(function (caracteristica) {
       if (caracteristica.cantidad > 0) {
-        caracteristicaApi.append(
+        caracteristicaApi.push(
           caracteristica.id + "-" + caracteristica.cantidad
         );
       }
