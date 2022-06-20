@@ -44,7 +44,7 @@ export default function RegisterAdmin({ submit }) {
 
   const [fechaNacimiento, setFechaNacimiento, , ,] = useInputFormHook(
     {},
-    new Date().setFullYear(new Date().getFullYear() - 18)
+    new Date(new Date().setFullYear(new Date().getFullYear() - 18))
   );
 
   const [apiError, setApiError] = React.useState("");
@@ -70,6 +70,9 @@ export default function RegisterAdmin({ submit }) {
       <Form
         onSubmit={(e) => {
           e.preventDefault();
+          console.log(fechaNacimiento);
+
+          console.log(formatDate(fechaNacimiento));
           submit(
             alias,
             nombre,
@@ -169,6 +172,7 @@ export default function RegisterAdmin({ submit }) {
               label="Fecha de nacimiento"
               fecha={fechaNacimiento}
               onChange={(newValue) => {
+                console.log(newValue);
                 setFechaNacimiento(newValue);
               }}
               mayorDeEdad={true}

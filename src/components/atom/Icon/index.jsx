@@ -10,6 +10,7 @@ import MessageIcon from "@mui/icons-material/Message";
 import HousesSvg from "resources/svgs/Houses.svg";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 const Alert = () => {
   return (
     <svg
@@ -33,6 +34,13 @@ const Messages = ({ onClick }) => {
     </IconButton>
   );
 };
+const AddUser = ({ onClick }) => {
+  return (
+    <IconButton onClick={onClick}>
+      <PersonAddAltIcon></PersonAddAltIcon>
+    </IconButton>
+  );
+};
 const Statistics = ({ onClick }) => {
   return (
     <IconButton onClick={onClick}>
@@ -53,7 +61,7 @@ const iconoEstados = (estado) => {
   };
   if (estado == "ACEPTADO") {
     icono = () => {
-      return (<DoneIcon style={{ color: "#33b047" }}></DoneIcon>);
+      return <DoneIcon style={{ color: "#33b047" }}></DoneIcon>;
     };
   } else if (estado == "BLOQUEADO") {
     icono = () => {
@@ -97,4 +105,5 @@ export {
   Houses,
   Statistics,
   Management,
+  AddUser,
 };

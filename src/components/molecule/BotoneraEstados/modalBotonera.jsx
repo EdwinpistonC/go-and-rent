@@ -1,11 +1,9 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
 import { Button } from "components/atom/Button";
-import { CategoriaContenedor,ColumnaGrid } from "./style";
+import { CategoriaContenedor, ColumnaGrid } from "./style";
 import Api from "server/Api";
-
-const backend = new Api();
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -24,7 +22,7 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
+    position: "absolute",
     width: 400,
     backgroundColor: theme.palette.background.paper,
     //border: '2px solid #000',
@@ -34,230 +32,230 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getBotonStyle(boton) {
-  let backcolor=''
-  if(boton == "Aceptar"){
-    backcolor= "#33b047";
-  }else if (boton == "Bloquear"){
-    backcolor= "#ecab40";
-  }else if (boton == "Desbloquear"){
-    backcolor= "#ecab40";
-  }else if (boton == "Eliminar"){
-    backcolor= "#e53c41";
-  }else if (boton == "Rechazar"){
-    backcolor= "#e53c41";
+  let backcolor = "";
+  if (boton == "Aceptar") {
+    backcolor = "#33b047";
+  } else if (boton == "Bloquear") {
+    backcolor = "#ecab40";
+  } else if (boton == "Desbloquear") {
+    backcolor = "#ecab40";
+  } else if (boton == "Eliminar") {
+    backcolor = "#e53c41";
+  } else if (boton == "Rechazar") {
+    backcolor = "#e53c41";
   }
   return {
-    backgroundColor: `${backcolor}`
-    
+    backgroundColor: `${backcolor}`,
   };
 }
 
+const body = (
+  boton,
+  alias,
+  modalStyle,
+  classes,
+  handleClose,
+  actualizarTabla
+) => {
+  const backend = new Api();
+  console.log(alias);
 
-const body = (boton,alias,modalStyle,classes,handleClose,actualizarTabla)=>{
-
-  let div = (<></>);
-  if(boton == "Aceptar"){
-    div =(<div 
-      style={modalStyle}
-      className={classes.paper}>
-      <h2 id="simple-modal-title">Desea aceptar al {alias}</h2>
-      <ColumnaGrid style={{
-          textAlign:"center"
-        }}
-        container spacing={3}>
-        <ColumnaGrid item md={3}>
-          <Button 
-            onClick={handleClose}
-          >
-          Cancelar
-          </Button>
-        </ColumnaGrid>
-        <ColumnaGrid item md={3}>
-
-          <Button 
-            style={getBotonStyle(boton)}
-            onClick={() => {
-                  
-                  backend.aceptarUsuarios(alias).then((response)=>{
+  let div = <></>;
+  if (boton == "Aceptar") {
+    div = (
+      <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title">Desea aceptar al {alias}</h2>
+        <ColumnaGrid
+          style={{
+            textAlign: "center",
+          }}
+          container
+          spacing={3}
+        >
+          <ColumnaGrid item md={3}>
+            <Button onClick={handleClose}>Cancelar</Button>
+          </ColumnaGrid>
+          <ColumnaGrid item md={3}>
+            <Button
+              style={getBotonStyle(boton)}
+              onClick={() => {
+                backend
+                  .aceptarUsuarios(alias)
+                  .then((response) => {
                     console.log(response.data);
                     handleClose();
-                    window.location.href = '/Admin/usuarios'; 
-                   }).catch((response)=>{
-                    alert("Hubo un error intentelo más tarde.");
-                    console.error(response.data);
-                   });
-                }}
-          >
-          {boton}
-          </Button>
-        </ColumnaGrid>
-      </ColumnaGrid>
-    </div>
-    );
-  }else if (boton == "Bloquear"){
-
-    div =(<div 
-      style={modalStyle}
-      className={classes.paper}>
-      <h2 id="simple-modal-title">Desea Bloquear al {alias}</h2>
-      <ColumnaGrid style={{
-          textAlign:"center"
-        }}
-        container spacing={3}>
-        <ColumnaGrid item md={3}>
-          <Button 
-            onClick={handleClose}
-          >
-          Cancelar
-          </Button>
-        </ColumnaGrid>
-        <ColumnaGrid item md={3}>
-
-          <Button 
-            style={getBotonStyle(boton)}
-            onClick={() => {
-
-                  backend.bloquearUsuarios(alias).then((response)=>{
-                    console.log(response.data);
-                    handleClose();
-                    actualizarTabla();
-                   }).catch((response)=>{
-                    alert("Hubo un error intentelo más tarde.");
-                    console.error(response.data);
-                   });
-                }}
-          >
-          {boton}
-          </Button>
-        </ColumnaGrid>
-      </ColumnaGrid>
-    </div>
-    );
-
-  }else if (boton == "Desbloquear"){
-    div =(<div 
-      style={modalStyle}
-      className={classes.paper}>
-      <h2 id="simple-modal-title">Desea desloquear al {alias}</h2>
-      <ColumnaGrid style={{
-          textAlign:"center"
-        }}
-        container spacing={3}>
-        <ColumnaGrid item md={3}>
-          <Button 
-            onClick={handleClose}
-          >
-          Cancelar
-          </Button>
-        </ColumnaGrid>
-        <ColumnaGrid item md={4}>
-
-          <Button 
-            style={getBotonStyle(boton)}
-            onClick={(alias) => {
-                  backend.desloquearUsuarios(alias).then((response)=>{
-                    console.log(response.data);
-                    handleClose();
-                    actualizarTabla();
-                   }).catch((response)=>{
-                    alert("Hubo un error intentelo más tarde.");
-                    console.error(response.data);
-                   });
-                }}
-          >
-          {boton}
-          </Button>
-        </ColumnaGrid>
-      </ColumnaGrid>
-    </div>
-    );
-  }else if (boton == "Eliminar"){
-    div =(<div 
-      style={modalStyle}
-      className={classes.paper}>
-      <h2 id="simple-modal-title">Desea eliminar al {alias}</h2>
-      <ColumnaGrid style={{
-          textAlign:"center"
-        }}
-        container spacing={3}>
-        <ColumnaGrid item md={3}>
-          <Button 
-            onClick={handleClose}
-          >
-          Cancelar
-          </Button>
-        </ColumnaGrid>
-        <ColumnaGrid item md={3}>
-
-          <Button 
-            style={getBotonStyle(boton)}
-            onClick={(alias) => {
-                  backend.eliminarUsuarios(alias).then((response)=>{
-                    console.log(response.data);
-                    handleClose();
-                    actualizarTabla();
-                   }).catch((response)=>{
-                    alert("Hubo un error intentelo más tarde.");
-                    console.error(response.data);
-                   });
-                }}
-          >
-          {boton}
-          </Button>
-        </ColumnaGrid>
-      </ColumnaGrid>
-    </div>
-    );
-  }else if (boton == "Rechazar"){
-    div =(<div 
-      style={modalStyle}
-      className={classes.paper}>
-      <h2 id="simple-modal-title">Desea rechazar al {alias}</h2>
-      <ColumnaGrid style={{
-          textAlign:"center"
-        }}
-        container spacing={3}>
-        <ColumnaGrid item md={3}>
-          <Button 
-            onClick={handleClose}
-          >
-          Cancelar
-          </Button>
-        </ColumnaGrid>
-        <ColumnaGrid item md={3}>
-
-          <Button 
-            style={getBotonStyle(boton)}
-            onClick={() => {
-                  backend.rechazarUsuarios(alias).then((response)=>{
-                    console.log(response.data);
-                    handleClose();
-                    window.location.href = '/Admin/usuarios';
-                  }).catch((response)=>{
+                    window.location.href = "/Admin/usuarios";
+                  })
+                  .catch((response) => {
                     alert("Hubo un error intentelo más tarde.");
                     console.error(response.data);
                   });
-                }}
-          >
-          {boton}
-          </Button>
+              }}
+            >
+              {boton}
+            </Button>
+          </ColumnaGrid>
         </ColumnaGrid>
-      </ColumnaGrid>
-    </div>
+      </div>
     );
-  }else{
-    div =(<div 
-      style={modalStyle}
-      className={classes.paper}>
-      <h2 id="simple-modal-title"></h2>
-      
-    </div>
+  } else if (boton == "Bloquear") {
+    div = (
+      <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title">Desea Bloquear al {alias}</h2>
+        <ColumnaGrid
+          style={{
+            textAlign: "center",
+          }}
+          container
+          spacing={3}
+        >
+          <ColumnaGrid item md={3}>
+            <Button onClick={handleClose}>Cancelar</Button>
+          </ColumnaGrid>
+          <ColumnaGrid item md={3}>
+            <Button
+              style={getBotonStyle(boton)}
+              onClick={() => {
+                backend
+                  .bloquearUsuarios(alias)
+                  .then((response) => {
+                    console.log(response.data);
+                    handleClose();
+                    actualizarTabla();
+                  })
+                  .catch((response) => {
+                    alert("Hubo un error intentelo más tarde.");
+                    console.error(response.data);
+                  });
+              }}
+            >
+              {boton}
+            </Button>
+          </ColumnaGrid>
+        </ColumnaGrid>
+      </div>
+    );
+  } else if (boton == "Desbloquear") {
+    div = (
+      <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title">Desea desloquear al {alias}</h2>
+        <ColumnaGrid
+          style={{
+            textAlign: "center",
+          }}
+          container
+          spacing={3}
+        >
+          <ColumnaGrid item md={3}>
+            <Button onClick={handleClose}>Cancelar</Button>
+          </ColumnaGrid>
+          <ColumnaGrid item md={4}>
+            <Button
+              style={getBotonStyle(boton)}
+              onClick={() => {
+                backend
+                  .desloquearUsuarios(alias)
+                  .then((response) => {
+                    console.log(response.data);
+                    handleClose();
+                    actualizarTabla();
+                  })
+                  .catch((response) => {
+                    alert("Hubo un error intentelo más tarde.");
+                    console.error(response.data);
+                  });
+              }}
+            >
+              {boton}
+            </Button>
+          </ColumnaGrid>
+        </ColumnaGrid>
+      </div>
+    );
+  } else if (boton == "Eliminar") {
+    div = (
+      <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title">Desea eliminar al {alias}</h2>
+        <ColumnaGrid
+          style={{
+            textAlign: "center",
+          }}
+          container
+          spacing={3}
+        >
+          <ColumnaGrid item md={3}>
+            <Button onClick={handleClose}>Cancelar</Button>
+          </ColumnaGrid>
+          <ColumnaGrid item md={3}>
+            <Button
+              style={getBotonStyle(boton)}
+              onClick={() => {
+                backend
+                  .eliminarUsuarios(alias)
+                  .then((response) => {
+                    console.log(response.data);
+                    handleClose();
+                    actualizarTabla();
+                  })
+                  .catch((response) => {
+                    alert("Hubo un error intentelo más tarde.");
+                    console.error(response.data);
+                  });
+              }}
+            >
+              {boton}
+            </Button>
+          </ColumnaGrid>
+        </ColumnaGrid>
+      </div>
+    );
+  } else if (boton == "Rechazar") {
+    div = (
+      <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title">Desea rechazar al {alias}</h2>
+        <ColumnaGrid
+          style={{
+            textAlign: "center",
+          }}
+          container
+          spacing={3}
+        >
+          <ColumnaGrid item md={3}>
+            <Button onClick={handleClose}>Cancelar</Button>
+          </ColumnaGrid>
+          <ColumnaGrid item md={3}>
+            <Button
+              style={getBotonStyle(boton)}
+              onClick={() => {
+                backend
+                  .rechazarUsuarios(alias)
+                  .then((response) => {
+                    console.log(response.data);
+                    handleClose();
+                    window.location.href = "/Admin/usuarios";
+                  })
+                  .catch((response) => {
+                    alert("Hubo un error intentelo más tarde.");
+                    console.error(response.data);
+                  });
+              }}
+            >
+              {boton}
+            </Button>
+          </ColumnaGrid>
+        </ColumnaGrid>
+      </div>
+    );
+  } else {
+    div = (
+      <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title"></h2>
+      </div>
     );
   }
-  return div;  
-}
-export default function SimpleModal({boton, alias,actualizarTabla=null}) {
-
+  return div;
+};
+export default function SimpleModal({ boton, alias, actualizarTabla = null }) {
   const classes = useStyles();
   //const classes = useStyles();
   //getModalStyle is not a pure function, we roll the style only on the first render
@@ -272,15 +270,9 @@ export default function SimpleModal({boton, alias,actualizarTabla=null}) {
     setOpen(false);
   };
 
-  
-
-
   return (
     <div>
-      <Button 
-      onClick={handleOpen}
-      style={getBotonStyle(boton)}
-      >
+      <Button onClick={handleOpen} style={getBotonStyle(boton)}>
         {boton}
       </Button>
       <Modal
@@ -289,7 +281,7 @@ export default function SimpleModal({boton, alias,actualizarTabla=null}) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {body(boton,alias,modalStyle,classes,handleClose,actualizarTabla) }
+        {body(boton, alias, modalStyle, classes, handleClose, actualizarTabla)}
       </Modal>
     </div>
   );

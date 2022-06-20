@@ -75,7 +75,7 @@ export default function RegisterHost({ submit }) {
       fields.bank,
       fields.account,
       fields.locCoordinates,
-      fields.locCountry,
+      fields.places,
       fields.accPrice,
       fields.locStreet,
       fields.imagenes,

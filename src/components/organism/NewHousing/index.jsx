@@ -80,6 +80,7 @@ export default function NewHousing({ submit }) {
             servicios,
             caracteristicas,
             fields.places,
+            fields.locCoordinates,
             fields.locStreet,
             fields.locDoorNumber,
             fields.accPrice,
@@ -301,36 +302,18 @@ export function NewReserveAndRegister({
         >
           <Grid item xs={6}>
             <FormTextfield
-              id="locCoordinates"
-              value={fields.locCoordinates}
-              onChange={handleFieldChange}
-              nombre="Coordenadas"
-            ></FormTextfield>
-          </Grid>
-          <Grid item xs={6}>
-            <FormTextfield
-              id="locCountry"
-              value={fields.locCountry}
-              onChange={handleFieldChange}
-              nombre="Pais"
-            ></FormTextfield>
-          </Grid>
-
-          <Grid item xs={6}>
-            <FormTextfield
-              id="locRegion"
-              value={fields.locRegion}
-              onChange={handleFieldChange}
-              nombre="Region"
-            ></FormTextfield>
-          </Grid>
-          <Grid item xs={6}>
-            <FormTextfield
               id="accPrice"
               value={fields.accPrice}
               onChange={handleFieldChange}
               nombre="Precio"
             ></FormTextfield>
+          </Grid>
+          <Grid item xs={6}>
+            <GoogleMapPlacesForm
+              setData={(e) => {
+                changeField("places", e);
+              }}
+            ></GoogleMapPlacesForm>
           </Grid>
         </Grid>
         <Grid

@@ -29,12 +29,11 @@ images (tipo FILE, se puede repetir, uno por cada imagen que suba)
 
 */
 
-const registerReserve = async function (
+const crearAlojamiento = async function (
   services,
   features,
+  place,
   loc_coordinates = "test",
-  loc_country = "test",
-  loc_region = "test",
   loc_street = "test",
   loc_doorNumber = "test",
   acc_price = "test",
@@ -44,6 +43,19 @@ const registerReserve = async function (
 ) {
   const backend = new Api();
   var formData = new FormData(); //formdata object
+
+  let country = place.value.terms[0].value;
+  let province = place.value.terms[0].value;
+  let city = place.value.terms[0].value;
+
+  if (place.value.terms.length === 3) {
+    country = place.value.terms[2].value;
+    province = place.value.terms[1].value;
+  } else if (place.value.terms.length === 2) {
+    country = place.value.terms[1].value;
+    province = place.value.terms[0].value;
+  }
+
   services.forEach((service) => {
     if (service.hasOwnProperty("valor") && service.valor) {
       formData.append("services", service.id);
@@ -71,12 +83,12 @@ const registerReserve = async function (
   });
   */
   formData.append("loc_coordinates", "");
-  formData.append("loc_country", "uruguay");
-  formData.append("loc_province", "montevideo");
-  formData.append("loc_street", "Av uruguay");
-  formData.append("loc_doorNumber", "332");
-  formData.append("acc_price", 3040);
-  formData.append("loc_city", "montevideo");
+  formData.append("loc_country", country);
+  formData.append("loc_province", province);
+  formData.append("loc_street", loc_street);
+  formData.append("loc_doorNumber", loc_doorNumber);
+  formData.append("acc_price", acc_price);
+  formData.append("loc_city", city);
 
   /*
   formData.append("loc_coordinates", loc_coordinates);
@@ -94,9 +106,9 @@ const registerReserve = async function (
   for (var pair of formData.entries()) {
     console.log(pair[0] + ", " + pair[1]);
   }
-  return backend.reserveCreate(formData);
+  return backend.creacionAlojamiento(formData);
 };
 
 export default function CreateHousing() {
-  return <NewReserve submit={registerReserve} type={""} />;
+  return <NewReserve submit={crearAlojamiento} type={""} />;
 }

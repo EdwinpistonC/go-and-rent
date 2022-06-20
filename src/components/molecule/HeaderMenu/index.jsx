@@ -8,6 +8,7 @@ import {
   Bookings,
   Statistics,
   Management,
+  AddUser,
 } from "components/atom/Icon";
 
 import { Box } from "@mui/system";
@@ -23,6 +24,7 @@ export default function HeaderMenu({
   onPerfil = () => {},
   onReserva = () => {},
   onMensaje = () => {},
+  onAddAdmin = () => {},
 }) {
   if (rol == "ROLE_GUEST") {
     return (
@@ -44,6 +46,7 @@ export default function HeaderMenu({
       <MenuContainer>
         {children}
         <Statistics onClick={onEstadisticas} />
+        <AddUser onClick={onAddAdmin} />
         <Management onClick={onAdministracion} />
         <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil

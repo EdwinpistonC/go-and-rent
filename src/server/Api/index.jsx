@@ -14,6 +14,12 @@ export default class Api {
     ) {
       token = usuario.token;
     }
+    console.log("datos de usuario");
+
+    console.log(usuario);
+
+    console.log(token);
+
     this.api_token = token;
     this.client = null;
     this.api_url = process.env.REACT_APP_API_ENDPOINT;
@@ -48,6 +54,9 @@ export default class Api {
   };
   validateCode = (email, code) => {
     return this.init().get("auth/validate-code/" + email + "/" + code);
+  };
+  verificarReserva = (id, to, from) => {
+    return this.init().get("guests/booking/verify");
   };
   changePassword = (email, data) => {
     return this.init().post("auth/recover/change-password/" + email, data);
@@ -126,7 +135,7 @@ export default class Api {
   features = () => {
     return this.init().get("data/features");
   };
-  reserveCreate = (data) => {
+  creacionAlojamiento = (data) => {
     let usuario = JSON.parse(localStorage.getItem("usuario"));
     let alias = null;
     if (
@@ -339,19 +348,18 @@ export default class Api {
     return resultado.data;
   };
   aceptarUsuarios = (alias) => {
-    return this.init().put("admin/approve-host/"+alias);
+    return this.init().put("admin/approve-host/" + alias);
   };
   bloquearUsuarios = (alias) => {
-    return this.init().put("admin/block/"+alias);
+    return this.init().put("admin/block/" + alias);
   };
   desloquearUsuarios = (alias) => {
-    return this.init().put("admin/unlock/"+alias);
+    return this.init().put("admin/unlock/" + alias);
   };
   eliminarUsuarios = (alias) => {
-    return this.init().put("admin/delete-user/"+alias);
+    return this.init().put("admin/delete-user/" + alias);
   };
   rechazarUsuarios = (alias) => {
-    return this.init().put("admin/reject-host/"+alias)
-  }
-
+    return this.init().put("admin/reject-host/" + alias);
+  };
 }
