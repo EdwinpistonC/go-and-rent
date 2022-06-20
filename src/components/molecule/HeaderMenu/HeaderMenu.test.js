@@ -41,6 +41,7 @@ const ItemsText = {
         'Hazte una cuenta'
     ],
     admin: [
+        'Perfil',
         'Cerrar Sesión'
     ]
 }
@@ -139,11 +140,7 @@ describe("Header Test", () => {
         });
     });
     it("Anfitrion: no ve items de admin", () => {
-        wrapperShallow = getMenuWrapper(ROLES.host)
-        ItemsText.admin.forEach(function(text, index){
-            let item = wrapperShallow.find(Item).at(index);
-            expect(item.text()).not.toEqual(text);
-        });
+        wrapperShallow = getMenuWrapper(ROLES.host);
         for(let item of ItemsList.admin){
             expect(wrapperShallow.containsMatchingElement(item)).not.toBe(true);
         }
