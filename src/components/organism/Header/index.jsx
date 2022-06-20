@@ -111,7 +111,8 @@ export default function Header({ busqueda, setBusqueda }) {
         onReserva={() => navegar("/reservas")}
         onPerfil={() => navegar("/perfil")}
         onEstadisticas={() => navegar("/estadisticas")}
-        onAdministracion={() => navegar("/test")}
+        onAdministracion={() => navegar("/admin/usuarios")}
+        onAddAdmin={() => navegar("/admin/nuevo-admin")}
       >
         {/* Huésped */}
         <LoginModal
