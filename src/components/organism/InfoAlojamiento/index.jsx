@@ -15,13 +15,20 @@ import Rating from "@mui/material/Rating";
 import FiltroReservas from "../FiltroReservas";
 import { RateReview } from "@mui/icons-material";
 import TextField from "components/atom/Textfield";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import ListaReviews from "components/molecule/ListaReviews";
+
 export default function InfoAlojamiento({
   alojamientoId,
   alojamiento,
   reservas,
 }) {
+  console.log(alojamiento);
   const navegar = useNavigate();
-
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <Grid item xs sx={{ textAlign: "left", minHeight: "500px" }}>
       <Paper variant="o" elevation={0}>
@@ -42,6 +49,33 @@ export default function InfoAlojamiento({
           justifyContent="flex-start"
           alignItems="flex-start"
         >
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 400,
+                bgcolor: "#000",
+                border: "2px solid #000",
+                background: "#fff",
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              {alojamiento.reviews.length > 0 ? (
+                <ListaReviews reviews={alojamiento.reviews}></ListaReviews>
+              ) : (
+                <Typography>Actualmente sin reseñas</Typography>
+              )}
+            </Box>
+          </Modal>
           <Grid item xs>
             <Paper elevation={2}>
               <Typography
@@ -182,13 +216,7 @@ export default function InfoAlojamiento({
             </Button>
           </Grid>
           <Grid item xs>
-            <Button
-              onClick={() =>
-                navegar("/reservas/reviews/" + alojamiento.accommodation.id)
-              }
-            >
-              Reviews
-            </Button>
+            <Button onClick={() => handleOpen()}>Reviews</Button>
           </Grid>
         </Grid>
         <FiltroReservas
