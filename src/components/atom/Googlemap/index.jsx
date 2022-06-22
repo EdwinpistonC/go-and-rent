@@ -49,9 +49,8 @@ export default function GoogleMapPlaces({ setData }) {
   );
 }
 
-export function GoogleMapPlacesForm({ setData }) {
-  const [busqueda, setBusqueda] = React.useState("");
-
+export function GoogleMapPlacesForm({ setData, value = "" }) {
+  const [busqueda, setBusqueda] = React.useState(value);
   return (
     <BusquedaContainer>
       <GooglePlacesAutocomplete
@@ -102,7 +101,8 @@ export function GoogleMapPlacesForm({ setData }) {
           ],
         }}
         selectProps={{
-          busqueda,
+          defaultInputValue: value,
+          value: busqueda,
           onChange: (e) => {
             setBusqueda(e);
             setData(e);

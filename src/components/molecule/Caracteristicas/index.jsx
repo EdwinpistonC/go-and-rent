@@ -17,10 +17,10 @@ export function Servicios({ lista, setValores }) {
     setValores((existingItems) => {
       var current = existingItems[value];
 
-      if (!("valor" in existingItems[value])) {
-        existingItems[value].valor = true;
+      if (!("value" in existingItems[value])) {
+        existingItems[value].value = true;
       } else {
-        existingItems[value].valor = !existingItems[value].valor;
+        existingItems[value].value = !existingItems[value].value;
       }
       return [
         ...existingItems.slice(0, value),
@@ -56,7 +56,7 @@ export function Servicios({ lista, setValores }) {
                   <Checkbox
                     key={i}
                     edge="start"
-                    checked={checked.indexOf(i) !== -1}
+                    checked={caracteristica.value | (checked.indexOf(i) !== -1)}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
@@ -82,11 +82,11 @@ export function Caracteristicas({ lista, setValores }) {
                 key={i}
                 label={caracteristica.name}
                 type="number"
-                defaultValue={0}
+                defaultValue={caracteristica.value | 0}
                 onChange={(e) => {
                   setValores((existingItems) => {
                     var current = existingItems[i];
-                    existingItems[i].cantidad = e.target.value;
+                    existingItems[i].value = e.target.value;
                     return [
                       ...existingItems.slice(0, i),
                       current,

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { parseParams } from "components/util/functions";
 
+// 401 para desconectar al usuario
+
 export default class Api {
   constructor() {
     //localStorage.getItem("token")
@@ -14,12 +16,6 @@ export default class Api {
     ) {
       token = usuario.token;
     }
-    console.log("datos de usuario");
-
-    console.log(usuario);
-
-    console.log(token);
-
     this.api_token = token;
     this.client = null;
     this.api_url = process.env.REACT_APP_API_ENDPOINT;

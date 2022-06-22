@@ -19,6 +19,66 @@ export default function ImageEditor({ itemData, setItemData }) {
   const fileInput = React.useRef();
   const [btnDisabled, setBtnDisabled] = useState(true);
 
+  console.log(itemData);
+
+  React.useEffect(() => {
+    const getBase64Image = (url) => {
+      const img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        const dataURL = canvas.toDataURL("image/png");
+        console.log(dataURL);
+        return dataURL;
+      };
+      img.src = url;
+    };
+
+    ///
+
+    function getURLBase64(url) {
+      return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", url, true);
+        xhr.responseType = "blob";
+        xhr.onload = function () {
+          if (this.status === 200) {
+            var blob = this.response;
+            var fileReader = new FileReader();
+            fileReader.onloadend = function (e) {
+              var result = e.target.result;
+              resolve(result);
+            };
+            fileReader.readAsDataURL(blob);
+          }
+        };
+        xhr.onerror = function (e, msg) {
+          reject(msg);
+        };
+        xhr.send();
+      });
+    }
+
+    const cargarImagenes = async () => {
+      if (itemData.length > 0) {
+        let nuevasImagenes = [];
+        await itemData.forEach(async (element) => {
+          let url = process.env.REACT_APP_API_IMG + element.photo;
+          console.log(url);
+          console.log(getURLBase64(url));
+          console.log(await getBase64Image(url));
+
+          nuevasImagenes.push(await getBase64Image(url));
+        });
+        console.log(nuevasImagenes);
+      }
+    };
+    cargarImagenes();
+  }, []);
   const onChange = (e) => {
     e.preventDefault();
     let files;

@@ -57,12 +57,12 @@ const crearAlojamiento = async function (
   }
 
   services.forEach((service) => {
-    if (service.hasOwnProperty("valor") && service.valor) {
+    if (service.hasOwnProperty("value") && service.value) {
       formData.append("services", service.id);
     }
   });
   features.forEach((feature) => {
-    formData.append("features", feature.id + "-" + feature.cantidad);
+    formData.append("features", feature.id + "-" + feature.value);
   });
 
   for (const [index, image] of images.entries()) {

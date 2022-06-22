@@ -208,9 +208,7 @@ export default function InfoAlojamiento({
         >
           <Grid item xs>
             <Button
-              onClick={() =>
-                navegar("/reservas/editar/" + alojamiento.accommodation.id)
-              }
+              onClick={() => navegar("/reservas/editar/" + alojamientoId)}
             >
               Editar
             </Button>

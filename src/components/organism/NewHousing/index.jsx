@@ -385,23 +385,25 @@ export function NewReserveAndRegister({
 }
 
 export function EditHousing({ data, submit }) {
+  console.log(data);
+
   const [fields, handleFieldChange, changeField] = useInputsForm({
-    serviciosApi: [],
-    caracteristicasApi: [],
+    serviciosApi: data.services,
+    caracteristicasApi: data.features,
     locCoordinates: [],
-    locCountry: [],
-    locRegion: [],
-    accPrice: [],
-    locStreet: [],
-    imagenes: [],
-    locDoorNumber: [],
-    accName: [],
-    accDescription: [],
+    places: [data.location.city, data.location.province, data.location.country],
+    accPrice: data.accommodation.price,
+    locStreet: data.location.street,
+    imagenes: data.photos,
+    locDoorNumber: data.location.doorNumber,
+    accName: data.accommodation.name,
+    accDescription: data.accommodation.description,
     apiError: [],
   });
+  console.log(fields);
 
-  const [servicios, setServicios] = React.useState([]);
-  const [caracteristicas, setCaracteristicas] = React.useState([]);
+  const [servicios, setServicios] = React.useState(data.services);
+  const [caracteristicas, setCaracteristicas] = React.useState(data.features);
 
   if (
     fields.caracteristicasApi.length === 0 ||
@@ -410,8 +412,6 @@ export function EditHousing({ data, submit }) {
     GetCaracteristicas().then((resultado) => {
       resultado.data.servicios.map((item) => (item.valor = false));
       resultado.data.caracteristicas.map((item) => (item.cantidad = 0));
-      changeField("serviciosApi", resultado.data.servicios);
-      setServicios(resultado.data.servicios);
       changeField("caracteristicasApi", resultado.data.caracteristicas);
       setCaracteristicas(resultado.data.caracteristicas);
     });
@@ -470,12 +470,12 @@ export function EditHousing({ data, submit }) {
               Creacion de Alojamiento
             </Typography>
           </Grid>
-
           <Grid item xs={12}>
             <FormTextfield
               id="accName"
               onChange={handleFieldChange}
               nombre="Nombre del alojamiento"
+              value={fields.accName}
             ></FormTextfield>
           </Grid>
           <Grid item xs={12}>
@@ -484,6 +484,7 @@ export function EditHousing({ data, submit }) {
               onChange={handleFieldChange}
               nombre="Descripcion"
               multiline
+              value={fields.accDescription}
               rows={4}
             ></FormTextfield>
           </Grid>
@@ -495,35 +496,29 @@ export function EditHousing({ data, submit }) {
           >
             <Grid item xs={6}>
               <FormTextfield
-                id="locCoordinates"
-                onChange={handleFieldChange}
-                nombre="Coordenadas"
-              ></FormTextfield>
-            </Grid>
-            <Grid item xs={6}>
-              <FormTextfield
-                id="locCountry"
-                onChange={handleFieldChange}
-                nombre="Pais"
-              ></FormTextfield>
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormTextfield
-                id="locRegion"
-                onChange={handleFieldChange}
-                nombre="Region"
-              ></FormTextfield>
-            </Grid>
-            <Grid item xs={6}>
-              <FormTextfield
                 id="accPrice"
                 onChange={handleFieldChange}
                 nombre="Precio"
                 number
+                value={fields.accPrice}
               ></FormTextfield>
             </Grid>
+            <Grid item xs>
+              <GoogleMapPlacesForm
+                setData={(e) => {
+                  changeField("places", e);
+                }}
+                value={
+                  data.location.city +
+                  " " +
+                  data.location.province +
+                  " " +
+                  data.location.country
+                }
+              ></GoogleMapPlacesForm>
+            </Grid>
           </Grid>
+
           <Grid
             container
             rowSpacing={4}
@@ -537,13 +532,13 @@ export function EditHousing({ data, submit }) {
                 nombre="Calles"
               ></FormTextfield>
             </Grid>
-
             <Grid item xs={6}>
               <FormTextfield
                 id="locDoorNumber"
                 onChange={handleFieldChange}
                 nombre="Numero de puerta"
                 number
+                value={fields.locDoorNumber}
               ></FormTextfield>
             </Grid>
           </Grid>
