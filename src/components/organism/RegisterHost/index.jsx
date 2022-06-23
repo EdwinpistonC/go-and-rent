@@ -12,10 +12,7 @@ import {
   DatePicker,
 } from "components/atom/Textfield";
 import { Grid, MenuItem, FormControl, InputLabel } from "@mui/material";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import Avatar from "@mui/material/Avatar";
-import { green, pink, red } from "@mui/material/colors";
-import IconButton from "@mui/material/IconButton";
 import { Button } from "components/atom/Button";
 import { NewReserveAndRegister } from "../NewHousing";
 import {
