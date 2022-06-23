@@ -515,7 +515,7 @@ export function InfoReserva({ reservaId, reserva }) {
                                     window.location.reload();
                                 }}
                             >
-                                Rembolsar
+                                Reembolsar
                             </Button>
                         </Grid>
                     </Grid>
