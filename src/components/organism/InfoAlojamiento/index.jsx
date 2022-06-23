@@ -43,6 +43,7 @@ export default function InfoAlojamiento({
             alignContent: "stretch",
             justifyContent: "center",
             alignItems: "stretch",
+            padding: "10px"
           }}
           container
           direction="column"
@@ -205,6 +206,7 @@ export default function InfoAlojamiento({
           direction="row"
           justifyContent="space-evenly"
           alignItems="flex-start"
+          sx={{ marginY: "15px" }}
         >
           <Grid item xs>
             <Button
