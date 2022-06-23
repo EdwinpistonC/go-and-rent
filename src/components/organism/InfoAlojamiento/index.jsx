@@ -113,7 +113,7 @@ export default function InfoAlojamiento({
             >
               <Grid item xs>
                 <Typography sx={{ textAlign: "center" }}>
-                  {alojamiento.accommodation.price} $UY
+                  USD {alojamiento.accommodation.price}
                 </Typography>
               </Grid>
             </Grid>
