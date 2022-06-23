@@ -337,9 +337,9 @@ export function InfoReserva({ reservaId, reserva }) {
                                 sx={{ textAlign: "center" }}
                             >
                                 {reserva.accommodationName}
-                                <Typography> {estado}</Typography>
+                                <Typography><strong>Estado:</strong> {estado}</Typography>
                                 <Typography>
-                                    {reserva.startDate} a {reserva.endDate}
+                                    <strong>Período de Reserva:</strong>{reserva.startDate} hasta {reserva.endDate}
                                 </Typography>
                             </Typography>
                         </Paper>
@@ -353,7 +353,7 @@ export function InfoReserva({ reservaId, reserva }) {
                         >
                             <Grid item xs>
                                 <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
-                                    Precio {reserva.finalPrice}$UY
+                                    <strong>Precio:</strong> USD {reserva.finalPrice}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -375,8 +375,8 @@ export function InfoReserva({ reservaId, reserva }) {
                                     justifyContent="space-evenly"
                                     marginBottom={"5px"}
                                 >
-                                    <Typography>{reserva.hostName}</Typography>
-                                    <Typography>{reserva.hostEmail}</Typography>
+                                    <Typography><strong>Nombre:</strong>{reserva.hostName}</Typography>
+                                    <Typography><strong>Email:</strong>{reserva.hostEmail}</Typography>
                                 </Stack>
 
                                 <Stack

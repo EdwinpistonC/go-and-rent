@@ -166,6 +166,12 @@ export function ListaReservasHuesped() {
                     height: "1200px",
                 }}
             >
+                <Grid item xs sx={{ height: "inherit" }}>
+                    <ListaReservaAlojamientoHuesped
+                        seleccionar={modificarReservaActual}
+                        reservas={reservas}
+                    ></ListaReservaAlojamientoHuesped>
+                </Grid>
                 <Grid
                     container
                     direction="column"
@@ -194,12 +200,6 @@ export function ListaReservasHuesped() {
                     )}
                 </Grid>
 
-                <Grid item xs sx={{ height: "inherit" }}>
-                    <ListaReservaAlojamientoHuesped
-                        seleccionar={modificarReservaActual}
-                        reservas={reservas}
-                    ></ListaReservaAlojamientoHuesped>
-                </Grid>
             </Grid>
         );
     }
@@ -218,10 +218,10 @@ export function ListaReservasHuesped() {
                     width: "30%",
                     height: "30%",
                 }}
-                justifyContent="center"
-                alignItems="center"
             >
-                <Typography> Sin reservas realizadas</Typography>
+                <div style={{marginTop:"15px", textAlign:"center"}}>
+                    <Typography>Sin reservas realizadas</Typography>
+                </div>
             </Card>
         </Grid>
     );
