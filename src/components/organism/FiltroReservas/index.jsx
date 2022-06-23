@@ -295,6 +295,9 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
               <TextField type="text" placeholder="Buscar" label="Buscar" />
             </Grid>
             <Grid item>
+              <div>
+                <label htmlFor="">Estado:</label>
+              </div>
               <NativeSelect
                 defaultValue={"PENDIENTE"}
                 inputProps={{
@@ -313,6 +316,9 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
               </NativeSelect>
             </Grid>
             <Grid item>
+              <div>
+                <label htmlFor="">Filtrar por Rango:</label>
+              </div>
               <DateRange
                 style={{ paddingLeft: "0 !important" }}
                 editableDateInputs={true}
