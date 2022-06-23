@@ -252,7 +252,9 @@ const Reserva = ({ reserva }) => {
                             justifyContent={"space-evenly"}
                         >
                             <Grid item xs>
+                                <div style={{width:"50%"}}>
                                 <Button onClick={rembolsarReserva}>Reembolsar</Button>
+                                </div>
                             </Grid>
                         </Grid>
                     </Container>

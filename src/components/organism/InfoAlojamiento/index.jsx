@@ -506,17 +506,19 @@ export function InfoReserva({ reservaId, reserva }) {
                         sx={{ marginTop: "30px" }}
                     >
                         <Grid item xs>
-                            <Button
-                                onClick={async () => {
-                                    await api.rembolsarReserva({
-                                        booking_id: reserva.bookingId,
-                                        reimbursedBy: "GUEST",
-                                    });
-                                    window.location.reload();
-                                }}
-                            >
-                                Reembolsar
-                            </Button>
+                            <div style={{width:"50%"}}>
+                                <Button
+                                    onClick={async () => {
+                                        await api.rembolsarReserva({
+                                            booking_id: reserva.bookingId,
+                                            reimbursedBy: "GUEST",
+                                        });
+                                        window.location.reload();
+                                    }}
+                                >
+                                    Reembolsar
+                                </Button>
+                            </div>
                         </Grid>
                     </Grid>
                 )}
