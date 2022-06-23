@@ -26,6 +26,7 @@ import {
   EmptyLabel,
 } from "components/organism/FormModal/StyledComponents";
 import Select from "@mui/material/Select";
+import { useNavigate } from "react-router-dom";
 
 const steps = [
   "Información del usuario",
@@ -34,6 +35,7 @@ const steps = [
 ];
 
 export default function RegisterHost({ submit }) {
+  const navegar = useNavigate();
   const [fields, handleFieldChange, changeField] = useInputsForm({
     skipped: new Set(),
     activeStep: 0,
@@ -45,7 +47,9 @@ export default function RegisterHost({ submit }) {
     telefono: "",
     bank: "",
     account: "",
-    fechaNacimiento: {},
+    fechaNacimiento: new Date(
+      new Date().setFullYear(new Date().getFullYear() - 18)
+    ),
     avatar: 0,
     apiError: "",
     locCoordinates: [],
@@ -86,7 +90,10 @@ export default function RegisterHost({ submit }) {
       caracteristicas
     )
       .then((response) => {
+        console.log(response);
+
         changeField("apiError", "");
+        navegar("/completado/registro-anfitrion");
       })
       .catch((err) => {
         if (err.response.status === 401) {
@@ -277,6 +284,7 @@ export default function RegisterHost({ submit }) {
                       label="Fecha de nacimiento"
                       fecha={fields.fechaNacimiento}
                       format="DD/MM/YYYY"
+                      mayorDeEdad={true}
                       minDate={new Date("1/1/2004").toString()}
                       onChange={(e) => {
                         changeField("fechaNacimiento", e);
@@ -361,7 +369,7 @@ export default function RegisterHost({ submit }) {
       case 2:
         return finalizar();
       default:
-        return;
+        return <div></div>;
     }
   };
 

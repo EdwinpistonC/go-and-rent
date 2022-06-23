@@ -29,6 +29,8 @@ export default function InfoAlojamiento({
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  console.log(reservas);
+
   return (
     <Grid item xs sx={{ textAlign: "left", minHeight: "500px" }}>
       <Paper variant="o" elevation={0}>
@@ -200,6 +202,7 @@ export default function InfoAlojamiento({
         <Divider sx={{ marginY: "15px" }}>
           <Chip label={"Reservas"} />
         </Divider>
+
         <Grid
           container
           direction="row"
@@ -217,10 +220,13 @@ export default function InfoAlojamiento({
             <Button onClick={() => handleOpen()}>Reviews</Button>
           </Grid>
         </Grid>
-        <FiltroReservas
-          reservas={reservas.bookings}
-          idAlojamiento={alojamientoId}
-        />
+        {typeof reservas.bookings !== "undefined" &&
+          reservas.bookings.length > 0 && (
+            <FiltroReservas
+              reservas={reservas.bookings}
+              idAlojamiento={alojamientoId}
+            />
+          )}
       </Paper>
     </Grid>
   );

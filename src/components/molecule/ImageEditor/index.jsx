@@ -12,7 +12,7 @@ import DemoImage from "./demo.jpg";
 const defaultSrc =
   "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
 
-export default function ImageEditor({ itemData, setItemData }) {
+export default function ImageEditor({ itemData = [], setItemData }) {
   const [image, setImage] = useState(DemoImage);
   const [, setCropData] = useState("#");
   const [cropper, setCropper] = useState();
@@ -68,13 +68,14 @@ export default function ImageEditor({ itemData, setItemData }) {
         let nuevasImagenes = [];
         await itemData.forEach(async (element) => {
           let url = process.env.REACT_APP_API_IMG + element.photo;
-          console.log(url);
-          console.log(getURLBase64(url));
-          console.log(await getBase64Image(url));
+          getURLBase64(url);
+          getBase64Image(url);
 
-          nuevasImagenes.push(await getBase64Image(url));
+          nuevasImagenes.push(url);
         });
+
         console.log(nuevasImagenes);
+        setItemData([...nuevasImagenes]);
       }
     };
     cargarImagenes();
@@ -113,7 +114,16 @@ export default function ImageEditor({ itemData, setItemData }) {
       <ImageList sx={{ width: "100%" }} cols={4}>
         {itemData.map((item, i) => (
           <ImageListItem key={i}>
-            <img src={item} alt={i} loading="lazy" />
+            <img
+              src={item}
+              alt={i}
+              loading="lazy"
+              onClick={() => {
+                let fotos = [...itemData];
+                fotos.splice(i, 1);
+                setItemData([...fotos]);
+              }}
+            />
           </ImageListItem>
         ))}
       </ImageList>
@@ -162,7 +172,7 @@ export default function ImageEditor({ itemData, setItemData }) {
             onInitialized={(instance) => {
               setCropper(instance);
             }}
-            guides={true}
+            guides={false}
           />
         </Grid>
       </Grid>

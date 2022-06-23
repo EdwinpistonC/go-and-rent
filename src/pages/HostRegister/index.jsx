@@ -37,6 +37,7 @@ const registerHost = async function (
     province = place.value.terms[0].value;
   }
 
+  console.log();
   var formData = new FormData(); //formdata object
   servicios.forEach((service) => {
     if (service.hasOwnProperty("value") && service.value) {
