@@ -202,6 +202,36 @@ export default function InfoAlojamiento({
         <Divider sx={{ marginY: "15px" }}>
           <Chip label={"Reservas"} />
         </Divider>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="flex-start"
+          sx={{ marginY: "15px" }}
+        >
+          <Grid item xs>
+            <div style={{ padding: "0 15px" }}>
+              <Button
+                onClick={() => navegar("/reservas/editar/" + alojamientoId)}
+              >
+                Editar
+              </Button>
+            </div>
+          </Grid>
+          <Grid item xs>
+            <div style={{ padding: "0 15px" }}>
+              <Button onClick={() => handleOpen()}>Reviews</Button>
+            </div>
+          </Grid>
+        </Grid>
+        <FiltroReservas
+          reservas={reservas.bookings}
+          idAlojamiento={alojamientoId}
+        />
+
+        <Divider sx={{ marginY: "15px" }}>
+          <Chip label={"Reservas"} />
+        </Divider>
 
         <Grid
           container
@@ -480,11 +510,11 @@ export function InfoReserva({ reservaId, reserva }) {
                             //window.location.reload();
                           }
                           /*
-                      await api.agregarResenaAlojamiento({
-                        booking_id: reserva.bookingId,
-                        reimbursedBy: "GUEST",
-                      });
-                      window.location.reload();         */
+                                                await api.agregarResenaAlojamiento({
+                                                  booking_id: reserva.bookingId,
+                                                  reimbursedBy: "GUEST",
+                                                });
+                                                window.location.reload();         */
                         }}
                       >
                         Guardar

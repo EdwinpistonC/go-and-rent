@@ -27,6 +27,7 @@ import {
 } from "components/organism/FormModal/StyledComponents";
 import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom";
+import IconSelector from "../../molecule/IconSelector";
 
 const steps = [
   "Información del usuario",
@@ -65,6 +66,7 @@ export default function RegisterHost({ submit }) {
   });
   const [servicios, setServicios] = React.useState([]);
   const [caracteristicas, setCaracteristicas] = React.useState([]);
+  const [avatar, setAvatar] = React.useState(0);
 
   const callSubmit = () => {
     submit(
@@ -197,6 +199,20 @@ export default function RegisterHost({ submit }) {
             >
               <Grid
                 container
+                direction="row"
+                justifyContent="space-around"
+                alignItems="stretch"
+                sx={{ px: 2 }}
+                style={{ width: "100%", height: "100%" }}
+                spacing={2}
+              >
+                <Grid item sm sx={{ mt: 2 }}>
+                  <p>Elige un avatar:</p>
+                  <IconSelector avatar={avatar} setAvatar={setAvatar} />
+                </Grid>
+              </Grid>
+              <Grid
+                container
                 spacing={0}
                 columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                 columns={12}
@@ -301,38 +317,7 @@ export default function RegisterHost({ submit }) {
                       value={fields.account}
                     />
                   </Grid>
-                  <Grid item xs>
-                    <IconButton onClick={() => changeField("avatar", 1)}>
-                      <Avatar
-                        sx={{ bgcolor: green[500] }}
-                        style={{
-                          border: fields.avatar === 1 ? "2px solid black" : "",
-                        }}
-                      >
-                        <AssignmentIcon />
-                      </Avatar>
-                    </IconButton>
-                    <IconButton onClick={() => changeField("avatar", 2)}>
-                      <Avatar
-                        sx={{ bgcolor: pink[600] }}
-                        style={{
-                          border: fields.avatar === 2 ? "2px solid black" : "",
-                        }}
-                      >
-                        <AssignmentIcon />
-                      </Avatar>
-                    </IconButton>
-                    <IconButton onClick={() => changeField("avatar", 3)}>
-                      <Avatar
-                        sx={{ bgcolor: red[700] }}
-                        style={{
-                          border: fields.avatar === 3 ? "2px solid black" : "",
-                        }}
-                      >
-                        <AssignmentIcon />
-                      </Avatar>
-                    </IconButton>
-                  </Grid>
+                  <Grid item xs></Grid>
                 </Grid>
               </Grid>
             </Box>
