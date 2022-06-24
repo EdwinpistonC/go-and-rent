@@ -14,12 +14,15 @@ import { useModalHook } from "Hooks/ModalHooks";
 import Carousel from "components/atom/Carousel";
 import { cambiarFormatoFecha } from "components/util/functions";
 import ListaReviews from "components/molecule/ListaReviews";
+import { useLocalStorage } from "Hooks/LocalStoreHook";
 
 export default function DetalleAlojamiento() {
   const { id, startDate, endDate } = useParams();
   const [, setGaleria] = React.useState([]);
   const [alojamiento, setAlojamiento] = React.useState(null);
   const [abrirReserva, setAbrirReserva] = React.useState(false);
+  const [usuario] = useLocalStorage("usuario", "");
+
   const [
     reservaModal,
     abrirReservaModal,
@@ -189,54 +192,57 @@ export default function DetalleAlojamiento() {
               paddingRight: "0px !important",
             }}
           >
-            <Container
-              sx={{
-                order: 0,
-                alignSelf: "stretch",
-                flexGrow: 1,
-                boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: "20px",
-              }}
-            >
+            {usuario.rol === "ROLE_GUEST" && (
               <Container
                 sx={{
-                  flex: "none",
                   order: 0,
                   alignSelf: "stretch",
                   flexGrow: 1,
-                  marginLeft: " 0 !important",
-                  paddingLeft: " 0 !important",
-                  marginTop: "20px",
+                  boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginBottom: "20px",
                 }}
-                style={{ paddingLeft: "0 !important" }}
               >
-                <DateRange
+                <Container
+                  sx={{
+                    flex: "none",
+                    order: 0,
+                    alignSelf: "stretch",
+                    flexGrow: 1,
+                    marginLeft: " 0 !important",
+                    paddingLeft: " 0 !important",
+                    marginTop: "20px",
+                  }}
                   style={{ paddingLeft: "0 !important" }}
-                  editableDateInputs={true}
-                  locale={locales["es"]}
-                  key="datefilter"
-                  onChange={(ranges) => {
-                    const { selection } = ranges;
-                    setFecha([selection]);
-                  }}
-                  ranges={fecha}
-                />
-              </Container>
-
-              <Container sx={{ paddingBottom: "10px" }}>
-                <Button
-                  onClick={() => {
-                    realizarReserva();
-                  }}
                 >
-                  Reservar
-                </Button>
+                  <DateRange
+                    style={{ paddingLeft: "0 !important" }}
+                    editableDateInputs={true}
+                    locale={locales["es"]}
+                    key="datefilter"
+                    onChange={(ranges) => {
+                      const { selection } = ranges;
+                      setFecha([selection]);
+                    }}
+                    ranges={fecha}
+                  />
+                </Container>
+
+                <Container sx={{ paddingBottom: "10px" }}>
+                  <Button
+                    onClick={() => {
+                      realizarReserva();
+                    }}
+                  >
+                    Reservar
+                  </Button>
+                </Container>
               </Container>
-            </Container>
+            )}
+
             <Container
               sx={{
                 flex: "none",
