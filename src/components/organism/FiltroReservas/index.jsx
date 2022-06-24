@@ -27,7 +27,11 @@ import {
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
-import { cambiarFormatoFecha } from "components/util/functions";
+import {
+  calcularEstado,
+  cambiarFormatoFecha,
+  obtenerDate,
+} from "components/util/functions";
 import { db, firebaseConfig } from "server/Firebase";
 import firebase from "firebase/compat/app";
 
@@ -263,16 +267,18 @@ const Reserva = ({ reserva }) => {
 };
 
 export default function FiltroReservas({ idAlojamiento, reservas }) {
-  const [filtro, setFiltro] = React.useState({
-    estado: "",
-    fechas: [
-      {
-        startDate: new Date(),
-        endDate: null,
-        key: "selection",
-      },
-    ],
-  });
+  const [buscar, setbuscar] = React.useState("");
+  const [select, setSelect] = React.useState("TODOS");
+  const [fecha, setFecha] = React.useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+
+  console.log(fecha);
+
   return (
     <>
       <Accordion>
@@ -292,27 +298,36 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
             sx={{ marginTop: "10px" }}
           >
             <Grid item>
-              <TextField type="text" placeholder="Buscar" label="Buscar" />
+              <TextField
+                type="text"
+                placeholder="Buscar"
+                label="Buscar"
+                value={buscar}
+                onChange={(e) => setbuscar(e.target.value)}
+              />
             </Grid>
             <Grid item>
               <div>
                 <label htmlFor="">Estado:</label>
               </div>
               <NativeSelect
-                defaultValue={"PENDIENTE"}
+                value={select}
                 inputProps={{
                   name: "age",
                   id: "uncontrolled-native",
                 }}
                 sx={{ height: "100%" }}
                 onChange={(e) => {
+                  setSelect(e.target.value);
                   console.log(e.target.value);
                 }}
               >
+                <option value={"TODOS"}>Todos</option>
+
                 <option value={"PENDIENTE"}>Pendientes</option>
                 <option value={"ACEPTADA"}>Aceptadas</option>
                 <option value={"CANCELADA"}>Canceladas</option>
-                <option value={"FINALIZADA"}>Finalizadas</option>
+                <option value={"COMPLETADA"}>Completada</option>
               </NativeSelect>
             </Grid>
             <Grid item>
@@ -326,9 +341,9 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
                 key="datefilter"
                 onChange={(ranges) => {
                   const { selection } = ranges;
-                  setFiltro({ ...filtro, fechas: [selection] });
+                  setFecha([selection]);
                 }}
-                ranges={filtro.fechas}
+                ranges={fecha}
               />
             </Grid>
           </Grid>
@@ -336,7 +351,39 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
       </Accordion>
       {reservas.map(function (reserva, index) {
         if (reserva.accommodationId === idAlojamiento) {
-          return <Reserva key={index} reserva={reserva} />;
+          console.log(reserva.paymentStatus);
+          console.log(calcularEstado(reserva));
+          console.log(reserva.startDate);
+          console.log(obtenerDate(reserva.endDate));
+          console.log(reserva.endDate);
+          console.log(obtenerDate(reserva.endDate));
+          console.log(fecha[0].endDate);
+          console.log(obtenerDate(reserva.endDate) === fecha[0].endDate);
+
+          console.log(obtenerDate(reserva.endDate));
+          console.log(new Date());
+          console.log(fecha[0].startDate === new Date());
+
+          if (
+            (select === "TODOS" || select === calcularEstado(reserva)) &&
+            (buscar === "" ||
+              reserva.guestEmail.includes(buscar) ||
+              reserva.guestName.includes(buscar) ||
+              reserva.guestPhone.includes(buscar) ||
+              reserva.guestAlias.includes(buscar) ||
+              reserva.accommodationName.includes(buscar)) &&
+            ((fecha[0].startDate.getFullYear() === new Date().getFullYear() &&
+              fecha[0].startDate.getMonth() === new Date().getMonth() &&
+              fecha[0].startDate.getDate() === new Date().getDate() &&
+              fecha[0].endDate.getFullYear() === new Date().getFullYear() &&
+              fecha[0].endDate.getMonth() === new Date().getMonth() &&
+              fecha[0].endDate.getDate() === new Date().getDate()) ||
+              (obtenerDate(reserva.startDate) < fecha[0].startDate &&
+                obtenerDate(reserva.endDate) > fecha[0].endDate))
+          ) {
+            console.log(reserva);
+            return <Reserva key={index} reserva={reserva} />;
+          }
         }
       })}
     </>

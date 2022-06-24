@@ -67,18 +67,31 @@ export default function Busqueda() {
       return caracteristica;
     });
 
-    const resultado = await api.filter({
-      city: city,
-      country: country,
-      province: province,
-      priceFrom: 0,
-      priceTo: 10000000,
-      dateFrom: startDate,
-      dateTo: endDate,
-      features: caracteristicaApi,
-      services: serviciosApi,
-    });
-    setAlojamientos(resultado);
+    if (startDate === endDate) {
+      const resultado = await api.filter({
+        city: city,
+        country: country,
+        province: province,
+        priceFrom: 0,
+        priceTo: 10000000,
+        features: caracteristicaApi,
+        services: serviciosApi,
+      });
+      setAlojamientos(resultado);
+    } else {
+      const resultado = await api.filter({
+        city: city,
+        country: country,
+        province: province,
+        priceFrom: 0,
+        priceTo: 10000000,
+        dateFrom: startDate,
+        dateTo: endDate,
+        features: caracteristicaApi,
+        services: serviciosApi,
+      });
+      setAlojamientos(resultado);
+    }
   };
 
   return (

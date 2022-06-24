@@ -15,6 +15,7 @@ import { ModalSmall } from "components/atom/Modal";
 import SideBarMenu from "../SideBarMenu";
 
 import GoogleMap from "components/atom/Googlemap";
+import axios from "axios";
 
 const registerH = async function (
   alias,
@@ -113,6 +114,9 @@ export default function Header({ busqueda, setBusqueda }) {
         onEstadisticas={() => navegar("/estadisticas")}
         onAdministracion={() => navegar("/admin/usuarios")}
         onAddAdmin={() => navegar("/admin/nuevo-admin")}
+        onPagos={() => {
+          backend.descargarPagos();
+        }}
       >
         {/* Huésped */}
         <LoginModal

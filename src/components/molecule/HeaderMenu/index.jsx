@@ -25,6 +25,7 @@ export default function HeaderMenu({
   onReserva = () => {},
   onMensaje = () => {},
   onAddAdmin = () => {},
+  onPagos = () => {},
 }) {
   if (rol == "ROLE_GUEST") {
     return (
@@ -45,6 +46,7 @@ export default function HeaderMenu({
     return (
       <MenuContainer>
         {children}
+        <Management onClick={onPagos} />
         <Statistics onClick={onEstadisticas} />
         <AddUser onClick={onAddAdmin} />
         <Management onClick={onAdministracion} />
@@ -76,10 +78,7 @@ export default function HeaderMenu({
     <MenuContainer>
       {children}
       <Item component="button" underline="hover" onClick={onIniciar}>
-        Iniciar Sesión
-      </Item>
-      <Item component="button" underline="hover" onClick={onCrear}>
-        Hazte una cuenta
+        Iniciar Sesión / Hazte una cuenta
       </Item>
     </MenuContainer>
   );

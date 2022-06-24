@@ -26,6 +26,7 @@ import {
   EmptyLabel,
 } from "components/organism/FormModal/StyledComponents";
 import Select from "@mui/material/Select";
+import { useNavigate } from "react-router-dom";
 import IconSelector from "../../molecule/IconSelector";
 
 const steps = [
@@ -35,6 +36,7 @@ const steps = [
 ];
 
 export default function RegisterHost({ submit }) {
+  const navegar = useNavigate();
   const [fields, handleFieldChange, changeField] = useInputsForm({
     skipped: new Set(),
     activeStep: 0,
@@ -46,7 +48,9 @@ export default function RegisterHost({ submit }) {
     telefono: "",
     bank: "",
     account: "",
-    fechaNacimiento: {},
+    fechaNacimiento: new Date(
+      new Date().setFullYear(new Date().getFullYear() - 18)
+    ),
     avatar: 0,
     apiError: "",
     locCoordinates: [],
@@ -66,37 +70,40 @@ export default function RegisterHost({ submit }) {
 
   const callSubmit = () => {
     submit(
-        fields.alias,
-        fields.email,
-        fields.contra,
-        fields.apellido,
-        fields.nombre,
-        fields.telefono,
-        fields.avatar,
-        formatDate(new Date(fields.fechaNacimiento)),
-        fields.bank,
-        fields.account,
-        fields.locCoordinates,
-        fields.places,
-        fields.accPrice,
-        fields.locStreet,
-        fields.imagenes,
-        fields.locDoorNumber,
-        fields.accName,
-        fields.accDescription,
-        servicios,
-        caracteristicas
+      fields.alias,
+      fields.email,
+      fields.contra,
+      fields.apellido,
+      fields.nombre,
+      fields.telefono,
+      fields.avatar,
+      formatDate(new Date(fields.fechaNacimiento)),
+      fields.bank,
+      fields.account,
+      fields.locCoordinates,
+      fields.places,
+      fields.accPrice,
+      fields.locStreet,
+      fields.imagenes,
+      fields.locDoorNumber,
+      fields.accName,
+      fields.accDescription,
+      servicios,
+      caracteristicas
     )
-        .then((response) => {
-          changeField("apiError", "");
-        })
-        .catch((err) => {
-          if (err.response.status === 401) {
-            changeField("apiError", "Datos incorrectos");
-          } else {
-            changeField("apiError", err.response.data);
-          }
-        });
+      .then((response) => {
+        console.log(response);
+
+        changeField("apiError", "");
+        navegar("/completado/registro-anfitrion");
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          changeField("apiError", "Datos incorrectos");
+        } else {
+          changeField("apiError", err.response.data);
+        }
+      });
   };
 
   const isStepOptional = (step) => {
@@ -110,15 +117,15 @@ export default function RegisterHost({ submit }) {
   const handleNext = () => {
     if (fields.activeStep === 0) {
       if (
-          fields.alias === "" ||
-          fields.email === "" ||
-          fields.contra === "" ||
-          fields.apellido === "" ||
-          fields.nombre === "" ||
-          fields.telefono === "" ||
-          fields.bank === "" ||
-          fields.account === "" ||
-          fields.fechaNacimiento === {}
+        fields.alias === "" ||
+        fields.email === "" ||
+        fields.contra === "" ||
+        fields.apellido === "" ||
+        fields.nombre === "" ||
+        fields.telefono === "" ||
+        fields.bank === "" ||
+        fields.account === "" ||
+        fields.fechaNacimiento === {}
       ) {
         changeField("apiError", "Debe completar todos los campos");
         return;
@@ -160,177 +167,177 @@ export default function RegisterHost({ submit }) {
 
   const datosAnfitrion = () => {
     return (
-        <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row-reverse",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "0px",
-              width: "100%",
-              minHeight: "50vh",
-              marginTop: "2%",
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row-reverse",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "0px",
+          width: "100%",
+          minHeight: "50vh",
+          marginTop: "2%",
 
-              height: "100%",
+          height: "100%",
+        }}
+      >
+        <Columna sx={{ minHeight: "50vh" }}>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleNext();
             }}
-        >
-          <Columna sx={{ minHeight: "50vh" }}>
-            <Form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleNext();
-                }}
+          >
+            <H1>Registro</H1>
+            <Box
+              sx={{
+                marginInline: "5%",
+                minHeight: "50vh",
+                width: "80%",
+                margin: "auto",
+              }}
             >
-              <H1>Registro</H1>
-              <Box
-                  sx={{
-                    marginInline: "5%",
-                    minHeight: "50vh",
-                    width: "80%",
-                    margin: "auto",
-                  }}
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-around"
+                alignItems="stretch"
+                sx={{ px: 2 }}
+                style={{ width: "100%", height: "100%" }}
+                spacing={2}
               >
-                <Grid
-                    container
-                    direction="row"
-                    justifyContent="space-around"
-                    alignItems="stretch"
-                    sx={{ px: 2 }}
-                    style={{ width: "100%", height: "100%" }}
-                    spacing={2}
-                >
-                  <Grid item sm sx={{ mt: 2 }}>
-                    <p>Elige un avatar:</p>
-                    <IconSelector avatar={avatar} setAvatar={setAvatar} />
+                <Grid item sm sx={{ mt: 2 }}>
+                  <p>Elige un avatar:</p>
+                  <IconSelector avatar={avatar} setAvatar={setAvatar} />
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                spacing={0}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                columns={12}
+              >
+                <Grid item container direction="column" xs spacing={6}>
+                  <Grid item xs>
+                    <FormTextfield
+                      id="alias"
+                      onChange={handleFieldChange}
+                      nombre="Alias"
+                      value={fields.alias}
+                    />
+                  </Grid>
+                  <Grid item xs>
+                    <FormTextfield
+                      id="nombre"
+                      onChange={handleFieldChange}
+                      nombre="Nombre"
+                      value={fields.nombre}
+                    />
+                  </Grid>
+                  <Grid item xs>
+                    <PasswordTextfield
+                      id="contra"
+                      onChange={handleFieldChange}
+                      nombre="Contraseña"
+                      value={fields.contra}
+                    />
+                  </Grid>
+                  <Grid item xs>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Banco
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-autowidth-label"
+                        id="bank"
+                        name="bank"
+                        value={fields.bank}
+                        onChange={(e) => {
+                          changeField("bank", e.target.value);
+                        }}
+                        fullWidth
+                        label="Banco"
+                      >
+                        <MenuItem value={"SANTANDER"}>SANTANDER</MenuItem>
+                        <MenuItem value={"BROU"}>BROU</MenuItem>
+                        <MenuItem value={"BBVA"}>BBVA</MenuItem>
+                        <MenuItem value={"ITAU"}>ITAU</MenuItem>
+                        <MenuItem value={"SCOTIABANK"}>SCOTIABANK</MenuItem>
+                        <MenuItem value={"HSBC"}>HSBC</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs>
+                    <FormTextfield
+                      id="telefono"
+                      onChange={handleFieldChange}
+                      nombre="Teléfono/Celular"
+                      value={fields.telefono}
+                    />
                   </Grid>
                 </Grid>
-                <Grid
-                    container
-                    spacing={0}
-                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                    columns={12}
-                >
-                  <Grid item container direction="column" xs spacing={6}>
-                    <Grid item xs>
-                      <FormTextfield
-                          id="alias"
-                          onChange={handleFieldChange}
-                          nombre="Alias"
-                          value={fields.alias}
-                      />
-                    </Grid>
-                    <Grid item xs>
-                      <FormTextfield
-                          id="nombre"
-                          onChange={handleFieldChange}
-                          nombre="Nombre"
-                          value={fields.nombre}
-                      />
-                    </Grid>
-                    <Grid item xs>
-                      <PasswordTextfield
-                          id="contra"
-                          onChange={handleFieldChange}
-                          nombre="Contraseña"
-                          value={fields.contra}
-                      />
-                    </Grid>
-                    <Grid item xs>
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          Banco
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-autowidth-label"
-                            id="bank"
-                            name="bank"
-                            value={fields.bank}
-                            onChange={(e) => {
-                              changeField("bank", e.target.value);
-                            }}
-                            fullWidth
-                            label="Banco"
-                        >
-                          <MenuItem value={"SANTANDER"}>SANTANDER</MenuItem>
-                          <MenuItem value={"BROU"}>BROU</MenuItem>
-                          <MenuItem value={"BBVA"}>BBVA</MenuItem>
-                          <MenuItem value={"ITAU"}>ITAU</MenuItem>
-                          <MenuItem value={"SCOTIABANK"}>SCOTIABANK</MenuItem>
-                          <MenuItem value={"HSBC"}>HSBC</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs>
-                      <FormTextfield
-                          id="telefono"
-                          onChange={handleFieldChange}
-                          nombre="Teléfono/Celular"
-                          value={fields.telefono}
-                      />
-                    </Grid>
+                <Grid item container direction="column" xs spacing={7}>
+                  <Grid item xs>
+                    <FormTextfield
+                      id="email"
+                      onChange={handleFieldChange}
+                      nombre="Correo electrónico"
+                      value={fields.email}
+                    />
                   </Grid>
-                  <Grid item container direction="column" xs spacing={7}>
-                    <Grid item xs>
-                      <FormTextfield
-                          id="email"
-                          onChange={handleFieldChange}
-                          nombre="Correo electrónico"
-                          value={fields.email}
-                      />
-                    </Grid>
-                    <Grid item xs>
-                      <FormTextfield
-                          id="apellido"
-                          onChange={handleFieldChange}
-                          nombre="Apellido"
-                          value={fields.apellido}
-                      />
-                    </Grid>
-
-                    <Grid item xs>
-                      <DatePicker
-                          id="fechaNacimiento"
-                          label="Fecha de nacimiento"
-                          fecha={fields.fechaNacimiento}
-                          format="DD/MM/YYYY"
-                          minDate={new Date("1/1/2004").toString()}
-                          onChange={(e) => {
-                            changeField("fechaNacimiento", e);
-                          }}
-                          value={fields.fechaNacimiento}
-                      ></DatePicker>
-                    </Grid>
-
-                    <Grid item xs>
-                      <FormTextfield
-                          id="account"
-                          onChange={handleFieldChange}
-                          nombre="Numero de cuenta"
-                          value={fields.account}
-                      />
-                    </Grid>
-                    <Grid item xs>
-                    </Grid>
+                  <Grid item xs>
+                    <FormTextfield
+                      id="apellido"
+                      onChange={handleFieldChange}
+                      nombre="Apellido"
+                      value={fields.apellido}
+                    />
                   </Grid>
+
+                  <Grid item xs>
+                    <DatePicker
+                      id="fechaNacimiento"
+                      label="Fecha de nacimiento"
+                      fecha={fields.fechaNacimiento}
+                      format="DD/MM/YYYY"
+                      mayorDeEdad={true}
+                      minDate={new Date("1/1/2004").toString()}
+                      onChange={(e) => {
+                        changeField("fechaNacimiento", e);
+                      }}
+                      value={fields.fechaNacimiento}
+                    ></DatePicker>
+                  </Grid>
+
+                  <Grid item xs>
+                    <FormTextfield
+                      id="account"
+                      onChange={handleFieldChange}
+                      nombre="Numero de cuenta"
+                      value={fields.account}
+                    />
+                  </Grid>
+                  <Grid item xs></Grid>
                 </Grid>
-              </Box>
-            </Form>
-          </Columna>
-        </Box>
+              </Grid>
+            </Box>
+          </Form>
+        </Columna>
+      </Box>
     );
   };
 
   const datosAlojamiento = () => {
     return (
-        <NewReserveAndRegister
-            fields={fields}
-            handleFieldChange={handleFieldChange}
-            changeField={changeField}
-            servicios={servicios}
-            setServicios={setServicios}
-            setCaracteristicas={setCaracteristicas}
-            caracteristicas={caracteristicas}
-        ></NewReserveAndRegister>
+      <NewReserveAndRegister
+        fields={fields}
+        handleFieldChange={handleFieldChange}
+        changeField={changeField}
+        servicios={servicios}
+        setServicios={setServicios}
+        setCaracteristicas={setCaracteristicas}
+        caracteristicas={caracteristicas}
+      ></NewReserveAndRegister>
     );
   };
 
@@ -347,106 +354,106 @@ export default function RegisterHost({ submit }) {
       case 2:
         return finalizar();
       default:
-        return;
+        return <div></div>;
     }
   };
 
   return (
-      <Box
-          sx={{
-            height: "100%",
-            minHeight: "50vh",
-            marginTop: 0,
-            marginBottom: "auto",
-          }}
-      >
-        {fields.usuarioRegistrado ? (
-            <Typography></Typography>
-        ) : (
-            <>
-              <Box
-                  sx={{
-                    width: "80%",
-                    height: "100%",
-                    minHeight: "50vh",
-                    marginTop: 0,
-                    alignContent: "center",
-                    margin: "auto",
-                  }}
-              >
-                <Stepper activeStep={fields.activeStep}>
-                  {steps.map((label, index) => {
-                    const stepProps = {};
-                    const labelProps = {};
-                    if (isStepOptional(index)) {
-                      labelProps.optional = (
-                          <Typography variant="caption">Optional</Typography>
-                      );
-                    }
-                    if (isStepSkipped(index)) {
-                      stepProps.completed = false;
-                    }
-                    return (
-                        <Step key={label} {...stepProps}>
-                          <StepLabel {...labelProps}>{label}</StepLabel>
-                        </Step>
-                    );
-                  })}
-                </Stepper>
-                {fields.activeStep === steps.length ? (
-                    <React.Fragment>
-                      <Typography sx={{ mt: 2, mb: 1 }}>
-                        All steps completed - you&apos;re finished
-                      </Typography>
-                      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                        <Box sx={{ flex: "1 1 auto" }} />
-                        <Button onClick={handleReset}>Reset</Button>
-                      </Box>
-                    </React.Fragment>
-                ) : (
-                    <React.Fragment>
-                      {renderSwitch(fields.activeStep)}
+    <Box
+      sx={{
+        height: "100%",
+        minHeight: "50vh",
+        marginTop: 0,
+        marginBottom: "auto",
+      }}
+    >
+      {fields.usuarioRegistrado ? (
+        <Typography></Typography>
+      ) : (
+        <>
+          <Box
+            sx={{
+              width: "80%",
+              height: "100%",
+              minHeight: "50vh",
+              marginTop: 0,
+              alignContent: "center",
+              margin: "auto",
+            }}
+          >
+            <Stepper activeStep={fields.activeStep}>
+              {steps.map((label, index) => {
+                const stepProps = {};
+                const labelProps = {};
+                if (isStepOptional(index)) {
+                  labelProps.optional = (
+                    <Typography variant="caption">Optional</Typography>
+                  );
+                }
+                if (isStepSkipped(index)) {
+                  stepProps.completed = false;
+                }
+                return (
+                  <Step key={label} {...stepProps}>
+                    <StepLabel {...labelProps}>{label}</StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+            {fields.activeStep === steps.length ? (
+              <React.Fragment>
+                <Typography sx={{ mt: 2, mb: 1 }}>
+                  All steps completed - you&apos;re finished
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button onClick={handleReset}>Reset</Button>
+                </Box>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                {renderSwitch(fields.activeStep)}
 
-                      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                        <Button
-                            color="inherit"
-                            disabled={fields.activeStep === 0}
-                            onClick={handleBack}
-                            sx={{ mr: 1 }}
-                        >
-                          Volver
-                        </Button>
-                        <Box sx={{ flex: "1 1 auto" }} />
-                        {isStepOptional(fields.activeStep) && (
-                            <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                              Saltar
-                            </Button>
-                        )}
-                        {fields.apiError !== "" ? (
-                            <ErrorLabel>{fields.apiError}</ErrorLabel>
-                        ) : (
-                            <EmptyLabel />
-                        )}
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Button
+                    color="inherit"
+                    disabled={fields.activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Volver
+                  </Button>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  {isStepOptional(fields.activeStep) && (
+                    <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                      Saltar
+                    </Button>
+                  )}
+                  {fields.apiError !== "" ? (
+                    <ErrorLabel>{fields.apiError}</ErrorLabel>
+                  ) : (
+                    <EmptyLabel />
+                  )}
 
-                        {fields.activeStep === steps.length - 1 ? (
-                            <Button onClick={callSubmit}> Finalizar</Button>
-                        ) : (
-                            <Button onClick={handleNext}> Siguiente</Button>
-                        )}
-                      </Box>
-                    </React.Fragment>
-                )}
-              </Box>
-              <Box
-                  sx={{
-                    width: "100%",
-                    height: "fit-content",
-                    top: 0,
-                    alignContent: "center",
-                  }}
-              ></Box>
-            </>
-        )}
-      </Box>
+                  {fields.activeStep === steps.length - 1 ? (
+                    <Button onClick={callSubmit}> Finalizar</Button>
+                  ) : (
+                    <Button onClick={handleNext}> Siguiente</Button>
+                  )}
+                </Box>
+              </React.Fragment>
+            )}
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: "fit-content",
+              top: 0,
+              alignContent: "center",
+            }}
+          ></Box>
+        </>
+      )}
+    </Box>
   );
 }
