@@ -104,6 +104,10 @@ export default function DetalleAlojamiento() {
           onCloseModal={cerrarReservaModal}
           onAfterOpen={despuesReservaModal}
           submit={confirmarReserva}
+          reserva={{
+            datos: alojamiento,
+            fecha: fecha[0],
+          }}
         ></ReservarAlojamiento>
       )}
 

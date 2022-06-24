@@ -31,7 +31,7 @@ export default function HeaderMenu({
     return (
       <MenuContainer>
         {children}
-        <Alert />
+        {/* <Alert /> */}
         <Messages onClick={onMensaje} />
         <Bookings onClick={onReserva} />
         <Item component="button" underline="hover" onClick={onPerfil}>
@@ -61,7 +61,7 @@ export default function HeaderMenu({
   } else if (rol == "ROLE_HOST") {
     return (
       <MenuContainer>
-        <Alert />
+        {/* <Alert /> */}
         <Messages onClick={onMensaje} />
         <Bookings onClick={onReserva} />
         <Item component="button" underline="hover" onClick={onPerfil}>

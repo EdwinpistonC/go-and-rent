@@ -130,7 +130,7 @@ export default function LoginModal({
             <Typography>Registrarse como</Typography>
             <BtnRow>
               <Button
-                  id="registro-anfitrion"
+                id="registro-anfitrion"
                 onClick={() => {
                   onSecundario1();
                   cerrarModal();
@@ -689,6 +689,7 @@ export function ReservarAlojamiento({
   cerrarModal,
   children,
   submit,
+  reserva,
 }) {
   const [apiError, setApiError] = React.useState("");
 
@@ -707,11 +708,20 @@ export function ReservarAlojamiento({
 
   direccion = "alternate-reverse";
 
+  console.log(reserva);
+  console.log(reserva.fecha.endDate);
+  const days = (date_1, date_2) => {
+    let difference = date_1.getTime() - date_2.getTime();
+    let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+    return TotalDays;
+  };
+  let pago = -days(reserva.fecha.startDate, reserva.fecha.endDate);
   return (
     <ModalBasico
-      sx={{ height: "70%", width: "40%" }}
+      sx={{ height: "70%", width: "100%" }}
       abrirModal={abrirModal}
       onCloseModal={back}
+      justifyContent
     >
       <FormContainer posImagen={posImagen}>
         <Columna>
@@ -723,35 +733,55 @@ export function ReservarAlojamiento({
               submit();
             }}
           >
-            <H1>Registro</H1>
+            <H1>Reserva</H1>
             <Box sx={{ marginInline: "5%" }}>
-              <Grid
-                container
-                rowSpacing={1}
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                columns={12}
-              >
-                <Grid item xs={6}>
-                  <Label> Nombre</Label>
+              <Grid container rowSpacin columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid
+                  item
+                  xs={10}
+                  justifyContent={"center"}
+                  alignContent={"100%"}
+                  width={"100%"}
+                >
+                  <Typography
+                    variant={"h5"}
+                    marginBottom={"10px"}
+                    justifyContent={"center"}
+                    alignContent={"center"}
+                    textAlign={"center"}
+                  >
+                    ¿Desea confirmar la reserva?
+                  </Typography>
                 </Grid>
-                <Grid item xs={6}>
-                  <Label> dfafgasafsd</Label>
+                <Grid item xs={10} marginBottom={"10px"}>
+                  <Typography>
+                    ${reserva.datos.accommodation.price} por noche
+                  </Typography>
                 </Grid>
-
+                <Grid item xs={10} marginBottom={"10px"}>
+                  <Typography>Noches reservadas : {pago}</Typography>
+                </Grid>
+                <Grid item xs={10} marginBottom={"10px"}>
+                  <Typography>
+                    Total : ${reserva.datos.accommodation.price * pago}
+                  </Typography>
+                </Grid>
                 {apiError !== "" ? (
                   <ErrorLabel>{apiError}</ErrorLabel>
                 ) : (
                   <EmptyLabel />
                 )}
-                <BtnContainer>
-                  <Button onClick={back} width={40}>
-                    Cancelar
-                  </Button>
+                <Grid item xs={10} justifyContent={"center"} width="100%">
+                  <BtnContainer>
+                    <Button onClick={back} width={40}>
+                      Cancelar
+                    </Button>
 
-                  <Button type="submit" width={40}>
-                    Aceptar
-                  </Button>
-                </BtnContainer>
+                    <Button type="submit" width={40}>
+                      Aceptar
+                    </Button>
+                  </BtnContainer>
+                </Grid>
               </Grid>
             </Box>
           </Form>
