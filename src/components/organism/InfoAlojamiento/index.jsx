@@ -199,8 +199,9 @@ export default function InfoAlojamiento({
             </Grid>
           </Grid>
         </Grid>
+
         <Divider sx={{ marginY: "15px" }}>
-          <Chip label={"Reservas"} />
+          <Chip label={"Opciones"} />
         </Divider>
         <Grid
           container
@@ -224,32 +225,11 @@ export default function InfoAlojamiento({
             </div>
           </Grid>
         </Grid>
-        <FiltroReservas
-          reservas={reservas.bookings}
-          idAlojamiento={alojamientoId}
-        />
 
         <Divider sx={{ marginY: "15px" }}>
           <Chip label={"Reservas"} />
         </Divider>
 
-        <Grid
-          container
-          direction="row"
-          justifyContent="space-evenly"
-          alignItems="flex-start"
-        >
-          <Grid item xs>
-            <Button
-              onClick={() => navegar("/reservas/editar/" + alojamientoId)}
-            >
-              Editar
-            </Button>
-          </Grid>
-          <Grid item xs>
-            <Button onClick={() => handleOpen()}>Reviews</Button>
-          </Grid>
-        </Grid>
         {typeof reservas.bookings !== "undefined" &&
           reservas.bookings.length > 0 && (
             <FiltroReservas
