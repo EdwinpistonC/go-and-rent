@@ -2,19 +2,7 @@ import { Typography, Grid, Card } from "@mui/material";
 import React from "react";
 
 export default function DescReserva({ reserva, onClick }) {
-  /*
-  accommodationId: 30
-accommodationName: "Casa Mansa"
-accommodationPhoto: "alojamiento-30/casa-a1.jpg"
-bookingId: 18
-bookingStatus: "PENDIENTE"
-endDate: "26/06/2022"
-hostEmail: "tatiiirivasrivas@gmail.com"
-hostName: "Tatiana"
-paymentStatus: "PENDIENTE"
-startDate: "25/06/2022"
-  
-  */
+  console.log(reserva);
   const [estado, setEstado] = React.useState(reserva.bookingStatus);
 
   let estadoActual = estado;
@@ -56,7 +44,7 @@ startDate: "25/06/2022"
         "&:hover": {
           background: "#ffffff",
         },
-        width: "100%",
+        width: "100%"
       }}
       onClick={onClick}
     >
@@ -67,18 +55,19 @@ startDate: "25/06/2022"
         alignItems="stretch"
         sx={{
           width: "100%",
+          padding: "15px"
         }}
       >
         <Grid item xs width={"100%"}>
-          <Typography>Reserva en {reserva.accommodationName}</Typography>
+          <Typography><strong>Reserva en:</strong> {reserva.accommodationName}</Typography>
           <Typography>
-            De {reserva.startDate} a {reserva.endDate}
+            <strong>Período de Reserva:</strong> {reserva.startDate} hasta {reserva.endDate}
           </Typography>
           <Typography>Consultar Alojamiento</Typography>
-          <Typography>Precio</Typography>
+          <Typography><strong>Anfitrión:</strong>{reserva.hostName}</Typography>
         </Grid>
         <Grid item xs width={"100%"}>
-          <Typography textAlign={"right"}>{estado}</Typography>
+          <Typography textAlign={"right"}><strong>Estado: </strong>{estado}</Typography>
         </Grid>
       </Grid>
     </Card>
