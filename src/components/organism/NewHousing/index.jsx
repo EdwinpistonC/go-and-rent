@@ -240,10 +240,10 @@ export function NewReserveAndRegister({
     GetCaracteristicas().then((resultado) => {
       resultado.data.servicios = resultado.data.servicios.map((item) => ({
         ...item,
-        valor: false,
+        value: false,
       }));
       resultado.data.caracteristicas = resultado.data.caracteristicas.map(
-        (item) => ({ ...item, cantidad: 0 })
+        (item) => ({ ...item, value: 0 })
       );
       setServicios(resultado.data.servicios);
       setCaracteristicas(resultado.data.caracteristicas);

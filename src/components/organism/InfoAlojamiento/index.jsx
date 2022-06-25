@@ -248,7 +248,7 @@ reviewDesc: null
 reviewId: 0
 reviewQualification: 0
 startDate: "24/06/2022" s
- 
+
   */
 
 export function InfoReserva({ reservaId, reserva }) {
@@ -339,7 +339,7 @@ export function InfoReserva({ reservaId, reserva }) {
                                 {reserva.accommodationName}
                                 <Typography><strong>Estado:</strong> {estado}</Typography>
                                 <Typography>
-                                    <strong>Período de Reserva:</strong>{reserva.startDate} hasta {reserva.endDate}
+                                    <strong>Período de Reserva:</strong>{reserva.startDate} a {reserva.endDate}
                                 </Typography>
                             </Typography>
                         </Paper>

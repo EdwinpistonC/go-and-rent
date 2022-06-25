@@ -27,7 +27,11 @@ import {
     Timestamp,
     updateDoc,
 } from "firebase/firestore";
-import { cambiarFormatoFecha } from "components/util/functions";
+import {
+  calcularEstado,
+  cambiarFormatoFecha,
+  obtenerDate,
+} from "components/util/functions";
 import { db, firebaseConfig } from "server/Firebase";
 import firebase from "firebase/compat/app";
 
@@ -343,4 +347,125 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
             })}
         </>
     );
+  const [buscar, setbuscar] = React.useState("");
+  const [select, setSelect] = React.useState("TODOS");
+  const [fecha, setFecha] = React.useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+
+  console.log(fecha);
+
+  return (
+    <>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>Filtrar</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-evenly"
+            alignItems="center"
+            sx={{ marginTop: "10px" }}
+          >
+            <Grid item>
+              <TextField
+                type="text"
+                placeholder="Buscar"
+                label="Buscar"
+                value={buscar}
+                onChange={(e) => setbuscar(e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <div>
+                <label htmlFor="">Estado:</label>
+              </div>
+              <NativeSelect
+                value={select}
+                inputProps={{
+                  name: "age",
+                  id: "uncontrolled-native",
+                }}
+                sx={{ height: "100%" }}
+                onChange={(e) => {
+                  setSelect(e.target.value);
+                  console.log(e.target.value);
+                }}
+              >
+                <option value={"TODOS"}>Todos</option>
+
+                <option value={"PENDIENTE"}>Pendientes</option>
+                <option value={"ACEPTADA"}>Aceptadas</option>
+                <option value={"CANCELADA"}>Canceladas</option>
+                <option value={"COMPLETADA"}>Completada</option>
+              </NativeSelect>
+            </Grid>
+            <Grid item>
+              <div>
+                <label htmlFor="">Filtrar por Rango:</label>
+              </div>
+              <DateRange
+                style={{ paddingLeft: "0 !important" }}
+                editableDateInputs={true}
+                locale={locales["es"]}
+                key="datefilter"
+                onChange={(ranges) => {
+                  const { selection } = ranges;
+                  setFecha([selection]);
+                }}
+                ranges={fecha}
+              />
+            </Grid>
+          </Grid>
+        </AccordionDetails>
+      </Accordion>
+      {reservas.map(function (reserva, index) {
+        if (reserva.accommodationId === idAlojamiento) {
+          console.log(reserva.paymentStatus);
+          console.log(calcularEstado(reserva));
+          console.log(reserva.startDate);
+          console.log(obtenerDate(reserva.endDate));
+          console.log(reserva.endDate);
+          console.log(obtenerDate(reserva.endDate));
+          console.log(fecha[0].endDate);
+          console.log(obtenerDate(reserva.endDate) === fecha[0].endDate);
+
+          console.log(obtenerDate(reserva.endDate));
+          console.log(new Date());
+          console.log(fecha[0].startDate === new Date());
+
+          if (
+            (select === "TODOS" || select === calcularEstado(reserva)) &&
+            (buscar === "" ||
+              reserva.guestEmail.includes(buscar) ||
+              reserva.guestName.includes(buscar) ||
+              reserva.guestPhone.includes(buscar) ||
+              reserva.guestAlias.includes(buscar) ||
+              reserva.accommodationName.includes(buscar)) &&
+            ((fecha[0].startDate.getFullYear() === new Date().getFullYear() &&
+              fecha[0].startDate.getMonth() === new Date().getMonth() &&
+              fecha[0].startDate.getDate() === new Date().getDate() &&
+              fecha[0].endDate.getFullYear() === new Date().getFullYear() &&
+              fecha[0].endDate.getMonth() === new Date().getMonth() &&
+              fecha[0].endDate.getDate() === new Date().getDate()) ||
+              (obtenerDate(reserva.startDate) < fecha[0].startDate &&
+                obtenerDate(reserva.endDate) > fecha[0].endDate))
+          ) {
+            console.log(reserva);
+            return <Reserva key={index} reserva={reserva} />;
+          }
+        }
+      })}
+    </>
+  );
 }

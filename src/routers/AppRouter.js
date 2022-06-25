@@ -24,6 +24,7 @@ import AdministrarReservas from "pages/AdministrarReservas";
 import EditarAlojamiento from "pages/EditarAlojamiento";
 import Mensajeria from "pages/Mensajeria";
 import Estadisticas from "pages/Estadisticas";
+import MensajeExito from "pages/MensajeExito";
 
 export const AppRouter = ({ children }) => {
   const [usuario] = useLocalStorage("usuario", "");
@@ -33,6 +34,7 @@ export const AppRouter = ({ children }) => {
       <Header />
       <Container>
         <Routes>
+          <Route path="/completado/:id" element={<MensajeExito />} />
           <Route path="/reservas" element={<ListaReservas />} />
           <Route path="/reservas/:id" element={<AdministrarReservas />} />
           <Route path="/reservas/editar/:id" element={<EditarAlojamiento />} />
