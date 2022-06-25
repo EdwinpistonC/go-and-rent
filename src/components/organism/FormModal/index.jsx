@@ -145,7 +145,7 @@ export default function LoginModal({
                   cerrarModal();
                 }}
               >
-                Húesped
+                Huésped
               </Button>
             </BtnRow>
           </Form>

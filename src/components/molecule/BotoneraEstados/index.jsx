@@ -1,54 +1,29 @@
-import { Link } from "react-router-dom";
-//import Api from "server/Api";
 import SimpleModal from "./modalBotonera";
 import Api from "server/Api";
 import { Button } from "components/atom/Button";
-//const backend = new Api();
+import IconButton from "@mui/material/IconButton";
+import DoneIcon from "@mui/icons-material/Done";
+import React from "react";
+
 function botonAceptar(alias) {
   return (
-    //   <Button
-    //     style={{ backcolor: "#33b047 !importan"}}
-    //     onClick={() => {
-    //           backend.aceptarUsuarios(alias).then((response)=>{
-    //             console.log(response.data);
-    //           }).catch((response)=>{
-    //             alert("Hubo un error intentelo más tarde.");
-    //             console.error(response.data);
-    //           });
-    //         }}
-    //   >
-    // ACEPTAR
-    // </Button>
-    <SimpleModal boton="Aceptar" alias={alias}></SimpleModal>
+      <SimpleModal boton="Aceptar" alias={alias}></SimpleModal>
   );
 }
 function botonRechazar(alias) {
   return (
-    //   <Button
-    //     style={{ backcolor: "#e53c41 !importan"}}
-    //     onClick={() => {
-    //           backend.aceptarUsuarios(alias).then((response)=>{
-    //             console.log(response.data);
-    //           }).catch((response)=>{
-    //             alert("Hubo un error intentelo más tarde.");
-    //             console.error(response.data);
-    //           });
-    //         }}
-    //   >
-    // Rechazar
-    // </Button>
-    <SimpleModal boton="Rechazar" alias={alias}></SimpleModal>
+      <SimpleModal boton="Rechazar" alias={alias}></SimpleModal>
   );
 }
 
 function botonBloquear(estado, alias, actualizarTabla) {
   if (estado == "ACEPTADO") {
     return (
-      <SimpleModal
-        boton="Bloquear"
-        alias={alias}
-        actualizarTabla={actualizarTabla}
-      ></SimpleModal>
+        <SimpleModal
+            boton="Bloquear"
+            alias={alias}
+            actualizarTabla={actualizarTabla}
+        ></SimpleModal>
     );
   }
   return <></>;
@@ -57,11 +32,11 @@ function botonBloquear(estado, alias, actualizarTabla) {
 function botonDesbloquear(estado, alias, actualizarTabla) {
   if (estado == "BLOQUEADO") {
     return (
-      <SimpleModal
-        boton="Desbloquear"
-        alias={alias}
-        actualizarTabla={actualizarTabla}
-      ></SimpleModal>
+        <SimpleModal
+            boton="Desbloquear"
+            alias={alias}
+            actualizarTabla={actualizarTabla}
+        ></SimpleModal>
     );
   }
   return <></>;
@@ -69,11 +44,11 @@ function botonDesbloquear(estado, alias, actualizarTabla) {
 function botonEliminar(estado, alias, actualizarTabla) {
   if (estado == "ACEPTADO") {
     return (
-      <SimpleModal
-        boton="Eliminar"
-        alias={alias}
-        actualizarTabla={actualizarTabla}
-      ></SimpleModal>
+        <SimpleModal
+            boton="Eliminar"
+            alias={alias}
+            actualizarTabla={actualizarTabla}
+        ></SimpleModal>
     );
   }
   return <></>;
@@ -83,24 +58,31 @@ function botoneraEstados(estado, alias, actualizarTabla, accommodationId) {
   const btnVerAprobacion = () => {
     if (estado == "ESPERANDO") {
       return (
-        <Button
-          variant="contained"
-          href={`/Admin/aprobarUsuarios/${accommodationId}/${alias}`}
-        >
-          Para aprobar
-        </Button>
+          /*<Button
+            variant="contained"
+            href={`/admin/aprobarUsuarios/${accommodationId}/${alias}`}
+          >
+            Validar Usuario
+          </Button>*/
+          <div style={{padding:'5px'}}>
+            <IconButton
+                href={`/admin/aprobarUsuarios/${accommodationId}/${alias}`}
+                style={{backgroundColor: '#33b047', color: 'white'}}>
+              <DoneIcon />
+            </IconButton>
+          </div>
       );
     }
     return <></>;
   };
 
   return (
-    <div>
-      {btnVerAprobacion(estado, alias)}
-      {botonBloquear(estado, alias, actualizarTabla)}
-      {botonDesbloquear(estado, alias, actualizarTabla)}
-      {botonEliminar(estado, alias, actualizarTabla)}
-    </div>
+      <div style={{display: 'inline-flex'}}>
+        {btnVerAprobacion(estado, alias)}
+        {botonBloquear(estado, alias, actualizarTabla)}
+        {botonDesbloquear(estado, alias, actualizarTabla)}
+        {botonEliminar(estado, alias, actualizarTabla)}
+      </div>
   );
 }
 
