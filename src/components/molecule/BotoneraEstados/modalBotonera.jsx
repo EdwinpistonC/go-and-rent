@@ -4,7 +4,10 @@ import Modal from "@material-ui/core/Modal";
 import { Button } from "components/atom/Button";
 import { CategoriaContenedor, ColumnaGrid } from "./style";
 import Api from "server/Api";
-
+import DoDisturbIcon from "@mui/icons-material/DoDisturb";
+import IconButton from "@mui/material/IconButton";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -36,7 +39,7 @@ function getBotonStyle(boton) {
   if (boton == "Aceptar") {
     backcolor = "#33b047";
   } else if (boton == "Bloquear") {
-    backcolor = "#ecab40";
+    backcolor = "rgb(33, 150, 243)";
   } else if (boton == "Desbloquear") {
     backcolor = "#ecab40";
   } else if (boton == "Eliminar") {
@@ -46,6 +49,7 @@ function getBotonStyle(boton) {
   }
   return {
     backgroundColor: `${backcolor}`,
+      color: 'white'
   };
 }
 
@@ -270,11 +274,24 @@ export default function SimpleModal({ boton, alias, actualizarTabla = null }) {
     setOpen(false);
   };
 
+  let Icon = () => { return <></>};
+  switch(boton){
+      case 'Bloquear':
+          Icon = () => {return <DoDisturbIcon size='small' />};
+          break;
+      case 'Eliminar':
+          Icon = () => {return <DeleteForeverIcon size='small' />};
+          break;
+      case 'Desbloquear':
+          Icon = () => {return <HowToRegIcon size='small' />};
+          break;
+      default:
+  }
   return (
-    <div>
-      <Button onClick={handleOpen} style={getBotonStyle(boton)}>
-        {boton}
-      </Button>
+    <div style={{padding: "5px"}}>
+        <IconButton onClick={handleOpen} style={getBotonStyle(boton)}>
+            <Icon />
+        </IconButton>
       <Modal
         open={open}
         onClose={handleClose}
