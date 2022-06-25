@@ -177,7 +177,7 @@ const Chat = () => {
           <Grid item xs={12} style={{ padding: "10px" }}>
             <TextField
               id="outlined-basic-email"
-              label="Search"
+              label="Buscar..."
               variant="outlined"
               fullWidth
             />
