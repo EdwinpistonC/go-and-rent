@@ -258,8 +258,7 @@ reviewDesc: null
 reviewId: 0
 reviewQualification: 0
 startDate: "24/06/2022" s
- 
-  */
+*/
 
 export function InfoReserva({ reservaId, reserva }) {
   const api = new Api();
