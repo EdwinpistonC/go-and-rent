@@ -29,8 +29,6 @@ export default function InfoAlojamiento({
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log(reservas);
-
   return (
     <Grid item xs sx={{ textAlign: "left", minHeight: "500px" }}>
       <Paper variant="o" elevation={0}>
@@ -45,6 +43,7 @@ export default function InfoAlojamiento({
             alignContent: "stretch",
             justifyContent: "center",
             alignItems: "stretch",
+            padding: "10px",
           }}
           container
           direction="column"
@@ -115,7 +114,7 @@ export default function InfoAlojamiento({
             >
               <Grid item xs>
                 <Typography sx={{ textAlign: "center" }}>
-                  {alojamiento.accommodation.price} $UY
+                  USD {alojamiento.accommodation.price}
                 </Typography>
               </Grid>
             </Grid>
@@ -199,9 +198,8 @@ export default function InfoAlojamiento({
             </Grid>
           </Grid>
         </Grid>
-
         <Divider sx={{ marginY: "15px" }}>
-          <Chip label={"Opciones"} />
+          <Chip label={"Reservas"} />
         </Divider>
         <Grid
           container
@@ -225,18 +223,10 @@ export default function InfoAlojamiento({
             </div>
           </Grid>
         </Grid>
-
-        <Divider sx={{ marginY: "15px" }}>
-          <Chip label={"Reservas"} />
-        </Divider>
-
-        {typeof reservas.bookings !== "undefined" &&
-          reservas.bookings.length > 0 && (
-            <FiltroReservas
-              reservas={reservas.bookings}
-              idAlojamiento={alojamientoId}
-            />
-          )}
+        <FiltroReservas
+          reservas={reservas.bookings}
+          idAlojamiento={alojamientoId}
+        />
       </Paper>
     </Grid>
   );
@@ -258,7 +248,8 @@ reviewDesc: null
 reviewId: 0
 reviewQualification: 0
 startDate: "24/06/2022" s
-*/
+
+  */
 
 export function InfoReserva({ reservaId, reserva }) {
   const api = new Api();
@@ -346,8 +337,11 @@ export function InfoReserva({ reservaId, reserva }) {
                 sx={{ textAlign: "center" }}
               >
                 {reserva.accommodationName}
-                <Typography> {estado}</Typography>
                 <Typography>
+                  <strong>Estado:</strong> {estado}
+                </Typography>
+                <Typography>
+                  <strong>Período de Reserva:</strong>
                   {reserva.startDate} a {reserva.endDate}
                 </Typography>
               </Typography>
@@ -362,7 +356,7 @@ export function InfoReserva({ reservaId, reserva }) {
             >
               <Grid item xs>
                 <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
-                  Precio {reserva.finalPrice}$UY
+                  <strong>Precio:</strong> USD {reserva.finalPrice}
                 </Typography>
               </Grid>
             </Grid>
@@ -384,8 +378,14 @@ export function InfoReserva({ reservaId, reserva }) {
                   justifyContent="space-evenly"
                   marginBottom={"5px"}
                 >
-                  <Typography>{reserva.hostName}</Typography>
-                  <Typography>{reserva.hostEmail}</Typography>
+                  <Typography>
+                    <strong>Nombre:</strong>
+                    {reserva.hostName}
+                  </Typography>
+                  <Typography>
+                    <strong>Email:</strong>
+                    {reserva.hostEmail}
+                  </Typography>
                 </Stack>
 
                 <Stack
@@ -515,17 +515,19 @@ export function InfoReserva({ reservaId, reserva }) {
             sx={{ marginTop: "30px" }}
           >
             <Grid item xs>
-              <Button
-                onClick={async () => {
-                  await api.rembolsarReserva({
-                    booking_id: reserva.bookingId,
-                    reimbursedBy: "GUEST",
-                  });
-                  window.location.reload();
-                }}
-              >
-                Rembolsar
-              </Button>
+              <div style={{ width: "50%" }}>
+                <Button
+                  onClick={async () => {
+                    await api.rembolsarReserva({
+                      booking_id: reserva.bookingId,
+                      reimbursedBy: "GUEST",
+                    });
+                    window.location.reload();
+                  }}
+                >
+                  Reembolsar
+                </Button>
+              </div>
             </Grid>
           </Grid>
         )}

@@ -35,6 +35,7 @@ import {
 
 import { FormRequestCode, FormSendCode, FormChangePassword } from "../Forms";
 import { Label } from "@mui/icons-material";
+import IconSelector from "../../molecule/IconSelector";
 
 export default function LoginModal({
   abrirModal = false,
@@ -86,7 +87,7 @@ export default function LoginModal({
               return false;
             }}
           >
-            <H1>Login</H1>
+            <H1>Ingresar Sesión</H1>
             <InputsContainer>
               <FormTextfield
                 id="email"
@@ -144,7 +145,7 @@ export default function LoginModal({
                   cerrarModal();
                 }}
               >
-                Húesped
+                Huésped
               </Button>
             </BtnRow>
           </Form>
@@ -244,6 +245,12 @@ export function RegistroHModal({
               columns={12}
             >
               <Grid item xs={6}>
+                <div>
+                  <small>Elige un avatar:</small>
+                  <IconSelector avatar={avatar} setAvatar={setAvatar} />
+                </div>
+              </Grid>
+              <Grid item xs={6}>
                 <FormTextfield
                   id="alias"
                   onChange={(e) => {
@@ -321,39 +328,6 @@ export function RegistroHModal({
                     setFechaNacimiento(newValue);
                   }}
                 ></DatePicker>
-              </Grid>
-
-              <Grid item xs={6}>
-                <IconButton onClick={() => setAvatar(1)}>
-                  <Avatar
-                    sx={{ bgcolor: green[500] }}
-                    style={{
-                      border: avatar == 1 ? "2px solid black" : "",
-                    }}
-                  >
-                    <AssignmentIcon />
-                  </Avatar>
-                </IconButton>
-                <IconButton onClick={() => setAvatar(2)}>
-                  <Avatar
-                    sx={{ bgcolor: pink[600] }}
-                    style={{
-                      border: avatar == 2 ? "2px solid black" : "",
-                    }}
-                  >
-                    <AssignmentIcon />
-                  </Avatar>
-                </IconButton>
-                <IconButton onClick={() => setAvatar(3)}>
-                  <Avatar
-                    sx={{ bgcolor: red[700] }}
-                    style={{
-                      border: avatar == 3 ? "2px solid black" : "",
-                    }}
-                  >
-                    <AssignmentIcon />
-                  </Avatar>
-                </IconButton>
               </Grid>
               {apiError !== "" ? (
                 <ErrorLabel>{apiError}</ErrorLabel>

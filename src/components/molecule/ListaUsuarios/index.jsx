@@ -1,23 +1,9 @@
-// npm install mui-datatables --save
-// https://github.com/gregnb/mui-datatable
-// https://www.youtube.com/watch?v=fJRyC-xLIQc referencia
-// npm install @material-ui/core --save
-
-
-
 import { MUIDataTableStyled } from "./style";
 
 import { definirOpciones } from "./configuracionMUIDatatable";
 
-
-
-
-
-
 const ListaUsuarios = ({ datos }) => {
   //  definimos columnas
-
-
   const columns = [
     { name: "alias", label: "Alias",
       options: {
@@ -54,7 +40,6 @@ const ListaUsuarios = ({ datos }) => {
       }  
     },
     { name: "iconStatus", label: "Estado",
-
       options: {
         filter: true,
         filterType: 'checkbox',
@@ -63,7 +48,6 @@ const ListaUsuarios = ({ datos }) => {
           logic(iconStatus, filterVal) {
       
             let strIconStatus = ""+iconStatus+"";
-            console.log(strIconStatus.search("d55a34"));
             const show =
               (filterVal.indexOf('BLOQUEADO') >= 0 && strIconStatus.search("d55a34") != -1) ||
               (filterVal.indexOf('ELIMINADO') >= 0 && strIconStatus.search("e53c41") != -1) ||
@@ -78,14 +62,13 @@ const ListaUsuarios = ({ datos }) => {
     },
     { name: "role", label: "Rol" },
     {
-      name: "Action",      
+      name: "Action",
       options: {
         filter: false,
       }
     },
   ];
 
-  //  mostramos datos
   return (
     <MUIDataTableStyled
       title={"Lista Usuarios"}
