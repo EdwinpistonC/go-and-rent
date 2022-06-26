@@ -12,13 +12,74 @@ import DemoImage from "./demo.jpg";
 const defaultSrc =
   "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
 
-export default function ImageEditor({ itemData, setItemData }) {
+export default function ImageEditor({ itemData = [], setItemData }) {
   const [image, setImage] = useState(DemoImage);
   const [, setCropData] = useState("#");
   const [cropper, setCropper] = useState();
   const fileInput = React.useRef();
   const [btnDisabled, setBtnDisabled] = useState(true);
 
+  console.log(itemData);
+
+  React.useEffect(() => {
+    const getBase64Image = (url) => {
+      const img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        const dataURL = canvas.toDataURL("image/png");
+        console.log(dataURL);
+        return dataURL;
+      };
+      img.src = url;
+    };
+
+    ///
+
+    function getURLBase64(url) {
+      return new Promise((resolve, reject) => {
+        var xhr = new XMLHttpRequest();
+        xhr.open("get", url, true);
+        xhr.responseType = "blob";
+        xhr.onload = function () {
+          if (this.status === 200) {
+            var blob = this.response;
+            var fileReader = new FileReader();
+            fileReader.onloadend = function (e) {
+              var result = e.target.result;
+              resolve(result);
+            };
+            fileReader.readAsDataURL(blob);
+          }
+        };
+        xhr.onerror = function (e, msg) {
+          reject(msg);
+        };
+        xhr.send();
+      });
+    }
+
+    const cargarImagenes = async () => {
+      if (itemData.length > 0) {
+        let nuevasImagenes = [];
+        await itemData.forEach(async (element) => {
+          let url = process.env.REACT_APP_API_IMG + element.photo;
+          getURLBase64(url);
+          getBase64Image(url);
+
+          nuevasImagenes.push(url);
+        });
+
+        console.log(nuevasImagenes);
+        setItemData([...nuevasImagenes]);
+      }
+    };
+    cargarImagenes();
+  }, []);
   const onChange = (e) => {
     e.preventDefault();
     let files;
@@ -53,7 +114,16 @@ export default function ImageEditor({ itemData, setItemData }) {
       <ImageList sx={{ width: "100%" }} cols={4}>
         {itemData.map((item, i) => (
           <ImageListItem key={i}>
-            <img src={item} alt={i} loading="lazy" />
+            <img
+              src={item}
+              alt={i}
+              loading="lazy"
+              onClick={() => {
+                let fotos = [...itemData];
+                fotos.splice(i, 1);
+                setItemData([...fotos]);
+              }}
+            />
           </ImageListItem>
         ))}
       </ImageList>
@@ -89,7 +159,8 @@ export default function ImageEditor({ itemData, setItemData }) {
             style={{
               width: "100%",
             }}
-            initialAspectRatio={1/3}
+            initialAspectRatio={16 / 9}
+            aspectRatio={16 / 9}
             src={image}
             viewMode={1}
             minCropBoxHeight={10}
@@ -101,7 +172,7 @@ export default function ImageEditor({ itemData, setItemData }) {
             onInitialized={(instance) => {
               setCropper(instance);
             }}
-            guides={true}
+            guides={false}
           />
         </Grid>
       </Grid>

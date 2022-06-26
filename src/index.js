@@ -5,8 +5,13 @@ import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@mui/material/styles";
 import "./index.css";
 import { theme } from "resources/const/Template";
-
-ReactDOM.render(<App />, document.getElementById("root"));
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+ReactDOM.render(
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>,
+  document.getElementById("root")
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

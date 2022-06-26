@@ -1,107 +1,96 @@
+import SimpleModal from "./modalBotonera";
+import Api from "server/Api";
 import { Button } from "components/atom/Button";
-import { AccessAlarm, ThreeDRotation } from "@mui/icons-material";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import IconButton from "@mui/material/IconButton";
+import DoneIcon from "@mui/icons-material/Done";
+import React from "react";
 
-export default function botoneraEstados(estado) {
-  const botonAceptar = (estado) => {
-    if (estado == "ESPERANDO") {
-      return (
-        <Button
-          // onClick={() => {
-          // onSecundario2();
-          // cerrarModal();
-          // }}v
-          style={{
-            backgroundColor: "#33b047",
-          }}
-        >
-          Aceptar
-        </Button>
-      );
-    }
-    return <></>;
-  };
-
-  const botonBloquear = (estado) => {
-    if (estado == "ACEPTADO") {
-      return (
-        <Button
-          // onClick={() => {
-          // onSecundario2();
-          // cerrarModal();
-          // }}v
-          style={{
-            backgroundColor: "#ecab40",
-          }}
-        >
-          Bloquear
-        </Button>
-      );
-    }
-    return <></>;
-  };
-
-  const botonDesloquear = (estado) => {
-    if (estado == "BLOQUEADO") {
-      return (
-        <Button
-          // onClick={() => {
-          // onSecundario2();
-          // cerrarModal();
-          // }}v
-          style={{
-            backgroundColor: "#ecab40",
-          }}
-        >
-          Desbloquear
-        </Button>
-      );
-    }
-    return <></>;
-  };
-  const botonEliminar = (estado) => {
-    if (estado == "ACEPTADO") {
-      return (
-        <Button
-          // onClick={() => {
-          // onSecundario2();
-          // cerrarModal();
-          // }}v
-          style={{
-            backgroundColor: "#e53c41",
-          }}
-        >
-          Eliminar
-        </Button>
-      );
-    }
-    return <></>;
-  };
-  const botonRechazar = (estado) => {
-    if (estado == "ESPERANDO") {
-      return (
-        <Button
-          // onClick={() => {
-          // onSecundario2();
-          // cerrarModal();
-          // }}v
-          style={{
-            backgroundColor: "#e53c41",
-          }}
-        >
-          Rechazar
-        </Button>
-      );
-    }
-    return <></>;
-  };
+function botonAceptar(alias) {
   return (
-    <div>
-      {botonAceptar(estado)}
-      {botonBloquear(estado)}
-      {botonDesloquear(estado)}
-      {botonEliminar(estado)}
-      {botonRechazar(estado)}
-    </div>
+      <SimpleModal boton="Aceptar" alias={alias}></SimpleModal>
   );
 }
+function botonRechazar(alias) {
+  return (
+      <SimpleModal boton="Rechazar" alias={alias}></SimpleModal>
+  );
+}
+
+function botonBloquear(estado, alias, actualizarTabla) {
+  if (estado == "ACEPTADO") {
+    return (
+        <SimpleModal
+            boton="Bloquear"
+            alias={alias}
+            actualizarTabla={actualizarTabla}
+        ></SimpleModal>
+    );
+  }
+  return <></>;
+}
+
+function botonDesbloquear(estado, alias, actualizarTabla) {
+  if (estado == "BLOQUEADO") {
+    return (
+        <SimpleModal
+            boton="Desbloquear"
+            alias={alias}
+            actualizarTabla={actualizarTabla}
+        ></SimpleModal>
+    );
+  }
+  return <></>;
+}
+function botonEliminar(estado, alias, actualizarTabla) {
+  if (estado == "ACEPTADO") {
+    return (
+        <SimpleModal
+            boton="Eliminar"
+            alias={alias}
+            actualizarTabla={actualizarTabla}
+        ></SimpleModal>
+    );
+  }
+  return <></>;
+}
+
+function botoneraEstados(estado, alias, actualizarTabla, accommodationId) {
+  const btnVerAprobacion = () => {
+    if (estado == "ESPERANDO") {
+      return (
+          /*<Button
+            variant="contained"
+            href={`/admin/aprobarUsuarios/${accommodationId}/${alias}`}
+          >
+            Validar Usuario
+          </Button>*/
+          <div style={{padding:'5px'}}>
+            <IconButton
+                href={`/admin/aprobarUsuarios/${accommodationId}/${alias}`}
+                style={{backgroundColor: '#33b047', color: 'white'}}>
+              <DoneIcon />
+            </IconButton>
+          </div>
+      );
+    }
+    return <></>;
+  };
+
+  return (
+      <div style={{display: 'inline-flex'}}>
+        {btnVerAprobacion(estado, alias)}
+        {botonBloquear(estado, alias, actualizarTabla)}
+        {botonDesbloquear(estado, alias, actualizarTabla)}
+        {botonEliminar(estado, alias, actualizarTabla)}
+      </div>
+  );
+}
+
+export {
+  botoneraEstados,
+  botonAceptar,
+  botonBloquear,
+  botonDesbloquear,
+  botonEliminar,
+  botonRechazar,
+};

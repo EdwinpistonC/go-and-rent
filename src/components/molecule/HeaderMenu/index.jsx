@@ -2,7 +2,14 @@ import React from "react";
 
 import { MenuContainer, Item } from "./StyledComponents";
 
-import { Alert, Messages, Bookings } from "components/atom/Icon";
+import {
+  Alert,
+  Messages,
+  Bookings,
+  Statistics,
+  Management,
+  AddUser,
+} from "components/atom/Icon";
 
 import { Box } from "@mui/system";
 export default function HeaderMenu({
@@ -10,26 +17,23 @@ export default function HeaderMenu({
   onCrear,
   onIniciar,
   rol,
-  alert = () => {
-    alert("default");
-  },
-  messages = () => {
-    alert("default");
-  },
-  onCerrar = () => {
-    alert("default");
-  },
-  onPerfil = () => {
-    alert("default");
-  },
+  onEstadisticas = () => {},
+  onAdministracion = () => {},
+  messages = () => {},
+  onCerrar = () => {},
+  onPerfil = () => {},
+  onReserva = () => {},
+  onMensaje = () => {},
+  onAddAdmin = () => {},
+  onPagos = () => {},
 }) {
   if (rol == "ROLE_GUEST") {
     return (
       <MenuContainer>
         {children}
-        <Alert />
-        <Messages />
-        <Bookings />
+        {/* <Alert /> */}
+        <Messages onClick={onMensaje} />
+        <Bookings onClick={onReserva} />
         <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil
         </Item>
@@ -40,27 +44,26 @@ export default function HeaderMenu({
     );
   } else if (rol == "ROLE_ADMIN") {
     return (
-      <Box
-        style={{
-          flex: "none",
-          order: 2,
-          flexGrow: 1,
-          justifyContent: "right",
-          display: "flex",
-          marginRight: "5%",
-        }}
-      >
+      <MenuContainer>
+        {children}
+        <Management onClick={onPagos} />
+        <Statistics onClick={onEstadisticas} />
+        <AddUser onClick={onAddAdmin} />
+        <Management onClick={onAdministracion} />
+        <Item component="button" underline="hover" onClick={onPerfil}>
+          Perfil
+        </Item>
         <Item component="button" underline="hover" onClick={onCerrar}>
           Cerrar Sesión
         </Item>
-      </Box>
+      </MenuContainer>
     );
   } else if (rol == "ROLE_HOST") {
     return (
       <MenuContainer>
-        <Alert />
-        <Messages />
-        <Bookings />
+        {/* <Alert /> */}
+        <Messages onClick={onMensaje} />
+        <Bookings onClick={onReserva} />
         <Item component="button" underline="hover" onClick={onPerfil}>
           Perfil
         </Item>
@@ -75,10 +78,7 @@ export default function HeaderMenu({
     <MenuContainer>
       {children}
       <Item component="button" underline="hover" onClick={onIniciar}>
-        Iniciar Sesión
-      </Item>
-      <Item component="button" underline="hover" onClick={onCrear}>
-        Hazte una cuenta
+        Iniciar Sesión / Hazte una cuenta
       </Item>
     </MenuContainer>
   );

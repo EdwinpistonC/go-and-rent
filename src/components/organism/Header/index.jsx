@@ -15,6 +15,7 @@ import { ModalSmall } from "components/atom/Modal";
 import SideBarMenu from "../SideBarMenu";
 
 import GoogleMap from "components/atom/Googlemap";
+import axios from "axios";
 
 const registerH = async function (
   alias,
@@ -48,7 +49,9 @@ export default function Header({ busqueda, setBusqueda }) {
   Cerrar sesion
   */
   const [alertaCerrarSesion, setAlerta] = React.useState(false);
-  const handleOpen = () => setAlerta(true);
+  const handleOpen = () => {
+    setAlerta(true);
+  };
   const handleClose = () => setAlerta(false);
 
   const [usuario, setUsuario] = useLocalStorage("usuario", "");
@@ -75,8 +78,6 @@ export default function Header({ busqueda, setBusqueda }) {
 
   return (
     <HeaderContainer sx={{ zIndex: 10 }}>
-      {/* Cerrar sesion */}
-      {usuario.rol === "ROLE_ADMIN" && <SideBarMenu></SideBarMenu>}
       <ModalSmall abrirModal={alertaCerrarSesion} onCloseModal={handleClose}>
         <Stack spacing={2} direction="column">
           <label>¿Desea cerrar sesión?</label>
@@ -85,7 +86,10 @@ export default function Header({ busqueda, setBusqueda }) {
               variant="contained"
               onClick={() => {
                 handleClose();
-                setUsuario("");
+                localStorage.removeItem("usuario");
+
+                //navegar("/");
+                window.location = "/";
               }}
             >
               Si
@@ -104,7 +108,15 @@ export default function Header({ busqueda, setBusqueda }) {
         onIniciar={abrirInicioH}
         onCrear={abrirRegistroH}
         onCerrar={handleOpen}
+        onMensaje={() => navegar("/mensajeria")}
+        onReserva={() => navegar("/reservas")}
         onPerfil={() => navegar("/perfil")}
+        onEstadisticas={() => navegar("/estadisticas")}
+        onAdministracion={() => navegar("/admin/usuarios")}
+        onAddAdmin={() => navegar("/admin/nuevo-admin")}
+        onPagos={() => {
+          backend.descargarPagos();
+        }}
       >
         {/* Huésped */}
         <LoginModal

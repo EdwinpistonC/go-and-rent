@@ -1,13 +1,11 @@
 import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import { Routes, Route } from "react-router-dom";
 
 //React components
 import Header from "components/organism/Header";
 import Footer from "components/organism/Footer";
-import SideBarMenu from "components/organism/SideBarMenu";
 //HOOK
-import { useLocalStorage, DefaultBusqueda } from "Hooks/LocalStoreHook";
+import { useLocalStorage } from "Hooks/LocalStoreHook";
 //PAGES
 import ChangeUserData from "pages/ChangeUserData";
 import Busqueda from "pages/Busqueda";
@@ -19,37 +17,45 @@ import HomePage from "pages/Home";
 import ChangePassword from "pages/ChangePassword";
 import { RouterContainer, Container } from "./StyledComponents";
 import DetalleAlojamiento from "pages/DetalleAlojamiento";
-import TestPage from "pages/Test";
-
-function HeaderView() {
-  const location = useLocation();
-  console.log(location.pathname);
-}
+import UsuariosPage from "pages/Usuarios";
+import AprobarUsuario from "pages/AprobarUsuario";
+import { ListaReservas } from "pages/Reservas";
+import AdministrarReservas from "pages/AdministrarReservas";
+import EditarAlojamiento from "pages/EditarAlojamiento";
+import Mensajeria from "pages/Mensajeria";
+import Estadisticas from "pages/Estadisticas";
+import MensajeExito from "pages/MensajeExito";
 
 export const AppRouter = ({ children }) => {
   const [usuario] = useLocalStorage("usuario", "");
 
   return (
     <RouterContainer>
-      {usuario.rol === "ROLE_ADMIN" && <SideBarMenu></SideBarMenu>}
-      {usuario.rol !== "ROLE_ADMIN" && <Header />}
-
+      <Header />
       <Container>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/completado/:id" element={<MensajeExito />} />
+          <Route path="/reservas" element={<ListaReservas />} />
+          <Route path="/reservas/:id" element={<AdministrarReservas />} />
+          <Route path="/reservas/editar/:id" element={<EditarAlojamiento />} />
+
+          <Route path="/" element={<HomePage key={Date.now()} />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/registrar-anfitrion" element={<HostHousing />} />
-          <Route path="/test" element={<TestPage />} />
+
+          <Route path="/mensajeria" element={<Mensajeria />} />
 
           <Route path="/perfil" element={<Profile />}></Route>
+          <Route
+            path="/detalles/:id/:startDate/:endDate"
+            element={<DetalleAlojamiento />}
+          />
           <Route path="/detalles/:id" element={<DetalleAlojamiento />} />
-
           <Route
             path="/perfil/cambiar-contrasena"
             element={<ChangePassword />}
           />
           <Route path="/perfil/editar" element={<ChangeUserData />} />
-
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="edit" element={<ChangeUserData />} />
           <Route path="change-password" element={<ChangePassword />} />
@@ -58,12 +64,15 @@ export const AppRouter = ({ children }) => {
             <Route path="nuevo-alojamiento" element={<CreateHousing />} />
           </Route>
           <Route path="/busqueda" element={<Busqueda />}></Route>
-
+          <Route path="/estadisticas" element={<Estadisticas />} />
           <Route path="/admin">
-            <Route path="new-admin" element={<AdminRegister />} />
             <Route path="nuevo-admin" element={<AdminRegister />} />
+            <Route path="usuarios" element={<UsuariosPage />} />
+            <Route
+              path="aprobarUsuarios/:id/:alias"
+              element={<AprobarUsuario />}
+            />
           </Route>
-
           <Route
             path="*"
             element={
@@ -75,7 +84,7 @@ export const AppRouter = ({ children }) => {
         </Routes>
         {children}
       </Container>
-      {usuario.rol !== "ROLE_ADMIN" && <Footer />}
+      <Footer />
     </RouterContainer>
   );
 };

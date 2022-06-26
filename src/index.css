@@ -10,9 +10,12 @@ body {
   padding: 0;
   /* Background */
   min-width: 100%;
-  overflow: scroll;
+  overflow-x: hidden;
   background: #dee7fa;
 }
 ::-webkit-scrollbar {
   display: none;
+}
+.cursor-pointer{
+  cursor: pointer;
 }

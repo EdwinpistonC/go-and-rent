@@ -8,6 +8,24 @@ import Api from "server/Api";
 import { useNavigate } from "react-router-dom";
 import IconSelector from "components/molecule/IconSelector";
 import { DatePicker } from "components/atom/Textfield";
+import { useLocalStorage } from "Hooks/LocalStoreHook";
+import { formatDate } from "components/util/functions";
+
+const GridRow = ({ children }) => {
+  return (
+    <Grid
+      container
+      direction="column"
+      justifyContent="space-around"
+      alignItems="stretch"
+      sx={{ px: 2 }}
+      style={{ width: "100%", height: "100%" }}
+    >
+      {children}
+    </Grid>
+  );
+};
+
 export function FormRequestCode({ onBack, children, setFields }) {
   const {
     register,
@@ -118,7 +136,6 @@ export function FormSendCode({ onBack, children, email, setFields }) {
     api
       .validateCode(email, data.codigo)
       .then((response, status) => {
-        console.log(response);
         setBackendError("");
         setFields("codigo", data.codigo);
         setFields("step", 2);
@@ -216,7 +233,6 @@ export function FormChangePassword({
         password: data.password,
       })
       .then((response, status) => {
-        console.log(response);
         setBackendError("");
         setFields("step", 3);
       })
@@ -316,20 +332,24 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
       contrasenavieja: "",
     },
   });
+
   const [backendError, setBackendError] = React.useState("");
   const navegar = useNavigate();
 
   const onSubmit = async (data) => {
     const api = new Api();
     api
-      .changePassword({
-        password: data.password,
-        oldpassword: data.contrasenavieja,
+      .changePasswordProfile({
+        newPassword: data.contrasena1,
+        oldPassword: data.contrasenavieja,
       })
       .then((response, status) => {
-        console.log(response);
-        setBackendError("");
-        navegar("/perfil");
+        if (status >= 200 && status < 300) {
+          setBackendError("");
+          navegar("/perfil");
+        } else {
+          setBackendError(response.mensaje);
+        }
       })
       .catch((err) => {
         if (typeof err.response !== "undefined") {
@@ -423,7 +443,7 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
             <Button onClick={onBack}>Cancelar</Button>
           </Grid>
           <Grid item xs={6}>
-            <Button type="submit">Verificar codigo</Button>
+            <Button type="submit">Guardar</Button>
           </Grid>
         </Grid>
       </Grid>
@@ -431,95 +451,96 @@ export function FormChangePasswordProfile({ onBack, children, setFields }) {
   );
 }
 export function FormEditUser({ onBack, children, setFields }) {
+  const navegar = useNavigate();
+
+  const [usuario] = useLocalStorage("usuario", "");
+  const [backendError, setBackendError] = React.useState("");
+  const [fecha, setFecha] = React.useState();
+  const [avatar, setAvatar] = React.useState(0);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     setValue,
-    watch,
   } = useForm({
     defaultValues: {
-      account: null,
-      alias: "",
-      bank: null,
-      birthday: "",
-      email: "",
-      lastName: "",
-      name: "",
-      phone: "",
-      picture: "",
+      account: " ",
+      alias: " ",
+      bank: " ",
+      birthday: " ",
+      email: " ",
+      lastName: " ",
+      name: " ",
+      phone: " ",
+      picture: " ",
     },
   });
-  const [carga, setCarga] = React.useState(false);
-  const [avatar, setAvatar] = React.useState(0);
 
-  if (!carga && false) {
+  React.useEffect(() => {
     const api = new Api();
-    setCarga(true);
-
     api.profile().then((response) => {
       const data = response.data;
-      console.log(data);
-      setValue([
-        { account: data.name },
-        { bank: data.bank },
-        { birthday: data.birthday },
-        { name: data.name },
-        { lastName: data.lastName },
-        { phone: data.phone },
-        { picture: data.picture },
-        { lastName: data.lastName },
-        { alias: data.alias },
-      ]);
+      setValue("name", data.name);
+      setValue("lastName", data.lastName);
+      setValue("phone", data.phone);
+      setValue("picture", data.picture);
+      setValue("email", data.email);
+      setValue("alias", data.alias);
+      setFecha(data.birthday);
+      if (usuario.rol === "ROLE_HOST") {
+        setValue("bank", data.bank);
+        setValue("account", data.account);
+      }
+
       setAvatar(data.picture);
     });
-  }
-
-  const [backendError, setBackendError] = React.useState("");
-  const [fecha, setFecha] = React.useState();
-  const navegar = useNavigate();
+    return () => {};
+  }, []);
 
   const onSubmit = async (data) => {
     const api = new Api();
-    api
-      .editUserProfile({
-        alias: data.alias,
-        email: data.email,
-        name: data.name,
-        lastName: data.lastName,
-        phone: data.phone,
-        birthday: data.birthday,
-        picture: avatar,
-        bank: data.bank,
-        account: data.account,
-      })
-      .then((response, status) => {
-        console.log(response);
-        setBackendError("");
-        navegar("/perfil");
-      })
-      .catch((err) => {
-        if (typeof err.response !== "undefined") {
-          setBackendError("Codigo incorrecto");
-        }
-      });
+    let date = formatDate(new Date(fecha));
+
+    let [respuesta, status] = await api.editUserProfile({
+      alias: data.alias,
+      email: data.email,
+      name: data.name,
+      lastName: data.lastName,
+      phone: data.phone,
+      birthday: date,
+      picture: avatar,
+      bank: data.bank,
+      account: data.account,
+    });
+
+    if (status == 201) {
+      navegar("/perfil");
+    } else {
+      setBackendError(respuesta);
+    }
+
     return false;
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      style={{ width: "100%", height: "fit-content" }}
+      style={{ width: "100%", height: "100%" }}
     >
       <Grid
         container
-        direction="column"
+        direction="row"
         justifyContent="space-around"
         alignItems="stretch"
         sx={{ px: 2 }}
-        style={{ width: "100%", height: "fit-content" }}
+        style={{ width: "100%", height: "100%" }}
         spacing={2}
       >
+        <Grid item sm sx={{ mt: 2 }}>
+          <p>Elige un avatar:</p>
+          <IconSelector avatar={avatar} setAvatar={setAvatar} />
+        </Grid>
         <Grid
           container
           direction="row"
@@ -614,10 +635,49 @@ export function FormEditUser({ onBack, children, setFields }) {
               }}
             ></DatePicker>
           </Grid>
-          <Grid item sm sx={{ mt: 2 }}>
-            <IconSelector avatar={avatar} setAvatar={setAvatar} />
-          </Grid>
         </Grid>
+
+        {usuario.rol === "ROLE_HOST" && (
+          <Grid
+            container
+            direction="row"
+            justifyContent="space-around"
+            alignItems="stretch"
+            spacing={1}
+            item
+          >
+            <Grid item sm sx={{ mt: 2 }}>
+              <TextField
+                type="tel"
+                placeholder="Banco"
+                label="Banco"
+                {...register("bank", {
+                  validate: {
+                    requerido: (v) => v !== "" || "Ingrese el banco",
+                  },
+                })}
+                error={errors.bank ? true : false}
+                helperText={errors.bank && errors.bank.message}
+              />
+            </Grid>
+
+            <Grid item sm sx={{ mt: 2 }}>
+              <TextField
+                type="text"
+                placeholder="Numero de cuenta"
+                label="Numero de cuenta"
+                {...register("account", {
+                  validate: {
+                    requerido: (v) => v !== "" || "Ingrese el numero de cuenta",
+                  },
+                })}
+                error={errors.account ? true : false}
+                helperText={errors.account && errors.account.message}
+              />
+            </Grid>
+          </Grid>
+        )}
+
         <Grid item sx={{ mt: 2, my: 2 }}>
           {children}
           {backendError !== "" ? (
@@ -626,18 +686,19 @@ export function FormEditUser({ onBack, children, setFields }) {
             <EmptyLabel />
           )}
         </Grid>
+
         <Grid
-          item
           container
           direction="row"
           justifyContent="space-around"
-          sx={{ mb: 2 }}
           alignItems="stretch"
+          sx={{ marginBottom: "30px" }}
+          item
         >
-          <Grid item>
+          <Grid item xs sx={{ margin: 0 }}>
             <Button onClick={() => navegar("/perfil")}>Volver</Button>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs>
             <Button type="submit">Guardar</Button>
           </Grid>
         </Grid>

@@ -16,14 +16,13 @@ export default function ChangeUserData() {
       }}
       alignItems="center"
       justifyContent="center"
-      direction="column"
     >
       <Grid
         content
         sx={{
           display: "flex",
           width: "40%",
-          height: "400px",
+          height: "100%",
           backgroundColor: "#FFFFFF",
         }}
         direction="column"

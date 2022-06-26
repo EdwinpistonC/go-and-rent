@@ -34,6 +34,8 @@ import {
 } from "./StyledComponents";
 
 import { FormRequestCode, FormSendCode, FormChangePassword } from "../Forms";
+import { Label } from "@mui/icons-material";
+import IconSelector from "../../molecule/IconSelector";
 
 export default function LoginModal({
   abrirModal = false,
@@ -52,8 +54,7 @@ export default function LoginModal({
       msg: "El formato de email es incorrecto",
     },
   });
-  const [contrasena, setContrasena, contrasenaError, controlContrasena] =
-    useInputFormHook({});
+  const [contrasena, setContrasena, , controlContrasena] = useInputFormHook({});
 
   const [apiError, setApiError] = React.useState("");
 
@@ -81,16 +82,12 @@ export default function LoginModal({
                   navegar("/");
                 })
                 .catch((err) => {
-                  if (err.response.status == 401) {
-                    setApiError(
-                      "Tu contraseña es incorrecta o la cuenta ingresada no existe"
-                    );
-                  }
+                  setApiError(err.response.data.mensaje);
                 });
               return false;
             }}
           >
-            <H1>Login</H1>
+            <H1>Ingresar Sesión</H1>
             <InputsContainer>
               <FormTextfield
                 id="email"
@@ -134,6 +131,7 @@ export default function LoginModal({
             <Typography>Registrarse como</Typography>
             <BtnRow>
               <Button
+                id="registro-anfitrion"
                 onClick={() => {
                   onSecundario1();
                   cerrarModal();
@@ -147,7 +145,7 @@ export default function LoginModal({
                   cerrarModal();
                 }}
               >
-                Húesped
+                Huésped
               </Button>
             </BtnRow>
           </Form>
@@ -166,8 +164,7 @@ export function RegistroHModal({
   cerrarModal,
   backTo,
 }) {
-  const [contrasena, setContrasena, contrasenaError, controlContrasena] =
-    useInputFormHook({});
+  const [contrasena, setContrasena, , controlContrasena] = useInputFormHook({});
 
   const [nombre, setNombre, nombreError, controlNombre] = useInputFormHook({
     nombre: {
@@ -192,17 +189,11 @@ export function RegistroHModal({
   const [telefono, setTelefono, telefonoError, controlTelefono] =
     useInputFormHook({});
 
-  const [
-    fechaNacimiento,
-    setFechaNacimiento,
-    fechaNacimientoError,
-    controlFechaNacimiento,
-  ] = useInputFormHook({});
+  const [fechaNacimiento, setFechaNacimiento] = useInputFormHook({});
 
   const [apiError, setApiError] = React.useState("");
-  const navegar = useNavigate();
 
-  const [avatar, setAvatar, avatarError, controlAvatar] = useInputFormHook({});
+  const [avatar, setAvatar, ,] = useInputFormHook({});
 
   const back = () => {
     backTo(true);
@@ -210,23 +201,6 @@ export function RegistroHModal({
     cerrarModal(false);
   };
 
-  //CSS
-  let left = 0;
-  let right = 0;
-  let direccion = "alternate";
-  let posImagen;
-
-  if (direction == "left") {
-    posImagen = "row";
-    right = 4;
-    left = "sds";
-
-    direccion = "alternate-reverse";
-  } else {
-    posImagen = "row-reverse";
-    left = 4;
-    right = "sds";
-  }
   return (
     <ModalBasico
       abrirModal={abrirModal}
@@ -270,6 +244,12 @@ export function RegistroHModal({
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               columns={12}
             >
+              <Grid item xs={6}>
+                <div>
+                  <small>Elige un avatar:</small>
+                  <IconSelector avatar={avatar} setAvatar={setAvatar} />
+                </div>
+              </Grid>
               <Grid item xs={6}>
                 <FormTextfield
                   id="alias"
@@ -349,39 +329,6 @@ export function RegistroHModal({
                   }}
                 ></DatePicker>
               </Grid>
-
-              <Grid item xs={6}>
-                <IconButton onClick={() => setAvatar(1)}>
-                  <Avatar
-                    sx={{ bgcolor: green[500] }}
-                    style={{
-                      border: avatar == 1 ? "2px solid black" : "",
-                    }}
-                  >
-                    <AssignmentIcon />
-                  </Avatar>
-                </IconButton>
-                <IconButton onClick={() => setAvatar(2)}>
-                  <Avatar
-                    sx={{ bgcolor: pink[600] }}
-                    style={{
-                      border: avatar == 2 ? "2px solid black" : "",
-                    }}
-                  >
-                    <AssignmentIcon />
-                  </Avatar>
-                </IconButton>
-                <IconButton onClick={() => setAvatar(3)}>
-                  <Avatar
-                    sx={{ bgcolor: red[700] }}
-                    style={{
-                      border: avatar == 3 ? "2px solid black" : "",
-                    }}
-                  >
-                    <AssignmentIcon />
-                  </Avatar>
-                </IconButton>
-              </Grid>
               {apiError !== "" ? (
                 <ErrorLabel>{apiError}</ErrorLabel>
               ) : (
@@ -412,45 +359,35 @@ export function RegistroAModal({
   onPrincipal,
   cerrarModal,
   backTo,
-  children,
 }) {
-  const [contrasena, setContrasena, contrasenaError, controlContrasena] =
-    useInputFormHook({});
+  const [, setContrasena, , controlContrasena] = useInputFormHook({});
 
-  const [nombre, setNombre, nombreError, controlNombre] = useInputFormHook({
+  const [, setNombre, nombreError, controlNombre] = useInputFormHook({
     nombre: {
       msg: "El nombre es muy corto",
     },
     tamMin: 4,
   });
-  const [alias, setAlias, aliasError, controlAlias] = useInputFormHook({
+  const [, setAlias, aliasError, controlAlias] = useInputFormHook({
     alias: {
       msg: "El alias es incorrecto",
     },
   });
-  const [email, setEmail, emailError, controlEmail] = useInputFormHook({
+  const [, setEmail, emailError, controlEmail] = useInputFormHook({
     email: {
       msg: "El formato de email es incorrecto",
     },
   });
 
-  const [apellido, setApellido, apellidoError, controlApellido] =
-    useInputFormHook({});
+  const [, setApellido, apellidoError, controlApellido] = useInputFormHook({});
 
-  const [telefono, setTelefono, telefonoError, controlTelefono] =
-    useInputFormHook({});
+  const [, setTelefono, telefonoError, controlTelefono] = useInputFormHook({});
 
-  const [
-    fechaNacimiento,
-    setFechaNacimiento,
-    fechaNacimientoError,
-    controlFechaNacimiento,
-  ] = useInputFormHook({});
+  const [fechaNacimiento, setFechaNacimiento, , ,] = useInputFormHook({});
 
-  const [apiError, setApiError] = React.useState("");
-  const navegar = useNavigate();
+  const [apiError] = React.useState("");
 
-  const [avatar, setAvatar, avatarError, controlAvatar] = useInputFormHook({});
+  const [avatar, setAvatar, ,] = useInputFormHook({});
   const back = () => {
     backTo(true);
 
@@ -665,7 +602,6 @@ export function CambioCModal({
   posImagen = "row";
 
   direccion = "alternate-reverse";
-  console.log(fields);
 
   return (
     <ModalBasico abrirModal={abrirModal} onCloseModal={back}>
@@ -717,6 +653,113 @@ export function CambioCModal({
           })()}
         </Columna>
         <Imagen rel="preload" direccion={direccion} />
+      </FormContainer>
+    </ModalBasico>
+  );
+}
+export function ReservarAlojamiento({
+  abrirModal = true,
+  onCloseModal,
+  cerrarModal,
+  children,
+  submit,
+  reserva,
+}) {
+  const [apiError, setApiError] = React.useState("");
+
+  const back = () => {
+    cerrarModal(false);
+  };
+  //CSS
+  let left = 0;
+  let right = 0;
+  let direccion = "alternate";
+  let posImagen;
+
+  posImagen = "row";
+  right = 4;
+  left = "sds";
+
+  direccion = "alternate-reverse";
+
+  console.log(reserva);
+  console.log(reserva.fecha.endDate);
+  const days = (date_1, date_2) => {
+    let difference = date_1.getTime() - date_2.getTime();
+    let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+    return TotalDays;
+  };
+  let pago = -days(reserva.fecha.startDate, reserva.fecha.endDate);
+  return (
+    <ModalBasico
+      sx={{ height: "70%", width: "100%" }}
+      abrirModal={abrirModal}
+      onCloseModal={back}
+      justifyContent
+    >
+      <FormContainer posImagen={posImagen}>
+        <Columna>
+          <Form
+            action="/"
+            method="POST"
+            onSubmit={(e) => {
+              e.preventDefault();
+              submit();
+            }}
+          >
+            <H1>Reserva</H1>
+            <Box sx={{ marginInline: "5%" }}>
+              <Grid container rowSpacin columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid
+                  item
+                  xs={10}
+                  justifyContent={"center"}
+                  alignContent={"100%"}
+                  width={"100%"}
+                >
+                  <Typography
+                    variant={"h5"}
+                    marginBottom={"10px"}
+                    justifyContent={"center"}
+                    alignContent={"center"}
+                    textAlign={"center"}
+                  >
+                    ¿Desea confirmar la reserva?
+                  </Typography>
+                </Grid>
+                <Grid item xs={10} marginBottom={"10px"}>
+                  <Typography>
+                    ${reserva.datos.accommodation.price} por noche
+                  </Typography>
+                </Grid>
+                <Grid item xs={10} marginBottom={"10px"}>
+                  <Typography>Noches reservadas : {pago}</Typography>
+                </Grid>
+                <Grid item xs={10} marginBottom={"10px"}>
+                  <Typography>
+                    Total : ${reserva.datos.accommodation.price * pago}
+                  </Typography>
+                </Grid>
+                {apiError !== "" ? (
+                  <ErrorLabel>{apiError}</ErrorLabel>
+                ) : (
+                  <EmptyLabel />
+                )}
+                <Grid item xs={10} justifyContent={"center"} width="100%">
+                  <BtnContainer>
+                    <Button onClick={back} width={40}>
+                      Cancelar
+                    </Button>
+
+                    <Button type="submit" width={40}>
+                      Aceptar
+                    </Button>
+                  </BtnContainer>
+                </Grid>
+              </Grid>
+            </Box>
+          </Form>
+        </Columna>
       </FormContainer>
     </ModalBasico>
   );

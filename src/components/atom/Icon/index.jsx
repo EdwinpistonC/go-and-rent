@@ -5,6 +5,12 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DoneIcon from "@mui/icons-material/Done";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import { IconButton, SvgIcon } from "@mui/material";
+import MessageIcon from "@mui/icons-material/Message";
+import HousesSvg from "resources/svgs/Houses.svg";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 const Alert = () => {
   return (
     <svg
@@ -21,20 +27,32 @@ const Alert = () => {
     </svg>
   );
 };
-const Messages = () => {
+const Messages = ({ onClick }) => {
   return (
-    <svg
-      width="30"
-      height="30"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M13 2V9H3.17L2.58 9.59L2 10.17V2H13ZM14 0H1C0.45 0 0 0.45 0 1V15L4 11H14C14.55 11 15 10.55 15 10V1C15 0.45 14.55 0 14 0ZM19 4H17V13H4V15C4 15.55 4.45 16 5 16H16L20 20V5C20 4.45 19.55 4 19 4Z"
-        fill="#323232"
-      />
-    </svg>
+    <IconButton onClick={onClick}>
+      <MessageIcon></MessageIcon>
+    </IconButton>
+  );
+};
+const AddUser = ({ onClick }) => {
+  return (
+    <IconButton onClick={onClick}>
+      <PersonAddAltIcon></PersonAddAltIcon>
+    </IconButton>
+  );
+};
+const Statistics = ({ onClick }) => {
+  return (
+    <IconButton onClick={onClick}>
+      <EqualizerIcon />
+    </IconButton>
+  );
+};
+const Management = ({ onClick }) => {
+  return (
+    <IconButton onClick={onClick}>
+      <SupervisorAccountIcon />
+    </IconButton>
   );
 };
 const iconoEstados = (estado) => {
@@ -64,7 +82,28 @@ const iconoEstados = (estado) => {
   }
   return icono;
 };
-const Bookings = () => {
-  return <HolidayVillageIcon></HolidayVillageIcon>;
+const Bookings = ({ onClick, ...parms }) => {
+  return (
+    <IconButton onClick={onClick}>
+      <HolidayVillageIcon {...parms}></HolidayVillageIcon>
+    </IconButton>
+  );
 };
-export { Messages, Alert, Bookings, iconoEstados };
+function Houses(props) {
+  return (
+    <SvgIcon {...props}>
+      <HousesSvg />
+    </SvgIcon>
+  );
+}
+
+export {
+  Messages,
+  Alert,
+  Bookings,
+  iconoEstados,
+  Houses,
+  Statistics,
+  Management,
+  AddUser,
+};

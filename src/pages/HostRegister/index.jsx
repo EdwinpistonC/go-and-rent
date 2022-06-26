@@ -13,7 +13,7 @@ const registerHost = async function (
   bank,
   account,
   locCoordinates,
-  locCountry,
+  place,
   accPrice,
   locStreet,
   imagenes,
@@ -24,15 +24,28 @@ const registerHost = async function (
   caracteristicas
 ) {
   const backend = new Api();
+
+  let country = place.value.terms[0].value;
+  let province = place.value.terms[0].value;
+  let city = place.value.terms[0].value;
+
+  if (place.value.terms.length === 3) {
+    country = place.value.terms[2].value;
+    province = place.value.terms[1].value;
+  } else if (place.value.terms.length === 2) {
+    country = place.value.terms[1].value;
+    province = place.value.terms[0].value;
+  }
+
+  console.log();
   var formData = new FormData(); //formdata object
-  console.log(servicios);
   servicios.forEach((service) => {
-    if (service.hasOwnProperty("valor") && service.valor) {
+    if (service.hasOwnProperty("value") && service.value) {
       formData.append("services", service.id);
     }
   });
   caracteristicas.forEach((feature) => {
-    formData.append("features", feature.id + "-" + feature.cantidad);
+    formData.append("features", feature.id + "-" + feature.value);
   });
 
   for (const [index, image] of imagenes.entries()) {
@@ -50,14 +63,19 @@ const registerHost = async function (
   formData.append("bank", bank);
   formData.append("account", account);
   formData.append("loc_coordinates", locCoordinates);
-  formData.append("loc_country", locCountry);
-  formData.append("loc_province", "montevideo");
+  formData.append("loc_country", country);
+  formData.append("loc_province", province);
   formData.append("loc_street", locStreet);
   formData.append("loc_doorNumber", locDoorNumber);
   formData.append("acc_price", accPrice);
-  formData.append("loc_city", "montevideo");
+  formData.append("loc_city", city);
   formData.append("acc_name", accName);
   formData.append("acc_description", accDescription);
+
+  console.log(place);
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ", " + pair[1]);
+  }
 
   return backend.hostCreate(formData);
 };

@@ -12,12 +12,24 @@ export default function Busqueda() {
         fullWidth
         value={state.busqueda}
         onChange={(e) => {
-          alert("modifica");
-
           dispatch({ busqueda: e.target.value });
-          if (location.pathname != "/busqueda") {
-            alert("entra");
+          if (location.pathname !== "/busqueda") {
           }
+        }} //setInput(e.target.value)}
+      ></Input>
+    </BusquedaContainer>
+  );
+}
+export function BusquedaField({ setValor }) {
+  const [state, dispatch] = useGlobalState();
+  return (
+    <BusquedaContainer>
+      <Input
+        fullWidth
+        value={state.busqueda}
+        onChange={(e) => {
+          dispatch({ busqueda: e.target.value });
+          setValor(e.target);
         }} //setInput(e.target.value)}
       ></Input>
     </BusquedaContainer>

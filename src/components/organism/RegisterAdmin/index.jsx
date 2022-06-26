@@ -1,5 +1,5 @@
 import React from "react";
-import Textfield, {
+import {
   FormTextfield,
   PasswordTextfield,
   DatePicker,
@@ -10,7 +10,6 @@ import { Button } from "../../atom/Button";
 import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import { BtnContainer, H1, EmptyLabel, ErrorLabel } from "./StyledComponents";
-import { useNavigate } from "react-router-dom";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import Avatar from "@mui/material/Avatar";
 import { green, pink, red } from "@mui/material/colors";
@@ -18,8 +17,7 @@ import IconButton from "@mui/material/IconButton";
 import { formatDate } from "components/util/functions";
 
 export default function RegisterAdmin({ submit }) {
-  const [contrasena, setContrasena, contrasenaError, controlContrasena] =
-    useInputFormHook({});
+  const [contrasena, setContrasena, , controlContrasena] = useInputFormHook({});
 
   const [nombre, setNombre, nombreError, controlNombre] = useInputFormHook({
     nombre: {
@@ -44,17 +42,14 @@ export default function RegisterAdmin({ submit }) {
   const [telefono, setTelefono, telefonoError, controlTelefono] =
     useInputFormHook({});
 
-  const [
-    fechaNacimiento,
-    setFechaNacimiento,
-    fechaNacimientoError,
-    controlFechaNacimiento,
-  ] = useInputFormHook({});
+  const [fechaNacimiento, setFechaNacimiento, , ,] = useInputFormHook(
+    {},
+    new Date(new Date().setFullYear(new Date().getFullYear() - 18))
+  );
 
   const [apiError, setApiError] = React.useState("");
-  const navegar = useNavigate();
 
-  const [avatar, setAvatar, avatarError, controlAvatar] = useInputFormHook({});
+  const [avatar, setAvatar, ,] = useInputFormHook({});
 
   return (
     <Box
@@ -75,7 +70,9 @@ export default function RegisterAdmin({ submit }) {
       <Form
         onSubmit={(e) => {
           e.preventDefault();
-          alert("hola");
+          console.log(fechaNacimiento);
+
+          console.log(formatDate(fechaNacimiento));
           submit(
             alias,
             nombre,
@@ -90,7 +87,7 @@ export default function RegisterAdmin({ submit }) {
               setApiError("");
             })
             .catch((err) => {
-              if (err.response.status == 401) {
+              if (err.response.status === 401) {
                 setApiError("Datos incorrectos");
               }
             });
@@ -175,8 +172,10 @@ export default function RegisterAdmin({ submit }) {
               label="Fecha de nacimiento"
               fecha={fechaNacimiento}
               onChange={(newValue) => {
+                console.log(newValue);
                 setFechaNacimiento(newValue);
               }}
+              mayorDeEdad={true}
             ></DatePicker>
           </Grid>
 
@@ -185,7 +184,7 @@ export default function RegisterAdmin({ submit }) {
               <Avatar
                 sx={{ bgcolor: green[500] }}
                 style={{
-                  border: avatar == 1 ? "2px solid black" : "",
+                  border: avatar === 1 ? "2px solid black" : "",
                 }}
               >
                 <AssignmentIcon />
@@ -195,7 +194,7 @@ export default function RegisterAdmin({ submit }) {
               <Avatar
                 sx={{ bgcolor: pink[600] }}
                 style={{
-                  border: avatar == 2 ? "2px solid black" : "",
+                  border: avatar === 2 ? "2px solid black" : "",
                 }}
               >
                 <AssignmentIcon />
@@ -205,7 +204,7 @@ export default function RegisterAdmin({ submit }) {
               <Avatar
                 sx={{ bgcolor: red[700] }}
                 style={{
-                  border: avatar == 3 ? "2px solid black" : "",
+                  border: avatar === 3 ? "2px solid black" : "",
                 }}
               >
                 <AssignmentIcon />
