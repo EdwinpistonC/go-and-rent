@@ -126,8 +126,7 @@ export default function AprobarUsuario() {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            position: "relative",
-            height: "100%",
+            position: "relative"
           }}
         >
           <Container
