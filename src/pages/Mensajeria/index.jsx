@@ -23,7 +23,6 @@ import {
 } from "firebase/firestore";
 
 import React from "react";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import SendIcon from "@mui/icons-material/Send";
 import {
   Divider,
@@ -37,22 +36,72 @@ import {
   ListItemIcon,
   ListItemText,
   Fab,
+  Chip,
+  Stack,
 } from "@mui/material";
-
+import DraftsIcon from "@mui/icons-material/Drafts";
+import EmailIcon from "@mui/icons-material/Email";
+import { Container } from "@mui/system";
 firebase.initializeApp(firebaseConfig);
 
-const PreviewChat = ({ data, onClick, soy }) => {
+const PreviewChat = ({ data, onClick, soy, seleccionado }) => {
+  const [info, setInfo] = React.useState(null);
   let alias = data.huesped;
   if (soy === "ROLE_GUEST") {
     alias = data.anfitrion;
   }
+  let style = {};
+  if (seleccionado) {
+    style = {
+      backgroundColor: "#fff",
+      filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+    };
+  }
+
+  React.useEffect(() => {
+    const id =
+      `${data.huesped}` +
+      "-" +
+      `${data.anfitrion}` +
+      "-" +
+      `${data.housingId}` +
+      "-" +
+      `${data.bookingId}`;
+    let unsub = onSnapshot(doc(db, "ultimosMsg", id), (doc) => {
+      setInfo(doc.data());
+    });
+    return () => unsub();
+  }, []);
+  let inactivo = data.endDate.toDate() < new Date();
+
   return (
-    <ListItem button key="RemySharp" onClick={onClick}>
+    <ListItem sx={style} button key="RemySharp" onClick={onClick}>
       <ListItemIcon>
-        <MailOutlineIcon />
+        {info !== null && info.noLeido && info.de === soy ? (
+          <EmailIcon />
+        ) : (
+          <DraftsIcon />
+        )}
       </ListItemIcon>
-      <ListItemText primary={alias}>{alias}</ListItemText>
-      <ListItemText secondary={data.housingName} align="right"></ListItemText>
+      <ListItemText
+        primary={alias}
+        secondary={
+          <Stack direction="row">
+            {inactivo ? (
+              <Chip label={"Inactivo"} color="warning" size="small"></Chip>
+            ) : (
+              <Chip label={"Activo"} color="primary" size="small"></Chip>
+            )}
+          </Stack>
+        }
+      />
+      <ListItemText
+        primary={data.housingName}
+        secondary={
+          <>{info !== null && <Typography>{info.texto}</Typography>}</>
+        }
+        align="right"
+      ></ListItemText>
     </ListItem>
   );
 };
@@ -60,10 +109,18 @@ const PreviewChat = ({ data, onClick, soy }) => {
 const Chat = () => {
   const [usuario] = useLocalStorage("usuario", "");
   const [previews, setPreviews] = React.useState("");
+  const [ultimoMsg, setUltimoMsg] = React.useState("");
+
   const [chatSeleccionado, setChatSeleccionado] = React.useState(-1);
   const [msgs, setMsgs] = React.useState([]);
   const [text, setText] = React.useState("");
   const [bloquear, setBloquear] = React.useState(false);
+  const [buscar, setBuscar] = React.useState("");
+
+  if (document.getElementById("scrollMsg")) {
+    var messageBody = document.getElementById("scrollMsg");
+    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+  }
 
   React.useEffect(() => {
     const usersRef = collection(db, "chats");
@@ -162,112 +219,210 @@ const Chat = () => {
     }
   }, [chatSeleccionado, previews, usuario.alias]);
 
+  let diaAnterior = 0;
   return (
     <Card sx={{ marginY: "-10px" }}>
-      <Grid container sx={{ marginY: "20px", marginLeft: "10%" }}>
-        <Grid item xs={12}>
-          <Typography variant="h5" className="header-message">
-            Chat
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid container component={Paper} sx={{ width: "100%" }}>
+      <Grid
+        container
+        component={Paper}
+        sx={{ width: "100%", backgroundColor: "#a3d1ff" }}
+      >
         <Grid item xs={3} sx={{ borderRight: "1px solid #e0e0e0" }}>
           <Divider />
           <Grid item xs={12} style={{ padding: "10px" }}>
             <TextField
               id="outlined-basic-email"
               label="Buscar..."
-              variant="outlined"
               fullWidth
+              value={buscar}
+              variant="filled"
+              sx={{ background: "#ffff", borderRadius: "5px" }}
+              onChange={(e) => {
+                setBuscar(e.target.value);
+              }}
             />
           </Grid>
           <Divider />
           <List>
             {previews !== "" &&
               previews.map((preview, key) => {
-                return (
-                  <PreviewChat
-                    onClick={() => setChatSeleccionado(key)}
-                    key={key}
-                    data={preview}
-                    soy={usuario.rol}
-                  ></PreviewChat>
-                );
+                if (
+                  buscar === "" ||
+                  preview.anfitrion.toLowerCase().includes(buscar) ||
+                  preview.housingName.toLowerCase().includes(buscar) ||
+                  preview.huesped.toLowerCase().includes(buscar) ||
+                  preview.startDate
+                    .toDate()
+                    .toString()
+                    .toLowerCase()
+                    .includes(buscar) ||
+                  preview.endDate
+                    .toDate()
+                    .toString()
+                    .toLowerCase()
+                    .includes(buscar)
+                ) {
+                  return (
+                    <PreviewChat
+                      onClick={() => {
+                        setChatSeleccionado(key);
+                      }}
+                      key={key}
+                      data={preview}
+                      soy={usuario.rol}
+                      seleccionado={chatSeleccionado === key}
+                    ></PreviewChat>
+                  );
+                }
               })}
           </List>
         </Grid>
         {chatSeleccionado !== -1 ? (
-          <Grid item xs={9}>
-            <List sx={{ height: "70vh", overflowY: "auto" }}>
+          <Grid item xs={9} sx={{ backgroundColor: "#dee7fa" }}>
+            <List sx={{ height: "70vh", overflowY: "auto" }} id="scrollMsg">
               {msgs.length !== 0 &&
                 msgs.map((msg, key) => {
+                  console.log(msg);
+                  let fecha = msg.fechaCreacion.toDate();
+
+                  let esDistintoDia = diaAnterior !== fecha.getDay();
+
+                  diaAnterior = fecha.getDay();
+                  console.log(fecha);
                   if (msg.de === usuario.alias) {
                     return (
-                      <ListItem key={key}>
-                        <Grid container>
-                          <Grid item xs={12}>
-                            <ListItemText
-                              align="right"
-                              primary={msg.texto}
-                            ></ListItemText>
-                          </Grid>
-                          <Grid item xs={12}>
-                            <ListItemText
-                              align="right"
-                              secondary="09:30"
-                            ></ListItemText>
-                          </Grid>
-                        </Grid>
-                      </ListItem>
+                      <>
+                        {esDistintoDia && (
+                          <ListItem
+                            key={"dia" + key}
+                            sx={{ placeContent: "center" }}
+                          >
+                            <Divider sx={{ marginY: "15px" }}>
+                              <Chip
+                                label={
+                                  fecha.getDay() +
+                                  "/" +
+                                  fecha.getMonth() +
+                                  "/" +
+                                  fecha.getFullYear()
+                                }
+                              />
+                            </Divider>
+                          </ListItem>
+                        )}
+                        <ListItem key={key}>
+                          <Container
+                            sx={{
+                              backgroundColor: "#ffff",
+                              width: "fit-content",
+                              marginRight: 0,
+                              paddingY: 3,
+                              filter:
+                                "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                            }}
+                          >
+                            <Grid container>
+                              <Grid item xs={12}>
+                                <ListItemText
+                                  align="right"
+                                  primary={msg.texto}
+                                ></ListItemText>
+                              </Grid>
+                              <Grid item xs={12}>
+                                <ListItemText
+                                  align="right"
+                                  secondary={
+                                    fecha.getHours() + ":" + fecha.getMinutes()
+                                  }
+                                ></ListItemText>
+                              </Grid>
+                            </Grid>{" "}
+                          </Container>
+                        </ListItem>
+                      </>
                     );
                   }
                   return (
-                    <ListItem key={key}>
-                      <Grid container>
-                        <Grid item xs={12}>
-                          <ListItemText
-                            align="left"
-                            primary={msg.texto}
-                          ></ListItemText>
-                        </Grid>
-                        <Grid item xs={12}>
-                          <ListItemText
-                            align="left"
-                            secondary="09:31"
-                          ></ListItemText>
-                        </Grid>
-                      </Grid>
-                    </ListItem>
+                    <>
+                      {esDistintoDia && (
+                        <ListItem
+                          key={"dia" + key}
+                          sx={{ placeContent: "center" }}
+                        >
+                          <Divider sx={{ margin: "auto" }}>
+                            <Chip
+                              label={
+                                fecha.getDay() +
+                                "/" +
+                                fecha.getMonth() +
+                                "/" +
+                                fecha.getFullYear()
+                              }
+                            />
+                          </Divider>
+                        </ListItem>
+                      )}
+                      <ListItem key={key}>
+                        <Container
+                          sx={{
+                            backgroundColor: "#ffff",
+                            width: "fit-content",
+                            marginLeft: 0,
+                            paddingY: 3,
+                            filter:
+                              "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
+                          }}
+                        >
+                          <Grid container>
+                            <Grid item xs={12}>
+                              <ListItemText
+                                align="left"
+                                primary={msg.texto}
+                              ></ListItemText>
+                            </Grid>
+                            <Grid item xs={12}>
+                              <ListItemText
+                                align="left"
+                                secondary={
+                                  fecha.getHours() + ":" + fecha.getMinutes()
+                                }
+                              ></ListItemText>
+                            </Grid>
+                          </Grid>
+                        </Container>
+                      </ListItem>
+                    </>
                   );
                 })}
             </List>
             <Divider />
-            <Grid container style={{ padding: "20px" }}>
-              <Grid item xs={11}>
-                <TextField
-                  value={text}
-                  onChange={(e) => {
-                    setText(e.target.value);
-                  }}
-                  disabled={bloquear}
-                  id="outlined-basic-email"
-                  label="Escribir mensaje"
-                  fullWidth
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      handleSubmit();
-                      setBloquear(true);
-                    }
-                  }}
-                />
+            {previews[chatSeleccionado].endDate.toDate() >= new Date() && (
+              <Grid container style={{ padding: "20px" }}>
+                <Grid item xs={11}>
+                  <TextField
+                    value={text}
+                    onChange={(e) => {
+                      setText(e.target.value);
+                    }}
+                    disabled={bloquear}
+                    id="outlined-basic-email"
+                    label="Escribir mensaje"
+                    fullWidth
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        handleSubmit();
+                        setBloquear(true);
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={1} align="right">
+                  <Fab color="primary" aria-label="add" onClick={handleSubmit}>
+                    <SendIcon />
+                  </Fab>
+                </Grid>
               </Grid>
-              <Grid item xs={1} align="right">
-                <Fab color="primary" aria-label="add" onClick={handleSubmit}>
-                  <SendIcon />
-                </Fab>
-              </Grid>
-            </Grid>
+            )}
           </Grid>
         ) : (
           <Grid item xs={9}>

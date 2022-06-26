@@ -219,6 +219,20 @@ export default function InfoAlojamiento({
           </Grid>
           <Grid item xs>
             <div style={{ padding: "0 15px" }}>
+              <Button
+                color="error"
+                onClick={async () => {
+                  let api = new Api();
+                  let resultado = await api.eliminarAlojamiento(alojamientoId);
+                  console.log(resultado);
+                }}
+              >
+                Eliminar
+              </Button>
+            </div>
+          </Grid>
+          <Grid item xs>
+            <div style={{ padding: "0 15px" }}>
               <Button onClick={() => handleOpen()}>Reviews</Button>
             </div>
           </Grid>
