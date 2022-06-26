@@ -359,6 +359,13 @@ export default class Api {
     return this.init().put("admin/reject-host/" + alias);
   };
 
+  eliminarAlojamiento = async (id) => {
+    let resultado = await this.init().delete(
+      "hosts/accommodation/delete/" + id
+    );
+    return resultado;
+  };
+
   descargarPagos = (
     ano = new Date().getFullYear(),
     mes = new Date().getMonth()
