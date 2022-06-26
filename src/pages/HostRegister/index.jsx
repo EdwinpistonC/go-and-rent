@@ -37,7 +37,6 @@ const registerHost = async function (
     province = place.value.terms[0].value;
   }
 
-  console.log();
   var formData = new FormData(); //formdata object
   servicios.forEach((service) => {
     if (service.hasOwnProperty("value") && service.value) {
@@ -72,7 +71,6 @@ const registerHost = async function (
   formData.append("acc_name", accName);
   formData.append("acc_description", accDescription);
 
-  console.log(place);
   for (var pair of formData.entries()) {
     console.log(pair[0] + ", " + pair[1]);
   }
