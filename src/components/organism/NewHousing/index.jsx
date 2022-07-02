@@ -272,7 +272,7 @@ export function NewReserveAndRegister({
           <Typography
             sx={{ textAlign: "center", fontSize: "30px", paddingTop: "20px" }}
           >
-            Creacion de Alojamiento
+            Creación de Alojamiento
           </Typography>
         </Grid>
 
@@ -288,7 +288,7 @@ export function NewReserveAndRegister({
           <FormTextfield
             id="accDescription"
             onChange={handleFieldChange}
-            nombre="Descripcion"
+            nombre="Descripción"
             value={fields.accDescription}
             multiline
             rows={4}
@@ -305,7 +305,7 @@ export function NewReserveAndRegister({
               id="accPrice"
               value={fields.accPrice}
               onChange={handleFieldChange}
-              nombre="Precio"
+              nombre="Precio por noche"
             ></FormTextfield>
           </Grid>
           <Grid item xs={6}>
@@ -336,7 +336,7 @@ export function NewReserveAndRegister({
               id="locDoorNumber"
               value={fields.locDoorNumber}
               onChange={handleFieldChange}
-              nombre="Numero de puerta"
+              nombre="Número de puerta"
               number
             ></FormTextfield>
           </Grid>
@@ -348,10 +348,12 @@ export function NewReserveAndRegister({
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
           <Grid item xs={6}>
+            <p>Seleccion los servicios del alojamiento:</p>
             <Servicios lista={servicios} setValores={setServicios} />
           </Grid>
 
           <Grid item xs={6}>
+            <p>Selecciona características del alojamiento:</p>
             <Caracteristicas
               lista={caracteristicas}
               setValores={setCaracteristicas}

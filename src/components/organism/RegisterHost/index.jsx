@@ -339,7 +339,13 @@ export default function RegisterHost({ submit }) {
   };
 
   const finalizar = () => {
-    return;
+    return (
+        <>
+          <p>Gracias por tu interés en registrarte en Go&Rent.
+            Tras enviar este formulario, un administrador debe confirmar la cuenta antes de que puedas ingresar sesión.
+            Una vez confirmada, podrás ingresar sesión en la plataforma, y empezar a recibir reservas en tus alojamientos registrados</p>
+        </>
+    );
   };
 
   const renderSwitch = (key) => {

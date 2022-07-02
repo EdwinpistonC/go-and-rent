@@ -7,5 +7,8 @@ export const MUIDataTableStyled = styled(MUIDataTable)`
   th {
     font-size: 40px
   }
+  th div {
+    font-size: 1rem;
+  }
 }
 `;

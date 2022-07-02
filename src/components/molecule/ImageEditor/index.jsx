@@ -129,52 +129,55 @@ export default function ImageEditor({ itemData = [], setItemData }) {
       </ImageList>
       <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => fileInput.current.click()}
-          >
-            Cargar Imagen
-          </Button>
-
-          <input
-            ref={fileInput}
-            type="file"
-            style={{ display: "none" }}
-            onChange={onChange}
+          <div style={{display:'inline-flex'}}>
+            <Button
+                variant="contained"
+                color="primary"
+                style={{margin:'5px'}}
+                onClick={() => fileInput.current.click()}
+            >
+              Subir Imagen
+            </Button>
+            <Button
+                style={{margin:'5px'}}
+                onClick={getCropData}
+                disabled={btnDisabled}
+            >
+              Confirmar Imagen
+            </Button>
+          </div>
+        </Grid>
+        <Grid item alignItems="center" justifyContent="center" xs={6}>
+          <Cropper
+              zoomTo={0.1}
+              style={{
+                width: "100%",
+              }}
+              initialAspectRatio={16 / 9}
+              aspectRatio={16 / 9}
+              src={image}
+              viewMode={1}
+              minCropBoxHeight={10}
+              minCropBoxWidth={10}
+              background={false}
+              responsive={true}
+              autoCropArea={1}
+              checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+              onInitialized={(instance) => {
+                setCropper(instance);
+              }}
+              guides={false}
           />
         </Grid>
         <Grid item xs={6}>
-          <Button
-            style={{ float: "right" }}
-            onClick={getCropData}
-            disabled={btnDisabled}
-          >
-            Capturar Imagen
-          </Button>
-        </Grid>
-        <Grid item alignItems="center" justifyContent="center" xs={12}>
-          <Cropper
-            zoomTo={0.1}
-            style={{
-              width: "100%",
-            }}
-            initialAspectRatio={16 / 9}
-            aspectRatio={16 / 9}
-            src={image}
-            viewMode={1}
-            minCropBoxHeight={10}
-            minCropBoxWidth={10}
-            background={false}
-            responsive={true}
-            autoCropArea={1}
-            checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-            onInitialized={(instance) => {
-              setCropper(instance);
-            }}
-            guides={false}
+          <input
+              ref={fileInput}
+              type="file"
+              style={{ display: "none" }}
+              onChange={onChange}
           />
         </Grid>
+
       </Grid>
     </Box>
   );
