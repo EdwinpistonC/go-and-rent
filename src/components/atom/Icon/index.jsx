@@ -11,6 +11,7 @@ import HousesSvg from "resources/svgs/Houses.svg";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 const Alert = () => {
   return (
     <svg
@@ -52,6 +53,13 @@ const Management = ({ onClick }) => {
   return (
     <IconButton onClick={onClick}>
       <SupervisorAccountIcon />
+    </IconButton>
+  );
+};
+const Downloader = ({ onClick }) => {
+  return (
+    <IconButton onClick={onClick}>
+      <PictureAsPdfIcon />
     </IconButton>
   );
 };
@@ -106,4 +114,5 @@ export {
   Statistics,
   Management,
   AddUser,
+  Downloader,
 };

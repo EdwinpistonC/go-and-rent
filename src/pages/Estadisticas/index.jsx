@@ -295,7 +295,7 @@ export default function Estadisticas() {
           <MenuItem value={1}>Usuarios registrados</MenuItem>
           <MenuItem value={2}>Alojamientos por region</MenuItem>
           <MenuItem value={3}>
-            Anfitriones aceptados/rezadados/eliminados{" "}
+            Anfitriones aceptados/rechazados/eliminados{" "}
           </MenuItem>
         </Select>
       </FormControl>
