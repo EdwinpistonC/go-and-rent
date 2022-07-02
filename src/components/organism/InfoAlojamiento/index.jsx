@@ -199,7 +199,7 @@ export default function InfoAlojamiento({
           </Grid>
         </Grid>
         <Divider sx={{ marginY: "15px" }}>
-          <Chip label={"Reservas"} />
+          <Chip label={"Opciones"} />
         </Divider>
         <Grid
           container

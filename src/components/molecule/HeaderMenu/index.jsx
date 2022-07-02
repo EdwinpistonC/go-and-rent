@@ -9,6 +9,7 @@ import {
   Statistics,
   Management,
   AddUser,
+  Downloader,
 } from "components/atom/Icon";
 
 import { Box } from "@mui/system";
@@ -46,7 +47,7 @@ export default function HeaderMenu({
     return (
       <MenuContainer>
         {children}
-        <Management onClick={onPagos} />
+        <Downloader onClick={onPagos} />
         <Statistics onClick={onEstadisticas} />
         <AddUser onClick={onAddAdmin} />
         <Management onClick={onAdministracion} />

@@ -143,7 +143,7 @@ const Chat = () => {
           bookingId: doc.data().idReserva,
         });
       });
-      setPreviews(user);
+      setPreviews(user.reverse());
     });
     return () => unsub();
   }, [usuario.rol, usuario.alias]);
