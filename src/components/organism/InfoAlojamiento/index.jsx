@@ -268,7 +268,7 @@ startDate: "24/06/2022" s
 export function InfoReserva({ reservaId, reserva }) {
   const api = new Api();
 
-  const [id, setId] = React.useState(reservaId);
+  let id = reservaId;
 
   const [ratingHost, setRatingHost] = React.useState(reserva.hostQualification);
   const [ratingAlojamiento, setRatingAlojamiento] = React.useState(
@@ -294,23 +294,30 @@ export function InfoReserva({ reservaId, reserva }) {
     +datePartsStart[0]
   );
 
-  if (lastDate < new Date() && estadoActual === "ACEPTADA") {
+  if (
+    lastDate < new Date() &&
+    estadoActual === "ACEPTADA" &&
+    estado !== "COMPLETADA"
+  ) {
     estadoActual = "COMPLETADA";
     setEstado("COMPLETADA");
-  } else if (lastDate < new Date() && estadoActual === "PENDIENTE") {
+  } else if (
+    lastDate < new Date() &&
+    estadoActual === "PENDIENTE" &&
+    estado !== "CANCELADA"
+  ) {
     estadoActual = "CANCELADA";
     setEstado("CANCELADA");
   } else if (
     startDate < new Date() &&
     lastDate > new Date() &&
-    estadoActual === "PENDIENTE"
+    estadoActual === "PENDIENTE" &&
+    estado !== "EN CURSO"
   ) {
     setEstado("EN CURSO");
     estadoActual = "EN CURSO";
   }
-  if (reservaId != id) {
-    setId(reservaId);
-  }
+
   React.useEffect(() => {
     setRatingHost(reserva.hostQualification);
     setRatingAlojamiento(reserva.reviewQualification);
@@ -401,123 +408,130 @@ export function InfoReserva({ reservaId, reserva }) {
                     {reserva.hostEmail}
                   </Typography>
                 </Stack>
-
-                <Stack
-                  direction="row"
-                  spacing={2}
-                  sx={{ justifyContent: "center" }}
-                >
-                  <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
-                    Calificar Anfitrion
-                  </Typography>
-
-                  <Rating
-                    value={ratingHost}
-                    onChange={(e) => {
-                      let val = e.target.value;
-
-                      if (Number(val) === ratingHost) {
-                        val = 0;
-                        api.eliminarCalificacionAnfitrion(reserva.hostAlias);
-                      } else {
-                        api.calificarAnfitrion({
-                          qualifiedUser: reserva.hostAlias,
-                          qualification: val,
-                        });
-                      }
-                      setRatingHost(Number(val));
-                    }}
-                  />
-                </Stack>
               </Grid>
             </Grid>
           </Grid>
-          <Divider sx={{ marginY: "15px" }}>
-            <Chip label={"Reseña Alojamiento"} />
-          </Divider>
-          <Grid item xs>
-            <Card sx={{ padding: "10px" }}>
-              <Grid
-                container
+          {estado === "COMPLETADA" && (
+            <>
+              {" "}
+              <Stack
                 direction="row"
-                justifyContent="space-evenly"
-                alignItems="flex-start"
+                spacing={2}
+                sx={{ justifyContent: "center" }}
               >
-                <Grid item xs>
-                  <Stack spacing={2}>
-                    <TextField
-                      placeholder="reseña"
-                      label="Reseñar Alojamiento"
-                      value={resena}
-                      onChange={(e) => {
-                        setResena(e.target.value);
-                      }}
-                    ></TextField>
+                <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
+                  Calificar Anfitrion
+                </Typography>
 
-                    <Stack
-                      direction="row"
-                      spacing={2}
-                      alignContent="space-evenly"
-                      justifyContent="space-between"
-                      width={"100%"}
-                    >
-                      <Typography
-                        sx={{
-                          fontWeight: 600,
-                          textAlign: "center",
-                          marginY: "15px",
-                        }}
-                      >
-                        Calificación{" "}
-                      </Typography>
+                <Rating
+                  value={ratingHost}
+                  onChange={(e) => {
+                    let val = e.target.value;
 
-                      <Rating
-                        sx={{ justifyContent: "center", alignItems: "center" }}
-                        value={ratingAlojamiento}
-                        onChange={(e) => {
-                          let val = e.target.value;
+                    if (Number(val) === ratingHost) {
+                      val = 0;
+                      api.eliminarCalificacionAnfitrion(reserva.hostAlias);
+                    } else {
+                      api.calificarAnfitrion({
+                        qualifiedUser: reserva.hostAlias,
+                        qualification: val,
+                      });
+                    }
+                    setRatingHost(Number(val));
+                  }}
+                />
+              </Stack>
+              <Divider sx={{ marginY: "15px" }}>
+                <Chip label={"Reseña Alojamiento"} />
+              </Divider>
+              <Grid item xs>
+                <Card sx={{ padding: "10px" }}>
+                  <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-evenly"
+                    alignItems="flex-start"
+                  >
+                    <Grid item xs>
+                      <Stack spacing={2}>
+                        <TextField
+                          placeholder="reseña"
+                          label="Reseñar Alojamiento"
+                          value={resena}
+                          onChange={(e) => {
+                            setResena(e.target.value);
+                          }}
+                        ></TextField>
 
-                          if (Number(val) === ratingAlojamiento) {
-                            val = 0;
-                          }
+                        <Stack
+                          direction="row"
+                          spacing={2}
+                          alignContent="space-evenly"
+                          justifyContent="space-between"
+                          width={"100%"}
+                        >
+                          <Typography
+                            sx={{
+                              fontWeight: 600,
+                              textAlign: "center",
+                              marginY: "15px",
+                            }}
+                          >
+                            Calificación{" "}
+                          </Typography>
 
-                          setRatingAlojamiento(Number(val));
-                        }}
-                      />
-                      <Button
-                        width={"40%"}
-                        onClick={async () => {
-                          if (reserva.reviewId == 0) {
-                            await api.agregarResenaAlojamiento({
-                              bookingId: reservaId,
-                              description: resena,
-                              qualification: ratingAlojamiento,
-                            });
-                            //window.location.reload();
-                          } else {
-                            await api.editarResenaAlojamiento({
-                              bookingId: reservaId,
-                              description: resena,
-                              qualification: ratingAlojamiento,
-                            });
-                            //window.location.reload();
-                          }
-                          /*
+                          <Rating
+                            sx={{
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                            value={ratingAlojamiento}
+                            onChange={(e) => {
+                              let val = e.target.value;
+
+                              if (Number(val) === ratingAlojamiento) {
+                                val = 0;
+                              }
+
+                              setRatingAlojamiento(Number(val));
+                            }}
+                          />
+                          <Button
+                            width={"40%"}
+                            onClick={async () => {
+                              if (reserva.reviewId == 0) {
+                                await api.agregarResenaAlojamiento({
+                                  bookingId: reservaId,
+                                  description: resena,
+                                  qualification: ratingAlojamiento,
+                                });
+                                //window.location.reload();
+                              } else {
+                                await api.editarResenaAlojamiento({
+                                  bookingId: reservaId,
+                                  description: resena,
+                                  qualification: ratingAlojamiento,
+                                });
+                                //window.location.reload();
+                              }
+                              /*
                                                 await api.agregarResenaAlojamiento({
                                                   booking_id: reserva.bookingId,
                                                   reimbursedBy: "GUEST",
                                                 });
                                                 window.location.reload();         */
-                        }}
-                      >
-                        Guardar
-                      </Button>
-                    </Stack>
-                  </Stack>
-                </Grid>
+                            }}
+                          >
+                            Guardar
+                          </Button>
+                        </Stack>
+                      </Stack>
+                    </Grid>
+                  </Grid>
+                </Card>
               </Grid>
-            </Card>
-          </Grid>
+            </>
+          )}
         </Grid>
 
         {reserva.estado === "CONFIRMADO" && (
