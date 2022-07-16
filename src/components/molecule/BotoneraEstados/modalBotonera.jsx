@@ -8,6 +8,10 @@ import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -285,6 +289,12 @@ export default function SimpleModal({ boton, alias, actualizarTabla = null }) {
       case 'Desbloquear':
           Icon = () => {return <HowToRegIcon size='small' />};
           break;
+      case 'Aceptar':
+        Icon = () => {return <CheckCircleIcon size='large'></CheckCircleIcon>};
+        break;
+      case 'Rechazar':
+        Icon = () => {return <RemoveCircleIcon size='large'></RemoveCircleIcon>};
+        break;
       default:
   }
   return (
