@@ -368,8 +368,8 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
         </AccordionDetails>
       </Accordion>
 
-      {typeof reserva != "undefined" &&
-        reserva.length > 0 &&
+      {typeof reservas != "undefined" &&
+        reservas.length > 0 &&
         !reservas.map(function (reserva, index) {
           if (reserva.accommodationId === idAlojamiento) {
             console.log(reserva.paymentStatus);
