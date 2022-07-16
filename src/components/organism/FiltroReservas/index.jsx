@@ -293,6 +293,7 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
   ]);
 
   console.log(fecha);
+  console.log(reservas);
 
   return (
     <>
@@ -366,43 +367,46 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
           </Grid>
         </AccordionDetails>
       </Accordion>
-      {reservas.map(function (reserva, index) {
-        if (reserva.accommodationId === idAlojamiento) {
-          console.log(reserva.paymentStatus);
-          console.log(calcularEstado(reserva));
-          console.log(reserva.startDate);
-          console.log(obtenerDate(reserva.endDate));
-          console.log(reserva.endDate);
-          console.log(obtenerDate(reserva.endDate));
-          console.log(fecha[0].endDate);
-          console.log(obtenerDate(reserva.endDate) === fecha[0].endDate);
 
-          console.log(obtenerDate(reserva.endDate));
-          console.log(new Date());
-          console.log(fecha[0].startDate === new Date());
+      {typeof reserva != "undefined" &&
+        reserva.length > 0 &&
+        !reservas.map(function (reserva, index) {
+          if (reserva.accommodationId === idAlojamiento) {
+            console.log(reserva.paymentStatus);
+            console.log(calcularEstado(reserva));
+            console.log(reserva.startDate);
+            console.log(obtenerDate(reserva.endDate));
+            console.log(reserva.endDate);
+            console.log(obtenerDate(reserva.endDate));
+            console.log(fecha[0].endDate);
+            console.log(obtenerDate(reserva.endDate) === fecha[0].endDate);
 
-          if (
-            (select === "TODOS" || select === calcularEstado(reserva)) &&
-            (buscar === "" ||
-              reserva.guestEmail.includes(buscar) ||
-              reserva.guestName.includes(buscar) ||
-              reserva.guestPhone.includes(buscar) ||
-              reserva.guestAlias.includes(buscar) ||
-              reserva.accommodationName.includes(buscar)) &&
-            ((fecha[0].startDate.getFullYear() === new Date().getFullYear() &&
-              fecha[0].startDate.getMonth() === new Date().getMonth() &&
-              fecha[0].startDate.getDate() === new Date().getDate() &&
-              fecha[0].endDate.getFullYear() === new Date().getFullYear() &&
-              fecha[0].endDate.getMonth() === new Date().getMonth() &&
-              fecha[0].endDate.getDate() === new Date().getDate()) ||
-              (obtenerDate(reserva.startDate) < fecha[0].startDate &&
-                obtenerDate(reserva.endDate) > fecha[0].endDate))
-          ) {
-            console.log(reserva);
-            return <Reserva key={index} reserva={reserva} />;
+            console.log(obtenerDate(reserva.endDate));
+            console.log(new Date());
+            console.log(fecha[0].startDate === new Date());
+
+            if (
+              (select === "TODOS" || select === calcularEstado(reserva)) &&
+              (buscar === "" ||
+                reserva.guestEmail.includes(buscar) ||
+                reserva.guestName.includes(buscar) ||
+                reserva.guestPhone.includes(buscar) ||
+                reserva.guestAlias.includes(buscar) ||
+                reserva.accommodationName.includes(buscar)) &&
+              ((fecha[0].startDate.getFullYear() === new Date().getFullYear() &&
+                fecha[0].startDate.getMonth() === new Date().getMonth() &&
+                fecha[0].startDate.getDate() === new Date().getDate() &&
+                fecha[0].endDate.getFullYear() === new Date().getFullYear() &&
+                fecha[0].endDate.getMonth() === new Date().getMonth() &&
+                fecha[0].endDate.getDate() === new Date().getDate()) ||
+                (obtenerDate(reserva.startDate) < fecha[0].startDate &&
+                  obtenerDate(reserva.endDate) > fecha[0].endDate))
+            ) {
+              console.log(reserva);
+              return <Reserva key={index} reserva={reserva} />;
+            }
           }
-        }
-      })}
+        })}
     </>
   );
 }

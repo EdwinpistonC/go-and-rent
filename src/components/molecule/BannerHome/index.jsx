@@ -65,19 +65,7 @@ export default function BannerHome({ tituloBanner, imagenBanner }) {
           justifyContent="center"
           width={"100%"}
           marginBottom={"3%"}
-        >
-          <Button
-            style={{
-              width: "150px",
-              height: "50px",
-              borderRadius: "100px",
-              fontFamily: "Inter",
-              fontStyle: "normal",
-            }}
-          >
-            Explorar
-          </Button>
-        </Grid>
+        ></Grid>
       </Grid>
     </div>
   );
