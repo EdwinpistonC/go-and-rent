@@ -36,7 +36,7 @@
     "react": "^17.0.2",
     "react-apexcharts": "^1.4.0",
     "react-burger-menu": "^3.0.6",
-    "react-cropper": "^2.1.8",
+    "react-cropper": "^2.2.0-0",
     "react-date-range": "^1.4.0",
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^5.0.3",
