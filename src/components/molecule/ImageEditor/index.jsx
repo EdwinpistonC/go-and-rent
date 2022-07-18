@@ -18,7 +18,7 @@ export default function ImageEditor({ itemData = [], setItemData }) {
   const [cropper, setCropper] = useState();
   const fileInput = React.useRef();
   const [btnDisabled, setBtnDisabled] = useState(true);
-
+  let mimeType;
   console.log(itemData);
 
   React.useEffect(() => {
@@ -31,7 +31,7 @@ export default function ImageEditor({ itemData = [], setItemData }) {
         canvas.height = img.height;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0);
-        const dataURL = canvas.toDataURL("image/png");
+        const dataURL = canvas.toDataURL("image/png", 0.9);
         console.log(dataURL);
         return dataURL;
       };
@@ -80,6 +80,7 @@ export default function ImageEditor({ itemData = [], setItemData }) {
     };
     cargarImagenes();
   }, []);
+
   const onChange = (e) => {
     e.preventDefault();
     let files;
@@ -95,19 +96,68 @@ export default function ImageEditor({ itemData = [], setItemData }) {
     reader.readAsDataURL(files[0]);
     setBtnDisabled(false);
   };
+  const dataURLtoMimeType = (dataURL) => {
+    var BASE64_MARKER = ";base64,";
+    var data;
 
+    if (dataURL.indexOf(BASE64_MARKER) == -1) {
+      var parts = dataURL.split(",");
+      var contentType = parts[0].split(":")[1];
+      data = decodeURIComponent(parts[1]);
+    } else {
+      var parts = dataURL.split(BASE64_MARKER);
+      var contentType = parts[0].split(":")[1];
+      var raw = window.atob(parts[1]);
+      var rawLength = raw.length;
+
+      data = new Uint8Array(rawLength);
+
+      for (var i = 0; i < rawLength; ++i) {
+        data[i] = raw.charCodeAt(i);
+      }
+    }
+
+    var arr = data.subarray(0, 4);
+    var header = "";
+    for (var i = 0; i < arr.length; i++) {
+      header += arr[i].toString(16);
+    }
+    switch (header) {
+      case "89504e47":
+        mimeType = "image/png";
+        break;
+      case "47494638":
+        mimeType = "image/gif";
+        break;
+      case "ffd8ffe0":
+      case "ffd8ffe1":
+      case "ffd8ffe2":
+        mimeType = "image/jpeg";
+        break;
+      default:
+        mimeType = ""; // Or you can use the blob.type as fallback
+        break;
+    }
+
+    return mimeType;
+  };
   const getCropData = (e) => {
     e.preventDefault();
 
+    console.log(dataURLtoMimeType(cropper.getCroppedCanvas().toDataURL()));
+    console.log(cropper.getCroppedCanvas().toDataURL("image/jpeg"));
+
     if (typeof cropper !== "undefined") {
+      console.log();
       setItemData([
         ...itemData,
-        cropper.getCroppedCanvas().toDataURL("image/png"),
+        cropper.getCroppedCanvas().toDataURL("image/jpeg"),
       ]);
 
-      setCropData(cropper.getCroppedCanvas().toDataURL());
+      setCropData(cropper.getCroppedCanvas().toDataURL("image/jpeg"));
     }
   };
+  const cropperRef = React.useRef(null);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -129,19 +179,19 @@ export default function ImageEditor({ itemData = [], setItemData }) {
       </ImageList>
       <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6}>
-          <div style={{display:'inline-flex'}}>
+          <div style={{ display: "inline-flex" }}>
             <Button
-                variant="contained"
-                color="primary"
-                style={{margin:'5px'}}
-                onClick={() => fileInput.current.click()}
+              variant="contained"
+              color="primary"
+              style={{ margin: "5px" }}
+              onClick={() => fileInput.current.click()}
             >
               Subir Imagen
             </Button>
             <Button
-                style={{margin:'5px'}}
-                onClick={getCropData}
-                disabled={btnDisabled}
+              style={{ margin: "5px" }}
+              onClick={getCropData}
+              disabled={btnDisabled}
             >
               Confirmar Imagen
             </Button>
@@ -149,35 +199,36 @@ export default function ImageEditor({ itemData = [], setItemData }) {
         </Grid>
         <Grid item alignItems="center" justifyContent="center" xs={6}>
           <Cropper
-              zoomTo={0.1}
-              style={{
-                width: "100%",
-              }}
-              initialAspectRatio={16 / 9}
-              aspectRatio={16 / 9}
-              src={image}
-              viewMode={1}
-              minCropBoxHeight={10}
-              minCropBoxWidth={10}
-              background={false}
-              responsive={true}
-              autoCropArea={1}
-              checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-              onInitialized={(instance) => {
-                setCropper(instance);
-              }}
-              guides={false}
+            zoomTo={0.1}
+            style={{
+              width: "100%",
+            }}
+            initialAspectRatio={16 / 9}
+            aspectRatio={16 / 9}
+            src={image}
+            viewMode={2}
+            minCropBoxHeight={10}
+            minCropBoxWidth={10}
+            background={false}
+            responsive={true}
+            scalable={false}
+            autoCropArea={1}
+            checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+            onInitialized={(instance) => {
+              setCropper(instance);
+            }}
+            ref={cropperRef}
+            guides={false}
           />
         </Grid>
         <Grid item xs={6}>
           <input
-              ref={fileInput}
-              type="file"
-              style={{ display: "none" }}
-              onChange={onChange}
+            ref={fileInput}
+            type="file"
+            style={{ display: "none" }}
+            onChange={onChange}
           />
         </Grid>
-
       </Grid>
     </Box>
   );
