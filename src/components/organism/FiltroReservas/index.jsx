@@ -367,10 +367,9 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
           </Grid>
         </AccordionDetails>
       </Accordion>
-
       {typeof reservas != "undefined" &&
         reservas.length > 0 &&
-        !reservas.map(function (reserva, index) {
+        reservas.map(function (reserva, index) {
           if (reserva.accommodationId === idAlojamiento) {
             console.log(reserva.paymentStatus);
             console.log(calcularEstado(reserva));
