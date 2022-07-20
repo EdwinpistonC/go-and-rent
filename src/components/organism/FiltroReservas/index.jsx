@@ -291,10 +291,6 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
       key: "selection",
     },
   ]);
-
-  console.log(fecha);
-  console.log(reservas);
-
   return (
     <>
       <Accordion>
