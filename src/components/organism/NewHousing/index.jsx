@@ -386,9 +386,7 @@ export function NewReserveAndRegister({
   );
 }
 
-export function EditHousing({ data, submit }) {
-  console.log(data);
-
+export function EditHousing({ data, submit, id }) {
   const [fields, handleFieldChange, changeField] = useInputsForm({
     serviciosApi: data.services,
     caracteristicasApi: data.features,
@@ -402,7 +400,7 @@ export function EditHousing({ data, submit }) {
     accDescription: data.accommodation.description,
     apiError: [],
   });
-  console.log(fields);
+  const navegar = useNavigate();
 
   const [servicios, setServicios] = React.useState(data.services);
   const [caracteristicas, setCaracteristicas] = React.useState(data.features);
@@ -440,11 +438,11 @@ export function EditHousing({ data, submit }) {
           e.preventDefault();
 
           submit(
+            id,
             servicios,
             caracteristicas,
+            fields.places,
             fields.locCoordinates,
-            fields.locCountry,
-            fields.locRegion,
             fields.locStreet,
             fields.locDoorNumber,
             fields.accPrice,
@@ -452,8 +450,11 @@ export function EditHousing({ data, submit }) {
             fields.accDescription,
             fields.imagenes
           )
-            .then((response, status) => {})
+            .then((response, status) => {
+              navegar("/reservas");
+            })
             .catch((err) => {
+              console.log(err);
               if (err.response.status === 401) {
                 changeField(
                   "apiError",

@@ -147,6 +147,23 @@ export default class Api {
       data
     );
   };
+  editarAlojamiento = (id, data) => {
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    let alias = null;
+    if (
+      usuario !== null &&
+      typeof usuario === "object" &&
+      usuario.hasOwnProperty("alias")
+    ) {
+      alias = usuario.alias;
+    }
+
+    return this.init({ "Content-Type": "multipart/form-data" }).post(
+      "hosts/accommodation/update/" + id,
+      data
+    );
+  };
+
   listadoUsuarios = () => {
     return this.init().get("admin/users");
   };
