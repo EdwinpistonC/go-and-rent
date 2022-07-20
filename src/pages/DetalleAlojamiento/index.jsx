@@ -65,6 +65,7 @@ export default function DetalleAlojamiento() {
     setAbrirReserva(true);
     abrirReservaModal();
   };
+
   const confirmarReserva = async () => {
     const api = new Api();
 
