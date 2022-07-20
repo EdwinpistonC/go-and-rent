@@ -9,9 +9,6 @@ import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import DemoImage from "./demo.jpg";
 
-const defaultSrc =
-  "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
-
 export default function ImageEditor({ itemData = [], setItemData }) {
   const [image, setImage] = useState(DemoImage);
   const [, setCropData] = useState("#");
@@ -22,35 +19,24 @@ export default function ImageEditor({ itemData = [], setItemData }) {
   console.log(itemData);
 
   React.useEffect(() => {
-    const getBase64Image = (url) => {
-      const img = new Image();
-      img.setAttribute("crossOrigin", "anonymous");
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-        const dataURL = canvas.toDataURL("image/png", 0.9);
-        console.log(dataURL);
-        return dataURL;
-      };
-      img.src = url;
-    };
-
-    ///
-
     function getURLBase64(url) {
       return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
-        xhr.open("get", url, true);
+        var proxyUrl = "https://cors-anywhere.herokuapp.com/";
+        console.log(proxyUrl + url);
+        xhr.open("GET", proxyUrl + url);
         xhr.responseType = "blob";
         xhr.onload = function () {
+          console.log(this);
+          console.log(this.status);
+
           if (this.status === 200) {
             var blob = this.response;
             var fileReader = new FileReader();
             fileReader.onloadend = function (e) {
               var result = e.target.result;
+              result = result.replace("application/octet-stream", "image/jpeg");
+              console.log(result);
               resolve(result);
             };
             fileReader.readAsDataURL(blob);
@@ -65,17 +51,18 @@ export default function ImageEditor({ itemData = [], setItemData }) {
 
     const cargarImagenes = async () => {
       if (itemData.length > 0) {
-        let nuevasImagenes = [];
-        await itemData.forEach(async (element) => {
+        let imagenes = [];
+        await itemData.reverse().forEach(async (element, idx) => {
           let url = process.env.REACT_APP_API_IMG + element.photo;
-          getURLBase64(url);
-          getBase64Image(url);
+          let imagen = await getURLBase64(url);
+          imagenes.push(imagen);
+          console.log(idx);
 
-          nuevasImagenes.push(url);
+          if (idx == itemData.length - 1) {
+            console.log("setea");
+            setItemData([...imagenes]);
+          }
         });
-
-        console.log(nuevasImagenes);
-        setItemData([...nuevasImagenes]);
       }
     };
     cargarImagenes();

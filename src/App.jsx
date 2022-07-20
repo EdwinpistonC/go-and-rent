@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 //react component
 import { AppRouter } from "./routers/AppRouter";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useLocation } from "react-router-dom";
 import { GlobalStateProvider } from "Hooks/GlobalHook";
 
 const AppLayout = styled.div`
@@ -17,7 +17,9 @@ function App() {
     <GlobalStateProvider>
       <AppLayout>
         <BrowserRouter>
-          <AppRouter></AppRouter>
+          <ScrollToTop>
+            <AppRouter></AppRouter>
+          </ScrollToTop>
         </BrowserRouter>
       </AppLayout>
     </GlobalStateProvider>
@@ -25,3 +27,18 @@ function App() {
 }
 
 export default App;
+
+function ScrollToTop({ children }) {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    const canControlScrollRestoration = "scrollRestoration" in window.history;
+    if (canControlScrollRestoration) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return children;
+}

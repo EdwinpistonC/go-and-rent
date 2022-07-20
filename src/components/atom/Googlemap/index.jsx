@@ -36,8 +36,10 @@ export default function GoogleMapPlaces({ setData }) {
         }}
         selectProps={{
           valor,
+          placeholder: "Escriba la locacilzación para buscar un alojamiento",
           onChange: (e) => {
             dispatch({ busqueda: e });
+            console.log(e);
             if (location.pathname != "/busqueda") {
               navegar("/busqueda");
             }
@@ -54,6 +56,7 @@ export function GoogleMapPlacesForm({ setData, value = "" }) {
   return (
     <BusquedaContainer>
       <GooglePlacesAutocomplete
+        placeholder="Ubicación"
         styles={{
           textInputContainer: {
             innerHeight: "100%",
@@ -103,6 +106,7 @@ export function GoogleMapPlacesForm({ setData, value = "" }) {
         selectProps={{
           defaultInputValue: value,
           value: busqueda,
+          placeholder: "Ubicación",
           onChange: (e) => {
             setBusqueda(e);
             setData(e);

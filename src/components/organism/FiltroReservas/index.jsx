@@ -367,19 +367,6 @@ export default function FiltroReservas({ idAlojamiento, reservas }) {
         reservas.length > 0 &&
         reservas.map(function (reserva, index) {
           if (reserva.accommodationId === idAlojamiento) {
-            console.log(reserva.paymentStatus);
-            console.log(calcularEstado(reserva));
-            console.log(reserva.startDate);
-            console.log(obtenerDate(reserva.endDate));
-            console.log(reserva.endDate);
-            console.log(obtenerDate(reserva.endDate));
-            console.log(fecha[0].endDate);
-            console.log(obtenerDate(reserva.endDate) === fecha[0].endDate);
-
-            console.log(obtenerDate(reserva.endDate));
-            console.log(new Date());
-            console.log(fecha[0].startDate === new Date());
-
             if (
               (select === "TODOS" || select === calcularEstado(reserva)) &&
               (buscar === "" ||
