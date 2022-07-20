@@ -5,13 +5,19 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DoneIcon from "@mui/icons-material/Done";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
-import { IconButton, SvgIcon } from "@mui/material";
+import {
+  IconButton,
+  SvgIcon,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
 import MessageIcon from "@mui/icons-material/Message";
 import HousesSvg from "resources/svgs/Houses.svg";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
 const Alert = () => {
   return (
     <svg
@@ -33,6 +39,26 @@ const Messages = ({ onClick }) => {
     <IconButton onClick={onClick}>
       <MessageIcon></MessageIcon>
     </IconButton>
+  );
+};
+const Ordenar = ({ onClick }) => {
+  const [toggle, setToggle] = React.useState("ord");
+
+  const handleChange = (event, newAlignment) => {
+    setToggle(newAlignment);
+  };
+
+  return (
+    <ToggleButtonGroup
+      color="primary"
+      value={toggle}
+      exclusive
+      onChange={handleChange}
+    >
+      <ToggleButton width={"minContent"} onClick={onClick} value="ord">
+        <SortByAlphaIcon></SortByAlphaIcon>
+      </ToggleButton>
+    </ToggleButtonGroup>
   );
 };
 const AddUser = ({ onClick }) => {
@@ -115,4 +141,5 @@ export {
   Management,
   AddUser,
   Downloader,
+  Ordenar,
 };
