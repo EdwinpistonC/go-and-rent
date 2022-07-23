@@ -65,7 +65,13 @@ export default function Alojamiento({ data, startDate = "", endDate = "" }) {
                 gutterBottom
                 variant="h6"
                 component="div"
-                sx={{ lineClamp: 2, wordBreak: "break-word" }}
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "2",
+                  WebkitBoxOrient: "vertical",
+                }}
               >
                 {data.name}
               </Typography>
@@ -111,17 +117,33 @@ export function AlojamientoAnfitrion({ data, onClick }) {
         justifyContent="flex-start"
         alignItems="center"
       >
-        <Grid item xs={4}>
-          <img
-            width="200px"
-            style={{}}
-            src={process.env.REACT_APP_API_IMG + data.photo}
+        <Grid item xs>
+          <Box
+            sx={{
+              objectFit: "cover",
+              backgroundImage: `url(${
+                process.env.REACT_APP_API_IMG + data.photo
+              })`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "50% 50%",
+              height: "230px",
+              width: "100%",
+            }}
             alt={"Alojamiento " + data.name}
           />
         </Grid>
-        <Grid item xs>
+        <Grid item xs width="200px">
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              width="200px"
+              sx={{
+                wordWrap: "normal",
+              }}
+            >
               {data.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
