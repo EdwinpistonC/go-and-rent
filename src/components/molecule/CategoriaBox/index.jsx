@@ -21,7 +21,7 @@ function CategoriaBox() {
       </ColumnaGrid>
       <ColumnaGrid item md={3}>
         <CardCategorias
-          Lugar="Piriapolis"
+          Lugar="Piriápolis"
           Imagen="piriapolis.webp"
           EnlaceLink="/busqueda?piriapolis"
         />
