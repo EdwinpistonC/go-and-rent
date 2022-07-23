@@ -1,5 +1,5 @@
 import React from "react";
-import {Grid, Avatar, Icon} from "@mui/material";
+import { Grid, Avatar, Icon } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Assignment from "@mui/icons-material/Assignment";
 import { green, pink, red } from "@mui/material/colors";
@@ -60,7 +60,7 @@ export function IconUser({ id }) {
         <IconButton>
           <Avatar sx={{ bgcolor: "#C6B5D4" }}>
             <Icon>
-              <img width="25" src={rutaImages(`./man.svg`)}/>
+              <img width="25" src={rutaImages(`./man.svg`)} />
             </Icon>
           </Avatar>
         </IconButton>
@@ -71,7 +71,7 @@ export function IconUser({ id }) {
         <IconButton>
           <Avatar sx={{ bgcolor: "#F2E2CE" }}>
             <Icon>
-              <img width="25" src={rutaImages(`./woman.svg`)}/>
+              <img width="25" src={rutaImages(`./woman.svg`)} />
             </Icon>
           </Avatar>
         </IconButton>
@@ -82,7 +82,7 @@ export function IconUser({ id }) {
         <IconButton>
           <Avatar sx={{ bgcolor: "#97CFC9" }}>
             <Icon>
-              <img width="25" src={rutaImages(`./yoda.svg`)}/>
+              <img width="25" src={rutaImages(`./yoda.svg`)} />
             </Icon>
           </Avatar>
         </IconButton>
@@ -91,8 +91,10 @@ export function IconUser({ id }) {
     default:
       return (
         <IconButton>
-          <Avatar sx={{ bgcolor: red[700] }}>
-            <AssignmentIcon />
+          <Avatar sx={{ bgcolor: "#97CFC9" }}>
+            <Icon>
+              <img width="25" src={rutaImages(`./yoda.svg`)} />
+            </Icon>
           </Avatar>
         </IconButton>
       );

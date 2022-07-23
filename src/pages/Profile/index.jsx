@@ -105,6 +105,7 @@ export default function Profile() {
           justifyContent="space-around"
           alignItems="center"
           direction="column"
+          paddingY={"4%"}
         >
           <Grid
             item
@@ -193,7 +194,16 @@ export default function Profile() {
             </Grid>
           )}
         </Grid>
-        <Grid item xs justifyContent="space-evenly" spacing={"2px"}>
+        <Grid
+          item
+          xs
+          container
+          direction="row"
+          justifyContent="space-around"
+          alignItems="flex-start"
+          spacing={"2px"}
+          paddingX={"2%"}
+        >
           <Grid item xs>
             <Button onClick={() => navegar("editar")}>Editar Datos</Button>
           </Grid>
