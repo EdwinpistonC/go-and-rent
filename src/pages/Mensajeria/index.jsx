@@ -424,7 +424,7 @@ const Chat = () => {
             )}
           </Grid>
         ) : (
-          <Grid item xs={9}>
+          <Grid item xs={9} sx={{ backgroundColor: "#dee7fa" }}>
             <List sx={{ height: "70vh", overflowY: "auto" }}></List>
           </Grid>
         )}
