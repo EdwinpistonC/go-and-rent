@@ -425,10 +425,11 @@ export function EditHousing({ data, submit, id }) {
         justifyContent: "center",
         alignContent: "center",
         backgroundColor: "#ffffff",
-
+        display: "flex",
         padding: "4%",
         paddingTop: "0",
         margin: "auto",
+        marginTop: "2%",
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
         borderRadius: "3px",
       }}
@@ -470,7 +471,7 @@ export function EditHousing({ data, submit, id }) {
             <Typography
               sx={{ textAlign: "center", fontSize: "30px", paddingTop: "20px" }}
             >
-              Creacion de Alojamiento
+              Editar Alojamiento
             </Typography>
           </Grid>
           <Grid item xs={12}>
