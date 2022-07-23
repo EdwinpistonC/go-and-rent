@@ -31,6 +31,9 @@ export default function HomePage() {
       ></BannerHome>
       <CategoriaBox></CategoriaBox>
       <BoxDescripcion
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
         Titulo="Descubre nuevas oportunidades para viajar en nuestra app"
         Texto="Nueva aplicacion disponible para IOS y Android"
         Imagen="celular.jpg"

@@ -77,7 +77,7 @@ const PreviewChat = ({ data, onClick, soy, seleccionado }) => {
   return (
     <ListItem sx={style} button key="RemySharp" onClick={onClick}>
       <ListItemIcon>
-        {info !== null && info.noLeido && info.de === soy ? (
+        {info !== null && info.noLeido && info.de === alias ? (
           <EmailIcon />
         ) : (
           <DraftsIcon />
@@ -88,9 +88,9 @@ const PreviewChat = ({ data, onClick, soy, seleccionado }) => {
         secondary={
           <Stack direction="row">
             {inactivo ? (
-              <Chip label={"Inactivo"} color="warning" size="small"></Chip>
+              <Chip label={"Inactivo"} color="warning" size="small" />
             ) : (
-              <Chip label={"Activo"} color="primary" size="small"></Chip>
+              <Chip label={"Activo"} color="primary" size="small" />
             )}
           </Stack>
         }
@@ -147,7 +147,6 @@ const Chat = () => {
     });
     return () => unsub();
   }, [usuario.rol, usuario.alias]);
-
   const handleSubmit = async () => {
     if (text.trim() !== "") {
       const id =

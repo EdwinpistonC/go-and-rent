@@ -38,7 +38,7 @@ export default function Footer() {
         </ItemInfo>
       </Informacion>
       <Creditos>
-        <ItemCreditos>© 2022 Go And Rent , Inc.</ItemCreditos>
+        <ItemCreditos>© 2022 Go And Rent, Inc.</ItemCreditos>
         <ItemCreditos>Privacidad</ItemCreditos>{" "}
         <ItemCreditos>Términos</ItemCreditos>
       </Creditos>

@@ -14,10 +14,11 @@ export function BoxDescripcion({ Titulo, Texto, Imagen }) {
     >
       <ColumnaGrid
         item
-        style={{
-          paddingLeft: "10px",
-        }}
         md={8}
+        display="flex"
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
       >
         <h4>{Titulo}</h4>
         <p>{Texto}</p>

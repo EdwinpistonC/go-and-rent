@@ -13,9 +13,9 @@ import { Box, height } from "@mui/system";
 export default function Alojamiento({ data, startDate = "", endDate = "" }) {
   const navegar = useNavigate();
   return (
-    <Card>
+    <Card sx={{ marginLeft: "10px", marginBottom: "10px" }}>
       <Grid
-          className="cursor-pointer"
+        className="cursor-pointer"
         container
         direction="row"
         justifyContent="flex-start"
@@ -34,11 +34,19 @@ export default function Alojamiento({ data, startDate = "", endDate = "" }) {
           );
         }}
       >
-        <Grid item xs sx={{ width: 300, margin: "auto" }}>
+        <Grid item xs sx={{ width: 300 }}>
           <Box
-            sx={{ height: 200, width: "100%", objectFit: "cover" }}
-            component="img"
-            src={process.env.REACT_APP_API_IMG + data.photo}
+            sx={{
+              objectFit: "cover",
+              backgroundImage: `url(${
+                process.env.REACT_APP_API_IMG + data.photo
+              })`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "50% 50%",
+              height: "230px",
+              width: "100%",
+            }}
             alt={"Alojamiento " + data.name}
           />
         </Grid>
@@ -49,21 +57,34 @@ export default function Alojamiento({ data, startDate = "", endDate = "" }) {
           direction="row"
           justifyContent="flex-start"
           alignItems="center"
+          sx={{ width: 300, height: "230px" }}
         >
           <CardContent>
-            <Grid item xl>
+            <Grid item xl sx={{ wordWrap: "normal" }}>
               <Typography
                 gutterBottom
-                variant="h5"
+                variant="h6"
                 component="div"
-                sx={{ wordWrap: "normal" }}
+                sx={{ lineClamp: 2, wordBreak: "break-word" }}
               >
                 {data.name}
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body2" color="text.secondary">
-                {data.description}
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "7",
+                  WebkitBoxOrient: "vertical",
+                }}
+              >
+                {data.description.length > 150
+                  ? data.description.substring(0, 150) + "..."
+                  : data.description}
               </Typography>
             </Grid>
           </CardContent>
